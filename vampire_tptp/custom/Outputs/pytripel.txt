@@ -1,0 +1,67 @@
+Refutation found. Thanks to Tanya!
+106. $false (0:0) [sat splitting refutation 105,54,60,49,62,61,98]
+98. $false {6} (2:0) [resolution 93,12]
+12. $lesseq(X0,X0) (0:3) [theory axiom]
+93. ~$lesseq(1,X0) {6} (1:3) [resolution 76,12]
+76. ~$lesseq(1,X1) | ~$lesseq(X1,X0) {6} (0:6) [backward demodulation 62,17]
+17. ~$lesseq(X1,X0) | ~$lesseq($sum(X0,1),X1) (0:8) [theory axiom]
+61. ~primPyth(sK2(X3,X2,X1,X0),sK3(X3,X2,X1,X0),sK4(X3,X2,X1,X0)) {4} (0:16) [sat splitting component]
+62. 1 = X8 {6} (0:3) [sat splitting component]
+49. 1 = X8 | ~primPyth(sK2(X3,X2,X1,X0),sK3(X3,X2,X1,X0),sK4(X3,X2,X1,X0)) (0:19) [cnf transformation 41]
+41. ! [X0,X1,X2,X3] : ((~primPyth(sK2(X3,X2,X1,X0),sK3(X3,X2,X1,X0),sK4(X3,X2,X1,X0)) | (pyth(X0,X1,X2) & ! [X8] : 1 = X8 & divides(X3,X0) & divides(X3,X1) & divides(X3,X2))) & (~pyth(X0,X1,X2) | 1 != sK5(X3,X2,X1,X0) | ~divides(X3,X0) | ~divides(X3,X1) | ~divides(X3,X2) | ! [X4,X5,X6] : primPyth(X4,X5,X6))) [skolemisation 40]
+40. ! [X0,X1,X2,X3] : ((? [X9,X10,X11] : ~primPyth(X9,X10,X11) | (pyth(X0,X1,X2) & ! [X8] : 1 = X8 & divides(X3,X0) & divides(X3,X1) & divides(X3,X2))) & (~pyth(X0,X1,X2) | ? [X7] : 1 != X7 | ~divides(X3,X0) | ~divides(X3,X1) | ~divides(X3,X2) | ! [X4,X5,X6] : primPyth(X4,X5,X6))) [rectify 39]
+39. ! [X6,X5,X4,X3] : ((? [X0,X1,X2] : ~primPyth(X0,X1,X2) | (pyth(X6,X5,X4) & ! [X7] : 1 = X7 & divides(X3,X6) & divides(X3,X5) & divides(X3,X4))) & (~pyth(X6,X5,X4) | ? [X7] : 1 != X7 | ~divides(X3,X6) | ~divides(X3,X5) | ~divides(X3,X4) | ! [X0,X1,X2] : primPyth(X0,X1,X2))) [flattening 38]
+38. ! [X6,X5,X4,X3] : ((? [X0,X1,X2] : ~primPyth(X0,X1,X2) | (pyth(X6,X5,X4) & ! [X7] : 1 = X7 & divides(X3,X6) & divides(X3,X5) & divides(X3,X4))) & ((~pyth(X6,X5,X4) | ? [X7] : 1 != X7 | ~divides(X3,X6) | ~divides(X3,X5) | ~divides(X3,X4)) | ! [X0,X1,X2] : primPyth(X0,X1,X2))) [nnf transformation 31]
+31. ! [X6,X5,X4,X3] : (! [X0,X1,X2] : primPyth(X0,X1,X2) <=> (pyth(X6,X5,X4) & ! [X7] : 1 = X7 & divides(X3,X6) & divides(X3,X5) & divides(X3,X4))) [ennf transformation 27]
+27. ! [X6,X5,X4,X3] : (! [X0,X1,X2] : primPyth(X0,X1,X2) <=> (pyth(X6,X5,X4) & ~? [X7] : 1 != X7 & divides(X3,X6) & divides(X3,X5) & divides(X3,X4))) [closure 26]
+26. ! [X0,X1,X2] : primPyth(X0,X1,X2) <=> (pyth(X6,X5,X4) & ~? [X7] : 1 != X7 & divides(X3,X6) & divides(X3,X5) & divides(X3,X4)) [rectify 4]
+4. ! [X0,X1,X2] : primPyth(X0,X1,X2) <=> (pyth(X0,X1,X2) & ~? [X3] : 1 != X3 & divides(X3,X0) & divides(X3,X1) & divides(X3,X2)) [input]
+60. primPyth(X4,X5,X6) {2} (0:4) [sat splitting component]
+54. primPyth(X1,X2,X3) (0:4) [cnf transformation 42]
+42. ! [X1,X2,X3] : primPyth(X1,X2,X3) & even(sK6) [skolemisation 32]
+32. ? [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) & even(X0)) [ennf transformation 29]
+29. ~! [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) => ~even(X0)) [flattening 28]
+28. ~! [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) => ~even(X0)) [rectify 6]
+6. ~! [X2] : (! [X0,X1,X2] : primPyth(X0,X1,X2) => ~even(X2)) [negated conjecture 5]
+5. ! [X0,X1,X2] : primPyth(X0,X1,X2) => ~even(X2) [input]
+105. $false {2, 4} (0:0) [subsumption resolution 61,60]
+------------------------------
+Version: Vampire 3.0 (commit unknown)
+Termination reason: Refutation
+
+Active clauses: 11
+Passive clauses: 65
+Generated clauses: 105
+Final active clauses: 4
+Final passive clauses: 21
+Input formulas: 5
+Initial clauses: 32
+
+Fw subsumption resolutions: 4
+Fw demodulations: 9
+Bw demodulations: 16
+Evaluations: 3
+
+Forward subsumptions: 19
+Backward subsumptions: 18
+
+Binary resolution: 6
+Factoring: 1
+Forward superposition: 4
+Backward superposition: 2
+Self superposition: 2
+
+Split clauses: 2
+Split components: 4
+SAT solver clauses: 6
+SAT solver unit clauses: 2
+SAT solver binary clauses: 3
+SAT solver learnt clauses: 1
+
+Sat splits: 2
+Sat splitting refutations: 2
+
+Memory used [KB]: 127
+Time elapsed: 0.002 s
+------------------------------
+------------------------------

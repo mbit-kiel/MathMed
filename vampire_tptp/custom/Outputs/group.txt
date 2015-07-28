@@ -1,0 +1,60 @@
+Refutation found. Thanks to Tanya!
+135. $false (0:0) [subsumption resolution 134,16]
+16. ~sP2(mult(sK0,sK1)) (0:4) [inequality splitting name introduction]
+134. sP2(mult(sK0,sK1)) (0:4) [backward demodulation 126,17]
+17. sP2(mult(sK1,sK0)) (0:4) [inequality splitting 15,16]
+15. mult(sK0,sK1) != mult(sK1,sK0) (0:7) [cnf transformation 10]
+10. mult(sK0,sK1) != mult(sK1,sK0) [skolemisation 9]
+9. ? [X0,X1] : mult(X0,X1) != mult(X1,X0) [ennf transformation 8]
+8. ~! [X0,X1] : mult(X0,X1) = mult(X1,X0) [flattening 7]
+7. ~! [X0] : ! [X1] : mult(X0,X1) = mult(X1,X0) [rectify 6]
+6. ~! [X1] : ! [X0] : mult(X0,X1) = mult(X1,X0) [negated conjecture 5]
+5. ! [X0] : mult(X0,X1) = mult(X1,X0) [input]
+126. mult(X1,X2) = mult(X2,X1) (3:7) [superposition 24,90]
+90. mult(X2,mult(X1,X2)) = X1 (2:7) [forward demodulation 74,30]
+30. mult(inverse(X2),e) = X2 (2:6) [superposition 24,12]
+12. e = mult(inverse(X0),X0) (0:6) [cnf transformation 2]
+2. ! [X0] : e = mult(inverse(X0),X0) [input]
+74. mult(inverse(X1),e) = mult(X2,mult(X1,X2)) (2:10) [superposition 25,22]
+22. e = mult(X0,mult(X1,mult(X0,X1))) (1:9) [superposition 13,14]
+14. e = mult(X0,X0) (0:5) [cnf transformation 4]
+4. ! [X0] : e = mult(X0,X0) [input]
+13. mult(X0,mult(X1,X2)) = mult(mult(X0,X1),X2) (0:11) [cnf transformation 3]
+3. ! [X0,X1,X2] : mult(X0,mult(X1,X2)) = mult(mult(X0,X1),X2) [input]
+25. mult(inverse(X4),mult(X4,X5)) = X5 (1:8) [forward demodulation 20,11]
+11. mult(e,X0) = X0 (0:5) [cnf transformation 1]
+1. ! [X0] : mult(e,X0) = X0 [input]
+20. mult(e,X5) = mult(inverse(X4),mult(X4,X5)) (1:10) [superposition 13,12]
+24. mult(X0,mult(X0,X1)) = X1 (1:7) [forward demodulation 18,11]
+18. mult(e,X1) = mult(X0,mult(X0,X1)) (1:9) [superposition 13,14]
+------------------------------
+Version: Vampire 3.0 (commit unknown)
+Termination reason: Refutation
+
+Active clauses: 14
+Passive clauses: 28
+Generated clauses: 124
+Final active clauses: 8
+Final passive clauses: 6
+Input formulas: 5
+Initial clauses: 6
+
+Split inequalities: 1
+
+Fw subsumption resolutions: 1
+Fw demodulations: 32
+Bw demodulations: 12
+
+Forward subsumptions: 53
+Backward subsumptions: 1
+Fw demodulations to eq. taut.: 6
+Bw demodulations to eq. taut.: 1
+
+Forward superposition: 41
+Backward superposition: 28
+Self superposition: 4
+
+Memory used [KB]: 127
+Time elapsed: 0.010 s
+------------------------------
+------------------------------
