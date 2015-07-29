@@ -1,0 +1,197 @@
+% Use the document class appropriate to your language and leave the other
+% line commented out
+\documentclass{acm_proc_article-sp-german}
+%\documentclass{acm_proc_article-sp}
+
+% These two lines help to keep enumerations and itemizations compact.
+% Try commenting them out if you want to see the effect.
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+% The next two commands are for the code display example. Look into the
+% documentation of the listings package for other configurations, in
+% particular for a list of supported programming languages.
+\usepackage{listings}
+\lstset{language = C, 
+        numbers=left, 
+        numberstyle=\tiny,
+        columns=fullflexible, 
+        basicstyle=\sf, 
+        xleftmargin = 0.5 cm}
+
+% Display subfigures
+\usepackage{subfig}
+
+% Generate PDF hyperlinks when referencing sections and stuff. 
+\usepackage{hyperref}
+
+% Theorems like Definition and Proof
+%\usepackage{amsthm}
+
+% list bibliography by occurrence
+\bibliographystyle{unsrt}
+
+% Define Saturated sets
+\newtheorem{satset}{Definition}
+
+% This is the name of the folder you are placing your graphics files in.
+% Defining it here makes LaTeX look for files there without you having
+% to specify the folder again throughout the document.
+\graphicspath{ {./graphics/} }
+
+\begin{document}
+
+\title{VAMPIRE: TODO: Titel}
+\numberofauthors{2}
+\author{
+	\alignauthor
+	Maximilian Reinhart\\
+	\affaddr{mrei@informatik.uni-kiel.de}
+	\alignauthor
+	Martin Bittermann\\
+	\affaddr{mbit@informatik.uni-kiel.de}
+}
+
+\date{\today}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+%Notes:
+%Klaren Bezug auf [1] herausstellen.
+%Grafiken nicht am Anfang des paper, eher am anfang von kapitel 2.
+
+Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
+stellt den Bezug zu [1] her. \\
+Es wird eine Einführung in die grundlegende Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben. 
+Danach wird die grundlegende Funktionsweise und einige ausgewählte Algorithmen erklärt. 
+Zum Schluss wird die Ausgabe von VAMPIRE analysiert und grafisch dargestellt.
+Es werden Parallelen zu anderen Theorembeweisern aufgezeigt und Vergleiche gezogen.
+Zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Einleitung}
+\label{sec:introduction}
+
+
+Dieser Artikel bezieht sich primär auf ~\cite{cav2013} und versucht ebenso einen grundlegenden Überblick zu geben.
+Dazu beziehen wir uns auf die Artikel ~\cite{hoder2010} und ~\cite{kovacs2009finding}.
+(Überblick) 
+
+(Struktur dieses Artikel mit Verweisen auf Kapitel)
+
+Zuerst werden \hyperref[sec:foundations]{Grundlagen} über ATP vermittelt.\\
+Dann \hyperref[sec:input]{TPTP Eingabe}.\\
+Danach wird in \hyperref[sec:invocation]{Benutzung von Vampire}.\\
+Anschließend \hyperref[sec:mechanics]{Funktionsweise}.\\
+Schließlich \hyperref[sec:output]{Beweisausgabe} erklärt.\\
+Schlussendlich \hyperref[sec:conclusion]{Fazit}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Grundlagen}
+\label{sec:foundations}
+
+Grundlagen über ATP und etwas Einordnung von Vampire. Bezug auf und rücksichtslose Copypasta aus ~\cite{cav2013}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{TPTP Eingabe}
+\label{sec:input}
+
+TPTP Syntax und Beispiele.\\
+TPTP Library.
+
+\subsection{Syntax}
+\label{subsec:syntax}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Vergleich}
+\label{subsec:tptpcomp}
+Vergleich zu anderen Problembeschreibungssprachen.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Benutzung von Vampire}
+\label{sec:invocation}
+
+Commandline switches:
+
+\begin{itemize}
+\item -Blobs
+\item -Blubs
+\item -Blurbs
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Segfaults}
+\label{subsec:segfaults}
+
+\begin{itemize}
+\item parentheses in input not aligned to magic waves in room
+\item it crash
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Funktionsweise}
+\label{sec:mechanics}
+So funktionsierts.
+
+\subsection{Preprocessing}
+\label{subsec:preprocessing}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Beweisverfahren}
+\label{subsec:proofmech}
+
+\begin{satset}
+	Saturated set of S: Contains S, no more formulas can be inferred under the inference system.\\
+	TODO: More math symbols!
+\end{satset}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ausgewählte Algorithmen im Detail}
+\label{subsec:algos}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Beweisausgabe}
+\label{sec:output}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Erklärung}
+\label{subsec:outputexplained}
+
+\begin{itemize}
+\item Formelnummer
+\item Formel
+\item ???
+\item Regel
+\item Benutzte Formeln
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualisierung}
+\label{subsec:outputvis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fazit}
+\label{sec:conclusion}
+Write a small conclusion that summarizes what has been said ...?
+Open research areas...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+
+% The bibliography entries are stored in "myrefs.bib"
+\bibliographystyle{abbrv}
+\bibliography{myrefs}
+
+\end{document}
+
