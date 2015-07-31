@@ -63,7 +63,7 @@
 %Grafiken nicht am Anfang des paper, eher am anfang von kapitel 2.
 
 Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
-stellt den Bezug zu [1] her. \\
+stellt den Bezug zu ~\cite{cav2013} her. \\
 Es wird eine Einführung in die grundlegende Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben. 
 Danach werden die grundlegende Funktionsweise und einige ausgewählte Algorithmen erklärt, 
 die Ausgabe von VAMPIRE analysiert und auch grafisch dargestellt.
@@ -121,13 +121,11 @@ Wichtige Informationen zur Benutzung in ~\cite{hoder2011slides}.
 
 Hinzugefügt auch: ~\cite{kovacs2011slides} und ~\cite{hodervoronkov2012slides}, wobei dies nur Slides sind, die aber wichtige Informationen haben. Quelle hat Link ist aber unsichtbar im Literaturverzeichnis.
 
-Streicht er bei dir das " aber " auch immer durch?
-
 \subsection{Modes}
 \label{subsec:modes}
 
 Modes bestimmen den Ablauf des Beweisprozesses indem eine spezielle Strategie oder Strategiegemische verwendet werden. 
-Dieser Befehl beginnt mit \"\-\-modes\" gefolgt von einem definierenden Schlüsselwort, welches den Mode bestimmt.
+Dieser Befehl beginnt mit \glqq --modes \grqq gefolgt von einem definierenden Schlüsselwort, welches den Mode bestimmt.
 Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \begin{itemize}
 \item casc \\
@@ -147,7 +145,6 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 		Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
 \item consequence\_elemination \\
 		Der letzte hier gezeigte Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.
-
 \end{itemize}
 
 
