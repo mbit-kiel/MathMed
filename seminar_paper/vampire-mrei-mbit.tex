@@ -123,13 +123,34 @@ Hinzugefügt auch: ~\cite{kovacs2011slides} und ~\cite{hodervoronkov2012slides},
 
 Streicht er bei dir das " aber " auch immer durch?
 
-Commandline switches:
+\subsection{Modes}
+\label{subsec:modes}
 
+Modes bestimmen den Ablauf des Beweisprozesses indem eine spezielle Strategie oder Strategiegemische verwendet werden. 
+Dieser Befehl beginnt mit \"\-\-modes\" gefolgt von einem definierenden Schlüsselwort, welches den Mode bestimmt.
+Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \begin{itemize}
-\item -Blobs
-\item -Blubs
-\item -Blurbs
+\item casc \\
+		Dieser auch bei dem gleichnamigen Wettbewerb verwendete Mode ist laut ~\cite{hoder2011slides}  der beste der möglichen Modes.
+		Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
+		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
+\item casc\_ltb \\
+		Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet.
+		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
+\item axiom\_selection \\
+		Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
+		Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.\\
+\item clausify \\
+		Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet. \\
+\item grounding \\
+		Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
+		Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
+\item consequence\_elemination \\
+		Der letzte hier gezeigte Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.
+
 \end{itemize}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Segfaults}
