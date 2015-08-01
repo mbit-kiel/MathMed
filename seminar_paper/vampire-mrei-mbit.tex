@@ -61,14 +61,13 @@
 %Notes:
 %Klaren Bezug auf [1] herausstellen.
 %Grafiken nicht am Anfang des paper, eher am anfang von kapitel 2.
-
 Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
 stellt den Bezug zu ~\cite{cav2013} her. \\
-Es wird eine Einführung in die grundlegende Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben. 
-Danach werden die grundlegende Funktionsweise und einige ausgewählte Algorithmen erklärt, 
-die Ausgabe von VAMPIRE analysiert und auch grafisch dargestellt.
-Es werden Parallelen zu anderen Theorembeweisern aufgezeigt und Vergleiche gezogen.
-Zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
+Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
+die Funktionsweise und einige ausgewählte Algorithmen erklärt und
+die Ausgabe von VAMPIRE sowohl analysiert als auch grafisch dargestellt.
+Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, VAMPIRE mit diesen Verglichen 
+und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
 \end{abstract}
 
 
@@ -93,16 +92,73 @@ Schlussendlich \hyperref[sec:conclusion]{Fazit}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Grundlagen}
 \label{sec:foundations}
+Automatische Theorembeweiser (ATP) versuchen eigenständig Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
+Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann und diesem dann zur Bearbeitung übergeben.
+Diese Formalisierung ist auch für triviale Probleme nicht gleichermaßen einfach und ist daher eine gefährliche Fehlerquelle. 
+Nichtsdestotrotz ist für komplexe Probleme das Formalisieren einfacher als das Beweisen per Hand und nach korrekter Formalisierung liefert der ATP, 
+sofern er einen Beweis findet, einen, wovon auszugehen ist, richtigen Beweis. 
+Anwendung finden solche Beweiser in vielerlei Gebieten, wie zum Beispiel Software- und Hardware-Verifikation, Hardware Design und Systemen mit Wissenssammlungen.
 
-Grundlagen über ATP und etwas Einordnung von Vampire. Bezug auf und rücksichtslose Copypasta aus ~\cite{cav2013}.
+VAMPIRE ist ein ATP für Logik erster Stufe, der erstmals 1993 implementiert wurde und im Verlauf mehrere Male um- und neugeschrieben wurde.
+Der etwa 152,000 SLOC und wurde hauptsächlich von Andrei Voronkov und Kry{\v{s}}tof Hoder vollständig in C++ geschrieben, 
+wobei neuere Entwicklungen und Ideen vermehrt von Laura Kov{\'a}cs stammen und Ioan Dragan die Arbeiten am SAT-Beweiser und der bound propagation übernommen hat.
+Derzeitig wird an der vierten Version von VAMPIRE gearbeitet.
 
+VAMPIRE hat dreißig Preise gewonnen und seit 1999 in der Weltmeisterschaft für automatische Theorembeweiser (CASC) jedes Mal mindestens in einer Kategorie gewonnen.
+Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt VAMPIRE allgemein hin als sehr schnell.
+Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
+Wir vermögen zu bestätigen, dass die uns vorliegende Version auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
+Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist VAMPIRE zur Programmverifikation für C-Programme mit Schleifen geeignet. 
+Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, wie in ~\cite{vampirehp} einzusehen. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{TPTP Eingabe}
 \label{sec:input}
 
-TPTP Syntax und Beispiele.\\
-TPTP Library.
+TPTP ist die Sprache in der Probleme geschrieben sein müssen, damit Vampire sie bearbeiten kann. Sie wird ebenfalls in der Thousands of Problems for Theorem Provers (TPTP) Bibliothek benutzt.
+In ihr unterstützte Formeltypen sind unteranderem 
+\begin{itemize}
+	\item first order formula (FOF)
+	\item typed first order formula (TFF)
+	\item clause normal form (CNF)
+	\item TPTP Process Instruction Language  (TPI)
+	\item typed higher order form (THF)
+\end{itemize}
+von denen die wichtigsten, die VAMPIRE zudem unterstützt, FOF, TFF und CNF sind.
+
+Die Syntax von TPTP ist wie folgt definiert:
+
+\begin{tabular}{|c|c|}
+	\hline TPTP & Bedeutung \\ 
+	\hline ?[X] & $\exists$X \\
+	\hline ![X] & $\forall$X \\
+	\hline = & = \\
+	\hline != & $\neq$ \\
+	\hline $\sim$ & $\lnot$ \\
+	\hline / & $\lor$ \\
+	\hline \& & $\land$ \\
+	\hline => & $\Rightarrow$ \\
+	\hline <=> & $\leftrightarrow$ \\
+	\hline Y & Variable \\
+	\hline y & Literal \\
+	\hline f(x, A, B) & Prädikat \\
+	\hline \% \dots & Kommentar \\
+	\hline
+\end{tabular} 
+
+
+Eine Formel in TPTP beginnt stets mit der Information über ihre Syntax. Hierbei können zum Beispiel $fof(\dots)$, $tff(\dots)$, $cnf(\dots)$ und einige mehr verwendet werden.
+Innerhalb der Klammern werden drei Bereiche unterschieden, die jeweils mit einem Komma voneinander getrennt sind. 
+Zuerst kommt der Name der Formel, welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt noch eindeutig sein muss,
+dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (axiom), eine Hypothese (hypothesis) oder auch eine Behauptung (conjecture) handeln.
+Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
+Letztendlich steht die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
+
+
+Ein Beispiel für eine Formel in TPTP:\\
+$fof(sum, axiom, ( ! [X,A] :( member(X,sum(A)) <=> ? [Y] : ( member(Y,A)  \&  member(X,Y))))).$
+
+Über den Befehl $include(\dots)$ können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, während des Einlesens in Vampire zusätzlich importiert werden.
 
 \subsection{Syntax}
 \label{subsec:syntax}
