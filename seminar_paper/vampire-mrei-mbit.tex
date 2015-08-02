@@ -270,8 +270,16 @@ VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. 
 \label{subsubsec: commandssaturationalgorithm}
 \begin{itemize}
 	\item \textbf{lrs}\\
+			Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist $lrs$, welcher sich auf die \\$ limited~resource~strategy $ bezieht.
+			Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited} \\
 	\item \textbf{discount}\\
+			Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
+			Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch WALDMEISTER, E und SPASS. 
+			Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} \\
 	\item \textbf{otter}\\
+			Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
+			Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch GANDALF und SPASS. 
+			Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} \\
 \end{itemize}
 
 \subsubsection{-~-modes}
