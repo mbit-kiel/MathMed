@@ -1,0 +1,75 @@
+%%% KCSS Dissertation Template
+%%%
+%%% Take care of all fields marked <++FOO++>.
+%%% When using Vim LaTeX Suite <http://vim-latex.sourceforge.net/>, 
+%%% then Ctrl-j should navigate to the next such field.
+
+\documentclass[10pt]{book}
+\usepackage[theorems=numbersfirst,bibresource={template.bib}]{ifiseries} 
+% <++PERHAPS CHANGE NAME OF BIBLIOGRAPHY RESOURCE ON LINE ABOVE++>
+\begin{document}
+\frontmatter
+\disstitlepage%
+{<++TITLE++>}%
+{<++SUBTITLE++>}%
+{<++DEGREE++>~<++NAME++>}%
+{<++ing OR nat++>}%
+{<++YEAR++>}
+\metapage%
+{<++YEAR++>/<++NUMBER++> v<++VERSION++> dated <++YYYY++>-<++MM++>-<++DD++>}%
+{\url{<++URL++>}}%
+{<++RESEARCH GROUP++>}%
+{<++NAME++>.
+\textit{<++TITLE++>}
+Number <++YEAR++>/<++NUMBER++> in Kiel Computer Science Series.
+Department of Computer Science, 2011.
+Dissertation, Faculty of Engineering,
+Kiel University.}%
+{template.metapage.bib}% <++PERHAPS CHANGE NAME OF FILE++>
+{<++COPYRIGHT YEAR++> by <++NAME++>}%
+{<++ADDITIONAL TEXT OR EMPTY++>}
+\input{about-this-series}
+\dissreviewerpage%
+{<++FIRST REVIEWER++> \par Christian-Albrechts-Universit\"at \par Kiel}%
+{<++SECOND REVIEWER++> \par Christian-Albrechts-Universit\"at \par Kiel}%
+{<++THIRD REVIEWER IF ANY++>}%
+{<++DATE++>}%
+\selectlanguage{ngerman}
+
+\chapter*{Zusammenfassung}
+<++ZUSAMMENFASSUNG++>
+
+\selectlanguage{english}
+\chapter*{Abstract}
+<++ABSTRACT++>
+
+\chapter{Preface by <++SUPERVISOR++>} % by the supervisor
+<++PREFACE BY THE SUPERVISOR++>
+
+\chapter{Preface by the Author}
+<++PREFACE BY THE AUTHOR++>
+
+\section*{Acknowledgements}
+<++ACKNOWLEDGEMENTS++>
+
+\tableofcontents
+\listoffigures
+\listoftables
+\mainmatter
+
+\part{<++FIRST PART++>}
+\chapter{<++FIRST CHAPTER++>}
+\chapter{<++SECOND CHAPTER++>}
+\chapter{<++THIRD CHAPTER++>}
+
+\part{<++SECOND PART++>}
+\chapter{<++FOURTH CHAPTER++>}
+\chapter{<++FIFTH CHAPTER++>}
+
+\appendix
+\chapter{<++FIRST CHAPTER OF APPENDIX++>}
+\chapter{<++SECOND CHAPTER OF APPENDIX++>}
+
+\backmatter
+\tocbibliography
+\end{document}

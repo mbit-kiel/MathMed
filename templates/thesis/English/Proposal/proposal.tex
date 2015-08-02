@@ -1,0 +1,139 @@
+%% SE-KCSS-Style v1.3
+\input{docstyleEN}
+
+\usepackage{pgfgantt}
+\ganttset{%
+  calendar week text={%
+    \currentweek%
+  }%
+}
+
+\usepackage{rotating}
+
+\hypersetup{pdftitle=My Fake Bachelor's Thesis with a Long Title over Three Lines}
+\hypersetup{pdfauthor=John Q. Pregraduate}
+\hypersetup{pdfsubject=Proposal for a Bachelor's Thesis}
+\hypersetup{pdfkeywords=}
+
+\begin{document}
+\frontmatter
+  \thesistitlepage
+    {My Fake Bachelor's Thesis \\[.1em]With a Long Title \\[.1em]Over Three Lines}% Title
+    {Proposal for a Bachelor's Thesis}% Thesistype
+    {John Q. Pregraduate}% Name
+    {\today}% Date
+    {additional advisor} % additional advisors (add more than one with: name1 \\& name2 \\& name3
+
+  \tableofcontents{}
+  %\listoffigures{}\listoftables{}\lstlistoflistings{}
+  %\chapter*{List of Acronyms}
+  %% List of acronyms
+
+\mainmatter
+
+%% the actual proposal
+%% use \include{filename} and \includeonly{filename} to organize your thesis
+
+\chapter{Introduction}\label{chp:Introduction}
+  This is my introduction.
+  \citet{Shaw2003} wrote a paper with hints on how to write good software engineering research papers.
+  By the way, this was an example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
+  
+  \textit{AspectJ} is tool to weave cross-cutting concerns into Java programs~\citep{AspectJ}. By the way, this was an example for using the \textit{natbib} command \texttt{\textbackslash{}citep\{\}}.
+  
+  Kieker: \citep{Rohr2008, Hoorn2009, Hoorn2012}
+  
+  Article Example: \citep{Frey2011}
+  
+  We will now demonstrate how to use figures (see \autoref{fig:figure}).
+  
+  \begin{figure}[t]%
+    \centering%
+    \includegraphics[width=0.3\textwidth]{img/template_circle.pdf}%
+    \caption{A circle}%
+    \label{fig:figure}%
+  \end{figure}%
+
+  You should use diagrams, graphics, tables etc. to explain your topics.
+  Further hints on writing a thesis can be found at \url{http://se.informatik.uni-kiel.de/research/scientific-work/} and \url{http://www.twenzel.de/}.
+
+  \section{Motivation}
+    \blindtext
+  \section{Document Structure}
+    \autoref{chp:Foundations} presents everything one must know. The conclusions follow in \autoref{chp:Conclusions}. \TODO{Adjust this}
+
+\chapter{Goals}\label{chp:Goals}
+  \section{G1: xxx}
+    \blindtext
+  \section{G2: xxx}
+    \blindtext
+    
+\chapter{Foundations and Technologies}\label{chp:Foundations}
+  \section{Research Topic or Technology 1}
+    \blindtext
+  \section{Research Topic or Technology 2}
+    \blindtext
+  \section{Research Topic or Technology m}
+    \blindtext
+
+\chapter{Envisioned Approach}\label{chp:Approach}
+  \section{Envisioned Approach Subsection 1}
+    \blindtext
+  \section{Envisioned Approach Subsection 2}
+    \blindtext
+  \section{Envisioned Approach Subsection n}
+    \blindtext
+
+
+\chapter{Schedule}\label{chp:Schedule}
+  A first schedule, like a table or a gantt-chart.
+  \section{WP1: Literature Research}
+  	\blindtext
+  \section{WP2: xxx}
+	\blindtext
+  \section{WP3: xxx}
+    \blindtext
+  \section{WP4: Thesis}
+    \blindtext
+  \section{WP5: Presentation}
+	\blindtext
+  \section{Gantt Chart}
+	\begin{sidewaysfigure}
+		\begin{ganttchart}[%Specs
+			vgrid,
+			hgrid,
+	        x unit=0.75mm,
+	        y unit chart=0.7cm,
+	        link bulge=2.5,
+	        milestone right shift=3,
+			time slot format=isodate
+		]{2015-04-23}{2015-10-31}
+		  \gantttitlecalendar{month=shortname, week} \\
+		  
+		  %\ganttgroup{Preparation}{2015-04-23}{2015-05-31} \\
+		  %\ganttgroup{Development}{2015-06-01}{2015-09-14} \\
+		  %\ganttgroup{Writing}{2015-04-23}{2015-10-31} \\
+		  
+		  \ganttbar[name=lit]{WP1: Literature Research}{2015-04-23}{2015-05-25} \\
+		  \ganttbar[name=fam]{WP2: xxx}{2015-04-23}{2015-05-31} \\
+		  \ganttbar[name=des]{WP3: xxx}{2015-06-01}{2015-06-31} \\
+		  %\ganttbar[name=imp]{Implementation}{2015-07-01}{2015-08-31} \\
+		  %\ganttbar[name=tes]{Testing}{2015-07-01}{2015-09-14} \\
+		  %\ganttbar[name=pro]{Proposal}{2015-04-23}{2015-05-15} \\
+		  \ganttbar[name=the]{WP4: Thesis}{2015-05-16}{2015-10-31} \\
+		  \ganttbar[name=pre]{WP5: Presentation}{2015-10-01}{2015-10-14} \\
+		  
+		  \ganttlink{fam}{des}
+		  %\ganttlink{des}{imp}
+		  %\ganttlink[link mid=0.25]{des}{tes}
+		  %\ganttlink{pro}{the}
+		\end{ganttchart}
+		\caption{Gantt chart showing the schedule of this thesis}
+		\label{fig:Gantt}
+	 \end{sidewaysfigure}
+%%
+
+\backmatter
+  \tocbibliography
+
+\end{document}

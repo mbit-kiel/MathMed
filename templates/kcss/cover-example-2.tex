@@ -1,0 +1,113 @@
+\documentclass[12pt]{standalone}
+\usepackage[pagelayout=false]{ifiseries}
+\usepackage[%
+%
+% Help lines. Switch all off for production.
+%
+showlayoutlines=false,%
+showsafetylines=false,%
+showbleedlines=true,%
+germantext=false,%
+%
+% Lengths to be changed by the author.
+% Check carefully against the requirements of the printing service!
+%
+% coverwidth=15.56cm,%
+% coverheight=23.50cm,%
+% bleed=1.905cm,%
+coverwidth=15.24cm,%
+coverheight=22.86cm,%
+bleed=0.23cm,%
+smallercoverwidth=15.24cm,%
+smallercoverheight=22.86cm,%
+spinewidth=2cm,%
+spinecorr=2mm,%
+safety=5mm,%
+frontgraphicxshift=0cm,%
+frontgraphicyshift=-3cm,%
+]{kcssCover}
+
+\newcommand{\term}[1]{\emph{#1}}
+
+\renewcommand{\spinetitle}{\Large\textbf{Networks and Distributed Operation}}
+\renewcommand{\fronttitle}{\Large\textbf{Networks and Distributed Operation \\[.5em]
+The Price of Anarchy \\[.1em]
+in Non-atomic Routing \\[.1em]
+and Network Formation}}
+\renewcommand{\frontauthor}{\Large Lasse Kliemann}
+\renewcommand{\spineauthor}{\Large Lasse Kliemann}
+\renewcommand{\kcssnumber}{201?/?}
+\renewcommand{\researchgroup}{Discrete Optimization Group}
+\renewcommand{\frontgraphic}{%
+\begin{tikzpicture}
+  \tikzset{player/.style={circle,fill=black!20,inner sep=1pt,minimum size=25pt}}
+  \tikzset{every picture/.style={>=stealth',line width=.8pt}}
+  \tikzset{every node/.style=player}
+  \tikzset{node distance=1.1cm}
+  \node [xshift=-9.61cm,yshift=-16.5cm] at (current page.north east) (u0) {$u_0$};
+  \node (u1) [above right = 2.80cm of u0] {$u_1$};
+  \node (u11) [below = of u1] { };
+  \node (u12) [right = of u1] { };
+  \node (u13) [above = of u1] { };
+  \node (u14) [left = of u1] { };
+  \node (u2) [left = 2.20cm of u0] {$u_2$};
+  \node (u21) [below = of u2] { };
+  \node (u22) [left = of u2] { };
+  \node (u23) [above = of u2] { };
+  \node (u3) [below = 2.20cm of u0] {$u_3$};
+  \node (u31) [below right = of u3] { };
+  \node (u32) [below left = of u3] { };
+  \path (u0) edge[dashed] (u1)
+  (u0) edge         (u2)
+  (u0) edge         (u3);
+  \path (u1) edge (u11)
+  (u1) edge (u12)
+  (u1) edge (u13)
+  (u1) edge (u14);
+  \path (u2) edge (u21)
+  (u2) edge (u22)
+  (u2) edge (u23);
+  \path (u3) edge (u31)
+  (u3) edge (u32);
+\end{tikzpicture}%
+}
+\renewcommand{\backtext}{%
+What is the worst overall degradation due to the absence of central authority
+or a lack of cooperation
+when individuals (called \term{players}) use or form a network?
+\enquote{Distributed operation} is our positive notion of
+\enquote{absence of central authority} and \enquote{lack of cooperation}.
+\par
+All scenarios studied in this thesis have in common
+that players 
+have to allocate resources
+in order to perform certain tasks,
+and that each possible configuration can be evaluated 
+from the perspective of each player (\term{individual cost})
+and from a global perspective (\term{social cost}).
+\term{Equilibria} are configurations in which players 
+do not have or do not see a way to improve their individual cost.
+The \term{price of anarchy} is the social cost of a worst-case equilibrium
+divided by that of a configuration with minimum social cost.
+\par
+In Part~I,
+a network is given and players use it for routing.
+The players' cost functions express the delay experienced
+due to congested links.
+In Part~II,
+the network itself is formed in a distributed manner.
+Building links on the one hand incurs a cost
+but on the other hand also has a positive effect
+since it improves connectivity.
+Both aspects are incorporated into the players' cost functions.
+\par\medskip%
+Lasse Kliemann, born in M\"unster, Germany, 
+studied mathematics with subsidiary subject computer science 
+at Kiel University.
+Since 2003, he is engaged in research activities at the Department of Computer Science.
+He developed a particular interest in game theory, algorithm engineering,
+and probabilistic methods.}
+
+\begin{document}
+\makecover
+\end{document}

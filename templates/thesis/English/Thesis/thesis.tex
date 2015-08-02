@@ -1,0 +1,104 @@
+%% SE-KCSS-Style v1.3
+\input{docstyleEN}
+
+\hypersetup{pdftitle=My Fake Bachelor's Thesis with a Long Title over Three Lines}
+\hypersetup{pdfauthor=John Q. Pregraduate}
+\hypersetup{pdfsubject=Bachelor's Thesis }
+\hypersetup{pdfkeywords=}
+
+\begin{document}
+\frontmatter
+  \thesistitlepage
+    {My Fake Bachelor's Thesis \\[.1em]With a Long Title \\[.1em]Over Three Lines}% Title
+    {Bachelor's Thesis}% Thesistype
+    {John Q. Pregraduate}% Name
+    {\today}% Date
+    {additional advisor} % additional advisors (add more than one with: name1 \\& name2 \\& name3
+
+  \eidesstatt{}
+
+  \chapter*{Abstract}
+    \blindtext
+
+  \tableofcontents{}
+  %\listoffigures{}\listoftables{}\lstlistoflistings{}
+  %\chapter*{List of Acronyms}
+  %% List of acronyms
+
+\mainmatter
+
+%% the actual thesis
+%% use \include{filename} and \includeonly{filename} to organize your thesis
+
+\chapter{Introduction}
+  This is my introduction.
+  \citet{Shaw2003} wrote a paper with hints on how to write good software engineering research papers.
+  By the way, this was an example for using the \textit{natbib} command \texttt{\textbackslash{}citet\{\}}.
+  
+  \textit{AspectJ} is tool to weave cross-cutting concerns into Java programs~\citep{AspectJ}. By the way, this was an example for using the \textit{natbib} command \texttt{\textbackslash{}citep\{\}}.
+  
+  Kieker: \citep{Rohr2008, Hoorn2009, Hoorn2012}
+  
+  Article Example: \citep{Frey2011}
+  
+  We will now demonstrate how to use figures (see \autoref{fig:figure}).
+  
+  \begin{figure}[t]%
+    \centering%
+    \includegraphics[width=0.3\textwidth]{img/template_circle.pdf}%
+    \caption{A circle}%
+    \label{fig:figure}%
+  \end{figure}%
+
+  You should use diagrams, graphics, tables etc. to explain your topics.
+  Further hints on writing a thesis can be found at \url{http://se.informatik.uni-kiel.de/research/scientific-work/} and \url{http://www.twenzel.de/}.
+
+  \section{Motivation}
+    \blindtext
+  \section{Goals}
+    \blindtext
+  \section{Document Structure}
+    \autoref{chp:Foundations} presents everything one must know. The conclusions follow in \autoref{chp:Conclusions}. \TODO{Adjust this}
+
+\chapter{Foundations and Technologies}\label{chp:Foundations}
+  \section{Research Topic or Technology 1}
+    \blindtext
+  \section{Research Topic or Technology 2}
+    \blindtext
+  \section{Research Topic or Technology m}
+    \blindtext
+
+\chapter{Approach Part 1}\label{chp:Approach1}
+  \section{Approach Part 1 Subsection 1}
+    \blindtext
+  \section{Approach Part 1 Subsection 2}
+    \blindtext
+  \section{Approach Part 1 Subsection n}
+    \blindtext
+
+\chapter{Approach Part 2}\label{chp:Approach2}
+  \section{Approach Part 2 Subsection 1}
+    \blindtext
+  \section{Approach Part 2 Subsection 2}
+    \blindtext
+  \section{Approach Part 2 Subsection o}
+    \blindtext
+
+\chapter{Evaluation}\label{chp:Evaluation}
+  \blindtext
+
+\chapter{Related Work}\label{chp:Related}
+  \blindtext
+
+\chapter{Conclusions and Future Work}\label{chp:Conclusions}
+  \section{Conclusions}
+    \blindtext
+  \section{Future Work}
+    \blindtext
+
+%%
+
+\backmatter
+  \tocbibliography
+
+\end{document}

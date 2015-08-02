@@ -1,0 +1,90 @@
+\documentclass[10pt]{book}
+\usepackage[theorems=numbersfirst,bibresource=mybib,%
+%font=TX,%
+%marginfrac=24,hcenter%
+]{ifiseries}
+
+\begin{document}
+
+\frontmatter
+
+\disstitlepage%
+{My Fake Dissertation \\[.1em]
+With a Long Title \\[.1em]
+Over Three Lines}%
+{Just for Fun}%
+{Dipl.-Math.~John Q. Postgraduate}%
+{nat}%
+{2011}
+
+\metapage%
+{2011/99 v1.0 dated 2011-11-15}%
+{\url{http://john-q-postgraduate.name}}%
+{Fake Research Group}%
+{John Q. Postgraduate.
+\textit{My Fake Dissertation With a Long Title.}
+Number 2011/99 in Kiel Computer Science Series.
+Department of Computer Science, 2011.
+Dissertation, Faculty of Engineering,
+Kiel University.}%
+{manual-demo.metapage.bib}%
+{2011 by John Q. Postgraduate}%
+{}
+
+\input{about-this-series}
+
+\dissreviewerpage%
+{Prof.~Dr.~Musterprofessor \par Musteruni in Musterstadt}%
+{Prof.~Dr.~Musterprofessor \par Musteruni in Musterstadt}%
+{}% no third reviewer
+{30.~Februar 2000}%
+
+\selectlanguage{ngerman}
+\chapter*{Zusammenfassung}
+\blindtext
+\selectlanguage{english}
+
+\chapter*{Abstract}
+\blindtext
+
+\chapter{Preface by John Q. Supervisor} % by the supervisor
+\blindtext
+
+\chapter{Preface by the Author}
+\blindtext
+\section*{Acknowledgements}
+\blindtext
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+\part{First Part}
+\chapter{First Chapter}
+\blindtext[2]
+\section{First Secion in First Chapter}
+\blindtext[10]
+\section{Second Secion in First Chapter}b
+\blindtext[15]
+
+\chapter{Second Chapter}
+\blindtext[25]
+
+\part{Second Part}
+\chapter{Third Chapter}
+\blindtext
+
+\appendix
+\chapter{First Chapter of Appendix}
+\blindtext
+
+\chapter{Second Chapter of Appendix}
+\blindtext
+
+\backmatter
+
+\tocbibliography
+
+\end{document}

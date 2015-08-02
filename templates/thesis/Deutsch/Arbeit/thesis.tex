@@ -1,0 +1,103 @@
+%% SE-KCSS-Style v1.3
+\input{docstyleDE}
+
+\hypersetup{pdftitle=Meine Fake Bachelorarbeit mit einem sehr sehr sehr lange Titel}
+\hypersetup{pdfauthor=John Q. Pregraduate}
+\hypersetup{pdfsubject=Bachelorarbeit}
+\hypersetup{pdfkeywords=}
+
+\begin{document}
+\frontmatter
+  \thesistitlepage
+    {Meine Fake Bachelorarbeit \\[.1em]mit einem sehr sehr \\[.1em]sehr lange Titel}% Title
+    {Bachelorarbeit}% Thesistype
+    {John Q. Pregraduate}% Name
+    {\today}% Date
+    {weiterer Betreuer} % additional advisors (add more than one with: name1 \\& name2 \\& name3
+
+  \eidesstatt{}
+
+  \chapter*{Zusammenfassung}
+    \blindtext
+
+  \tableofcontents{}
+  %\listoffigures{}\listoftables{}\lstlistoflistings{}
+  %\chapter*{List of Acronyms}
+  %% List of acronyms
+
+\mainmatter
+
+%% the actual thesis
+%% use \include{filename} and \includeonly{filename} to organize your thesis
+
+\chapter{Einleitung}
+  Dies ist die Einleitung
+  \citet{Shaw2003} haben ein ganz tolles Papier geschrieben
+  Dies war ein Beispiel für den \textit{natbib} Befehl für \texttt{\textbackslash{}citet\{\}}.
+  
+  \textit{AspectJ} ist ein tolles Tool~\citep{AspectJ}. Dies war ein Beispiel für den \textit{natbib} Befehl \texttt{\textbackslash{}citep\{\}}.
+  
+  Kieker: \citep{Rohr2008, Hoorn2009, Hoorn2012}
+  
+  Artikel Beispiel: \citep{Frey2011}
+  
+  Wir werden nun die Verwendung von Bildern veranschaulichen (siehe \autoref{fig:figure}).
+  
+  \begin{figure}[t]%
+    \centering%
+    \includegraphics[width=0.3\textwidth]{img/template_circle.pdf}%
+    \caption{Ein Kreis}%
+    \label{fig:figure}%
+  \end{figure}%
+
+  Weitere Hinweise auf \url{http://se.informatik.uni-kiel.de/research/scientific-work/} und \url{http://www.twenzel.de/}.
+
+  \section{Motivation}
+    \blindtext
+  \section{Ziele}
+    \blindtext
+  \section{Aufbau}
+    \autoref{chp:Foundations} präsentiert alle schönen Grundlagen. Das Fazit ist in  \autoref{chp:Conclusions}. \TODO{Anpassen!}
+
+\chapter{Grundlagen und Technologien}\label{chp:Foundations}
+  \section{Grundlage oder Technologie 1}
+    \blindtext
+  \section{Grundlage oder Technologie 2}
+    \blindtext
+  \section{Grundlage oder Technologie n}
+    \blindtext
+
+\chapter{Ansatz Teil 1}\label{chp:Approach1}
+  \section{Ansatz Teil 1 Unterkapitel 1}
+    \blindtext
+  \section{Ansatz Teil 1 Unterkapitel 2}
+    \blindtext
+  \section{Ansatz Teil 1 Unterkapitel n}
+    \blindtext
+
+\chapter{Ansatz Teil 2}\label{chp:Approach2}
+  \section{Ansatz Teil 2 Unterkapitel 1}
+    \blindtext
+  \section{Ansatz Teil 2 Unterkapitel 2}
+    \blindtext
+  \section{Ansatz Teil 2 Unterkapitel n}
+    \blindtext
+
+\chapter{Evaluierung}\label{chp:Evaluation}
+  \blindtext
+
+\chapter{Verwandte Arbeiten}\label{chp:Related}
+  \blindtext
+
+\chapter{Fazit und Ausblick}\label{chp:Conclusions}
+  \section{Fazit}
+    \blindtext
+  \section{Ausblick}
+    \blindtext
+
+%%
+
+\backmatter
+  \tocbibliography
+
+\end{document}

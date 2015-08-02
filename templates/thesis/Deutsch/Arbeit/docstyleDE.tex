@@ -1,0 +1,27 @@
+%% SE-KCSS-Style DE v1.3
+\documentclass[10pt]{book}
+\usepackage{fixltx2e}
+\usepackage[resetfonts]{cmap}
+\usepackage{nameref}
+\usepackage[%
+  language=german,paper=a4paper,largepaper=true,%
+  algorithm=false,%
+  biblatexstyle=authoryear-square,biblatexOptions={natbib=true,backend=bibtex},%
+  acronymOptions={smaller,printonlyused},%,withpage
+]{ifiseries}
+\usepackage[format=hang]{caption}[2008/08/24]
+\usepackage{textcomp}
+\usepackage{todonotes}
+\newcommand{\thesistitlepage}[5]{\gentitlepage{#1}{#2}{#3\\\Large\vspace{5ex}#4}{\Large\textsc{Christian-Albrechts-Universit\"{a}t zu Kiel\\Institut f\"{u}r Informatik\\ Arbeitsgruppe Software Engineering }\\\vspace{10ex}\begin{tabular}{rl}Betreut durch: & Prof. Dr. Wilhelm Hasselbring \\ & #5 \\\end{tabular}}}
+\ExecuteBibliographyOptions{sortcase=false,babel=other,backref=true,abbreviate=false}
+\ExecuteBibliographyOptions{isbn=false,url=true,doi=false,eprint=false}
+\addbibresource{bibliography.bib}
+
+\hypersetup{bookmarksdepth=3}
+\hypersetup{bookmarksopen=true}
+\hypersetup{bookmarksopenlevel=0}
+\hypersetup{bookmarksnumbered=true}
+
+\newcommand{\TODO}[1]{\todo[inline]{#1}}
+
+\endinput

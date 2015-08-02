@@ -1,0 +1,153 @@
+\documentclass[12pt]{standalone}
+\usepackage[pagelayout=false]{ifiseries}
+\usepackage[%
+%
+% Help lines. Switch all off for production.
+%
+%showlayoutlines=true,%
+%showsafetylines=true,%
+showbleedlines=false,% 
+%germantext=true,% 
+twolineresearchgroup=true,%
+%
+% Lengths to be changed by the author.
+%
+%
+%% hardcover
+coverwidth=16cm,%
+coverheight=22.6cm,%
+spinewidth=2.56cm,%
+bleed=1.7cm,%
+frontgraphicxshift=-0.43cm,%
+frontgraphicyshift=-3cm,% 
+spinecorr=0.5cm
+%
+%softcover
+%coverwidth=15.5cm,%
+%coverheight=22.0cm,%
+%spinewidth=2.06cm,%
+%bleed=0.5cm,% 
+%frontgraphicxshift=-0.68cm,%
+%frontgraphicyshift=-3cm,%
+]{kcssCover}
+ 
+%\renewcommand{\baselinestretch}{5}
+\renewcommand{\spinetitle}{{\Large\textbf{On the Pragmatics of Graphical Modeling}}}
+\renewcommand{\fronttitle}{{\fontsize{34}{60}\selectfont \textbf{On the Pragmatics of\\[3mm]Graphical Modeling}}}
+\renewcommand{\frontauthor}{{\LARGE Hauke A.\,L. Fuhrmann}}
+\renewcommand{\spineauthor}{{\Large Hauke A.\,L. Fuhrmann}}
+\renewcommand{\kcssnumber}{2011/1}
+\renewcommand{\isbn}{\includegraphics[height=2.4cm]{haf-isbn.png}}
+\renewcommand{\researchgroup}{Real-Time and \\ Embedded Systems Group} 
+\renewcommand{\backtext}{%
+\parindent8mm \parskip0mm
+\noindent% 
+Graphical models help to understand complex systems. 
+However, with the user interaction paradigms established today, 
+activities such as creating, maintaining or browsing graphical models can be 
+very tedious. 
+%Valuable engineering time is wasted with archaic activities such 
+%as manual layout of nodes and edges. 
+This thesis presents an 
+approach to enhance productivity by focusing on the pragmatics of model-based 
+design.
+\par
+The contribution includes an interpretation of the notion of pragmatics, 
+orthogonal to syntax and semantics in Model-Driven Engineering (MDE). A 
+proposal on pragmatics-aware modeling is given, employing 
+sophisticated automated layout algorithms 
+to close the gap between MDE and graph drawing theory. Thus, a view management logic 
+presents customized views on models.
+\par
+These concepts get illustrated with the open source Kiel Integrated Environment
+for Layout Eclipse Rich Client (KIELER) with multiple
+applications including editing and simulation and shows how view management
+helps to tame complexity.
+\par\medskip%
+\begin{wrapfigure}[9]{l}{2.35cm}
+  %\vspace{-\baselineskip}
+ % \vspace{1ex}
+\includegraphics[width=2.35cm]{no_photo}
+\end{wrapfigure}%
+\color{white}%
+\noindent
+Hauke A.\,L. Fuhrmann studied Computer Science at Kiel University
+until 2005. In an EU Framework 
+Programme 6 research project in the aerospace domain he worked with and experienced the 
+limitations in usability of state-of-the practice graphical modeling tooling. This emerged the 
+enthusiasm for the topic of pragmatics as discussed in this dissertation. 
+Since 2011 he applies modeling in the railway domain.
+\par%
+}
+\renewcommand{\frontgraphic}{%
+\definecolor{techfakblue}{RGB}{0,39,118}
+\definecolor{main}      {rgb}{0.6, 0.7686, 1}
+\definecolor{semantics} {rgb}{0.2, 0.4, 0.8}
+\definecolor{syntax}    {rgb}{0.35, 0.45, 0.65}
+%\definecolor{pragmatics}{rgb}{0  , 0.121, 0.6}
+\definecolor{pragmatics}{rgb}{0.1 , 0.3, 0.5}
+%\definecolor{pragmatics}{cmyk}{1.0, 0.8, 0.0, 0.15}
+
+\tikzstyle{syntax} = [concept]
+\tikzstyle{semantics} = [concept]
+\tikzstyle{pragmatics} = [concept]
+\tikzstyle{view} = [concept]
+\begin{tikzpicture}[scale=0.77, transform shape]%[scale=0.8, transform shape]
+\sf
+\path
+[root concept/.append style={concept color=main, text=black}, 
+level 1 concept/.append style={sibling angle=90,level distance=10em, text=white},
+level 2 concept/.append style={sibling angle=60,level distance=7em},
+level 3 concept/.append style={sibling angle=40,level distance=5em},
+level 4 concept/.append style={sibling angle=40,level distance=5em}, 
+mindmap, every annotation/.style={fill=red!20}]
+node[concept, text width=7em, minimum size=7em]{\hspace*{-1em}Semiotics}[clockwise from=0] 
+child[concept color=pragmatics]{ 
+node[concept] (pragmatics){Pragmatics} [clockwise from=30] child[pragmatics] { node[concept] (views){Dynamic Views} [clockwise from=120]
+            child{ node[concept, text width=2.5em] (layout) {Automatic \mbox{Layout}}[counterclockwise from=90] 
+              child { node[concept] (meta){Meta Layout}} 
+              child { node[concept, text width=2.1em] (layered){Layered}}
+              child { node[concept] (dataflow){Data Flow}}
+            }
+            child[grow=-60] { node[concept, text width=3em](viewmanagement) {View \mbox{Management}}[clockwise from=40] 
+                child[view]{node[concept, text width=2.4em] (creation) {Model \mbox{Creation}}[counterclockwise from=5]
+                    child { node[concept, text width=2.1em] (ksbase){Structure Based \mbox{Editing}}}
+                    child { node[concept, text width=2.1em] (modify){Modi\-fication}}
+                    child { node[concept, text width=2.2em] (synthesis){Synthesis}[counterclockwise from=20]
+                        child { node[concept, text width=2em] (textual){Textual \mbox{Editing}}}
+                        child { node[concept, text width=2.1em] {Scalable \mbox{Models}}}
+                        child { node[concept, text width=2em] {Pattern-Based}}
+                        child { node[concept, text width=2em] {Product Lines}}
+                    }
+                }
+                child[view, grow=-90,level distance=4.5em] {node[concept]{Visuali\-zation}[clockwise from=30] 
+                    %child { node[concept] (kivi) {Model Visuali\-zation}}
+                    child { node[concept] (multi) {Multi View}}
+                    child { node[concept, text width=2.1em] (kivik) {Compare}}
+                    child { node[concept] (dual) {Dual Model}}
+                    child { node[concept, text width=2.3em] (simu) {Dynamic \mbox{Behavior}}}
+                    child { node[concept] (kev) {Environ\-ment Visual\-ization}}
+                    child { node[concept] {Label Manage\-ment}} 
+                    child { node[concept] (focus) {Focus \& \mbox{Context}}}
+                }
+            }
+        }
+    }
+    child[concept color=semantics, grow=150]{ node[concept] {Semantics}[counterclockwise from=120] 
+    child[semantics] { node[concept] (kiem) {Execution Manager}} 
+        child[semantics] { node[concept] (simulation) {Simulation} [counterclockwise from=-90] 
+            child { node[concept] (klepto) {Ptolemy (KlePto)}}
+        }
+    } 
+    child[concept color=syntax, grow=210] { node[concept] {Syntax}[counterclockwise from=180] 
+        child[syntax] { node[concept] (synccharts) {SyncCharts}}
+        child[syntax] { node[concept] (actor) {Actor Oriented}}
+        child[syntax] { node[concept] (uml) {UML}}
+    }
+    ;
+\end{tikzpicture}
+}
+
+\begin{document}
+\makecover
+\end{document}

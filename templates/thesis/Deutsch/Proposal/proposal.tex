@@ -1,0 +1,143 @@
+%% SE-KCSS-Style v1.3
+\input{docstyleDE}
+
+\usepackage{pgfgantt}
+\ganttset{%
+  calendar week text={%
+    \currentweek%
+  }%
+}
+
+\usepackage{rotating}
+
+\hypersetup{pdftitle=Meine Fake Bachelorarbeit mit einem sehr sehr sehr lange Titel}
+\hypersetup{pdfauthor=John Q. Pregraduate}
+\hypersetup{pdfsubject=Proposal einer Bachelorarbeit}
+\hypersetup{pdfkeywords=}
+
+\begin{document}
+\frontmatter
+  \thesistitlepage
+    {Meine Fake Bachelorarbeit \\[.1em]mit einem sehr sehr \\[.1em]sehr lange Titel}% Title
+    {Proposal einer Bachelorarbeit}% Thesistype
+    {John Q. Pregraduate}% Name
+    {\today}% Date
+    {weiterer Betreuer} % additional advisors (add more than one with: name1 \\& name2 \\& name3
+
+  \eidesstatt{}
+
+  \chapter*{Zusammenfassung}
+    \blindtext
+
+  \tableofcontents{}
+  %\listoffigures{}\listoftables{}\lstlistoflistings{}
+  %\chapter*{List of Acronyms}
+  %% List of acronyms
+
+\mainmatter
+
+%% the actual thesis
+%% use \include{filename} and \includeonly{filename} to organize your thesis
+
+\chapter{Einleitung}
+  Dies ist die Einleitung
+  \citet{Shaw2003} haben ein ganz tolles Papier geschrieben
+  Dies war ein Beispiel für den \textit{natbib} Befehl für \texttt{\textbackslash{}citet\{\}}.
+  
+  \textit{AspectJ} ist ein tolles Tool~\citep{AspectJ}. Dies war ein Beispiel für den \textit{natbib} Befehl \texttt{\textbackslash{}citep\{\}}.
+  
+  Kieker: \citep{Rohr2008, Hoorn2009, Hoorn2012}
+  
+  Artikel Beispiel: \citep{Frey2011}
+  
+  Wir werden nun die Verwendung von Bildern veranschaulichen (siehe \autoref{fig:figure}).
+  
+  \begin{figure}[t]%
+    \centering%
+    \includegraphics[width=0.3\textwidth]{img/template_circle.pdf}%
+    \caption{Ein Kreis}%
+    \label{fig:figure}%
+  \end{figure}%
+
+  Weitere Hinweise auf \url{http://se.informatik.uni-kiel.de/research/scientific-work/} und \url{http://www.twenzel.de/}.
+
+  \section{Motivation}
+    \blindtext
+  \section{Aufbau}
+    \autoref{chp:Foundations} präsentiert alle schönen Grundlagen. \TODO{Anpassen!}
+
+\chapter{Ziele}\label{chp:Goals}
+  \section{Z1: xxx}
+    \blindtext
+  \section{Z2: xxx}
+    \blindtext
+
+\chapter{Grundlagen und Technologien}\label{chp:Foundations}
+  \section{Grundlage oder Technologie 1}
+    \blindtext
+  \section{Grundlage oder Technologie 2}
+    \blindtext
+  \section{Grundlage oder Technologie n}
+    \blindtext
+
+\chapter{Ansatz Teil 1}\label{chp:Approach1}
+  \section{Ansatz Teil 1 Unterkapitel 1}
+    \blindtext
+  \section{Ansatz Teil 1 Unterkapitel 2}
+    \blindtext
+  \section{Ansatz Teil 1 Unterkapitel n}
+    \blindtext
+
+\chapter{Zeitplan}\label{chp:Schedule}
+  Ein erster Zeitplan und ein Gantt-Chart.
+  \section{AP1: Literature Research}
+  	\blindtext
+  \section{AP2: xxx}
+	\blindtext
+  \section{AP3: xxx}
+    \blindtext
+  \section{AP4: Thesis}
+    \blindtext
+  \section{AP5: Presentation}
+	\blindtext
+
+  \section{Gantt Chart}
+	\begin{sidewaysfigure}
+		\begin{ganttchart}[%Specs
+			vgrid,
+			hgrid,
+	        x unit=0.75mm,
+	        y unit chart=0.7cm,
+	        link bulge=2.5,
+	        milestone right shift=3,
+			time slot format=isodate
+		]{2015-04-23}{2015-10-31}
+		  \gantttitlecalendar{month=shortname, week} \\
+		  
+		  %\ganttgroup{Preparation}{2015-04-23}{2015-05-31} \\
+		  %\ganttgroup{Development}{2015-06-01}{2015-09-14} \\
+		  %\ganttgroup{Writing}{2015-04-23}{2015-10-31} \\
+		  
+		  \ganttbar[name=lit]{AP1: Literature Research}{2015-04-23}{2015-05-25} \\
+		  \ganttbar[name=fam]{AP2: xxx}{2015-04-23}{2015-05-31} \\
+		  \ganttbar[name=des]{AP3: xxx}{2015-06-01}{2015-06-31} \\
+		  %\ganttbar[name=imp]{Implementation}{2015-07-01}{2015-08-31} \\
+		  %\ganttbar[name=tes]{Testing}{2015-07-01}{2015-09-14} \\
+		  %\ganttbar[name=pro]{Proposal}{2015-04-23}{2015-05-15} \\
+		  \ganttbar[name=the]{AP4: Thesis}{2015-05-16}{2015-10-31} \\
+		  \ganttbar[name=pre]{AP5: Presentation}{2015-10-01}{2015-10-14} \\
+		  
+		  \ganttlink{fam}{des}
+		  %\ganttlink{des}{imp}
+		  %\ganttlink[link mid=0.25]{des}{tes}
+		  %\ganttlink{pro}{the}
+		\end{ganttchart}
+		\caption{Gantt chart showing the schedule of this thesis}
+		\label{fig:Gantt}
+	 \end{sidewaysfigure}
+%%
+
+\backmatter
+  \tocbibliography
+
+\end{document}
