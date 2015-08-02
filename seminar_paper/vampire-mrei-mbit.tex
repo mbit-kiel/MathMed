@@ -109,7 +109,7 @@ Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe g
 Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
 Wir vermögen zu bestätigen, dass die uns vorliegende Version auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
 Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist VAMPIRE zur Programmverifikation für C-Programme mit Schleifen geeignet. 
-Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, wie in ~\cite{vampirehp} einzusehen. 
+Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{TPTP Eingabe}
@@ -124,8 +124,10 @@ In ihr unterstützte Formeltypen sind unteranderem
 	\item TPTP Process Instruction Language  (TPI)
 	\item typed higher order form (THF)
 \end{itemize}
-von denen die wichtigsten, die VAMPIRE zudem unterstützt, FOF, TFF und CNF sind.
+von denen die für uns hier wichtigsten, die VAMPIRE zudem unterstützt, FOF, TFF und CNF sind.
 
+\subsection{Syntax}
+\label{subsec:syntax}
 Die Syntax von TPTP ist wie folgt definiert:
 
 \begin{tabular}{|c|c|}
@@ -154,53 +156,149 @@ dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um 
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
 Letztendlich steht die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
 
+\subsection{first oder formular}
+\label{subsec:tptpfof}
+Wollen wir nun die Formel
 
-Ein Beispiel für eine Formel in TPTP:\\
-$fof(sum, axiom, ( ! [X,A] :( member(X,sum(A)) <=> ? [Y] : ( member(Y,A)  \&  member(X,Y))))).$
+$\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y$,
 
-Über den Befehl $include(\dots)$ können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, während des Einlesens in Vampire zusätzlich importiert werden.
+die für einen späteren Beweis als Axiom dienen soll,  in TPTP umwandeln, 
+so bedarf es der Definition der Operationen, die im formalen Aufschrieb einfach benutzt werden können, 
+die in der Syntax von TPTP aber nicht vorhanden sind.
+Hierzu gehört neben $\in$ auch  $\bigcup$. 
+Nun verhält es sich derart, dass wenn wir die fehlenden Operationen als Prädikate definieren, 
+wir nicht zwingend eines zur Zeit in einem Axiom definieren, sondern manchmal allein durch die Definition und Nutzung eines Prädikates der Verwendungszweck durch erschlossen werden kann.
+Ein Prädikat wird in VAMPIRE definiert indem es benutzt wird und im Verlauf des Beweises sucht VAMPIRE nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
+So wandelt sich die obige Formel in TPTP um in \\ \\
+$! [X,A] :( member(X,sum(A)) \\ <=> ? [Y] : ( member(Y,A)  \&  member(X,Y))$. \\ \\
+$\in$ wurde durch $member(\dots)$ ersetzt, $\bigcup$ durch $sum(\dots)$.
+Legen wir jetzt fest, dass es sich um Logik erster Stufe handelt ($fof(\dots)$), dass die Definition die wir hier vorwiegend tätigen die große Vereinigung über eine Menge ist ($sum$) und dass es sich um ein $Axiom$ handelt,
+entsteht in verbindung mit unser umgewandelten TPTP-Formel folgende fertige TPTP-Aussage:
 
-\subsection{Syntax}
-\label{subsec:syntax}
+$fof(sum, axiom, (\\! [X,A] :( member(X,sum(A)) \\<=> ? [Y] : ( member(Y,A)  \&  member(X,Y))))).$
+
+Eine solcher Block wird immer mit einem Punkt abgeschlossen, dieser markiert das Ende.
+
+Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das $member$ Prädikat automatisch.
+Über den Befehl $include(\dots)$ können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden.
+
+\subsection{typed first oder formular}
+\label{subsec:tptptff}
+
+In $tff(\dots)$ können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck (sort) folgen.
+Typenausdrücke sind \begin{itemize}
+	\item \$i: individuell. Standard-Typ, wenn nichts angegeben
+	\item \$o: Boolesch
+	\item \$int: Integer
+	\item \$rat: Rational
+	\item \$real: Reel
+	\item \$array1: Integer-Array
+	\item \$array2: Array von Integer-Array
+\end{itemize}
+wobei die letzten beiden spezifisch von VAMPIRE definiert sind und nicht im TPTP-Standard verankert sind.
+Eigene Typenausdrücke können durch ein ähnliches Schema definiert werden wie ein generelles $fof$-Formular:
+
+$tff(name, type, typ\_name: \$tType).$
+
+Ein Name kann wie bekannt frei gewählt werden und das Wort $type$ ist die Deklaration, dass es sich um eine Typendefinition handelt, wobei dieses Wort sowohl uneindeutig als auch redundant ist.
+Zuletzt wird der $typ\_name$, der wieder frei gewählt werden kann, als neuer Typ definiert.
+
+Beispiel:
+
+$tff(a has type own,type,a : own).\\
+tff(f has type own,type,f : own * own > own).$
+
+Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet Vampire folgende, im TPTP-Standard definierten Funktionen:
+\begin{itemize}
+	\item $\$sum$: Addition $(x + y)$
+	\item $\$product$: Multiplication $(x * y)$
+	\item $\$difference$: Differnenz $(x - y)$
+	\item $\$uminus$: einstelliges Minus $(-x)$
+	\item $\$to rat$: Konvertierung zu rationalen Zahlen
+	\item $\$to real$: Konvertierung zu reellen Zahlen
+	\item $\$less$: kleiner als $(x < y)$
+	\item $\$lesseq$: kleiner-gleich $(x \leq y)$
+	\item $\$greater$: größer als $(x > y)$
+	\item $\$greatereq$: größer-gleich $(x \geq y)$ \\ \\
+Beispiel: \\ $(x + y) \geq 0$ mit x,y aus den ganzen Zahlen \\
+
+$tff(example,conjecture, \\ ? [X:\$int,Y:\$int]:
+\$greatereq(\$sum(X,Y),0)).$
+
+\end{itemize}
+
+\subsection{If-Then-Else}
+\label{subsec:tptpitef}
+
+Sowohl für Terme als auch für Formeln kann vereinfachend das if-then-else-Konstrukt $ \$itef $ benutzt werden:
+
+$tff(c1,axiom,(((\textbf{\$itef}(p\&q,\sim p|\sim q,p\&q))\\
+	(sP0<=>(p\&q) \\
+	((p\&q)\&\sim sP0)|((\sim p|\sim q)\&sP0)$\\
+	\\
+$tff(c2,axiom,(\textbf{\$itet}(p,a,b)(!=a\&p).\\
+\textbf{\$itef}(p,sG0(X0,X1)=X0,sG0(X0,X1)=X1)\\
+sG0(a,b)!=a\&p$ 
+
+\cite{cav2013}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Vergleich}
 \label{subsec:tptpcomp}
-Vergleich zu anderen Problembeschreibungssprachen.
+TPTP und sein Struktur verhält sich ähnlich wie die der Logik-Programmiersprache Prolog, in der Prädikate durch ihre Benutzung und Angabe definiert werden.
+
+Ähnlich wie bei PROVER 9 wird durch das angeben der Rolle der Verwendungszweck der Formel an VAMPIRE übergeben. Axiom und hypotheses sind dabei die assumtions und die conjecture sind die goals in PROVER 9.
+Unterschiede in der Syntax sind selbstverständlich, da PROVER 9 nicht TPTP verwendet, obgleich es viele Übereinstimmungen gibt.
+Auch der Punkt am Ende einer Zeile ist äquivalent. Unterschiedlich ist die Verwendung von Inifix-Operationen und deren vorherigen Definition als solche in PROVER 9, 
+dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ dafür aber möglich explizit mit Variablen verschiedem Typs zu arbeiten.\cite{cav2013, prover9manual} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benutzung von Vampire}
 \label{sec:invocation}
 
-Wichtige Informationen zur Benutzung in ~\cite{hoder2011slides}.
+Grundsätzlich ist die Benutzung von VAMPIRE wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun kann direkt in der Kommandozeile eine TPTP-Formel eingegeben werden, die an VAMPIRE übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei direkt über die üblichen Kommandozeilenbefehle an VAMPIRE übergeben werden. Nachdem VAMPIRE das Problem erhalten hat, beginnt es direkt mit der Arbeit.
 
-Hinzugefügt auch: ~\cite{kovacs2011slides} und ~\cite{hodervoronkov2012slides}, wobei dies nur Slides sind, die aber wichtige Informationen haben. Quelle hat Link ist aber unsichtbar im Literaturverzeichnis.
+\subsection{Kommandozeilenparameter}
+\label{subsec:commands}
+VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt von denen hier nur einige genannt werden.
 
-\subsection{Modes}
-\label{subsec:modes}
+\subsubsection{-~-saturation\_algorithm}
+\label{subsubsec: commandssaturationalgorithm}
+\begin{itemize}
+	\item \textbf{lrs}\\
+	\item \textbf{discount}\\
+	\item \textbf{otter}\\
+\end{itemize}
+
+\subsubsection{-~-modes}
+\label{subsubsec:commandsmodes}
 
 Modes bestimmen den Ablauf des Beweisprozesses indem eine spezielle Strategie oder Strategiegemische verwendet werden. 
-Dieser Befehl beginnt mit \glqq --modes \grqq gefolgt von einem definierenden Schlüsselwort, welches den Mode bestimmt.
 Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \begin{itemize}
-\item casc \\
+\item \textbf{casc} \\
 		Dieser auch bei dem gleichnamigen Wettbewerb verwendete Mode ist laut ~\cite{hoder2011slides}  der beste der möglichen Modes.
 		Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
 		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-\item casc\_ltb \\
+\item \textbf{casc\_ltb} \\
 		Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet.
 		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-\item axiom\_selection \\
+\item\textbf{ axiom\_selection} \\
 		Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
 		Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.\\
-\item clausify \\
+\item \textbf{clausify} \\
 		Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet. \\
-\item grounding \\
+\item \textbf{grounding} \\
 		Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
 		Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
-\item consequence\_elemination \\
-		Der letzte hier gezeigte Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.
+\item \textbf{consequence\_elemination} \\
+		 Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.\\
+\item \textbf{program\_analysis} \\
+		Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
 \end{itemize}
 
 
