@@ -266,6 +266,46 @@ Grundsätzlich ist die Benutzung von VAMPIRE wie in \cite{cav2013} gesagt, recht
 \label{subsec:commands}
 VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt von denen hier nur einige genannt werden.
 
+\subsubsection{-~-theory\_axioms\_off}
+\label{subsubsec: commandtheoryaxiomsoff}
+Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt VAMPIRE selbstständig im bekannte Axiome hinzu. Dies kann mit diesem Parameter unterbunden werden.
+\subsubsection{-~-proof\_off}
+\label{subsubsec: commandproofoff}
+Möchte man die Gewissheit, dass das Problem bewiesen wurde, aber keinen Beweis an sich ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
+\subsubsection{-~-t X oder -~-time\_limit X}
+\label{subsubsec: commandtimelimit}
+Mit diesem Parameter und X als ganze Zahl bricht VAMPIRE nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
+In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. %Standardmäßig liegt das Zeitlimit bei 60  Sekunden???
+\subsubsection{-~-m X oder -~-memory\_limit X}
+\label{subsubsec: commandmemorylimit}
+Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für VAMPIRE. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
+\subsubsection{-~-age\_weight\_ratio X:Y}
+\label{subsubsec: commandageweightratio}
+Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die VAMPIRE von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
+2:3 würde beispielsweise bedeuten, dass insgesamt 5 Klauseln gewählt werden, davon 2 der ältesten und 3 der leichtesten. 
+\subsubsection{-~-nongoal\_weight\_coefficient}
+\label{subsubsec: commandweightcoefficient}
+Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
+\subsubsection{-~-max\_weight}
+\label{subsubsec: commandmaxweight}
+Stellt das ansonsten von VAMPIRE veränderbare maximale Klauselgewicht ein. VAMPIRE kann bei Speicherknappheit oder bei nutzen der $ limited~resource~strategy $ das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
+\subsubsection{-~-forced\_options}
+\label{subsubsec: commandforcedoptions}
+Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hintereinander gereiht werden um mehrfache Optionen gemeinsam zu forcieren. 
+\begin{itemize}
+	\item \textbf{propositional\_to\_bdd=off}\\
+		Schaltet das Einführen von Prädikaten für BDD-Variablen aus. \\
+	\item \textbf{splitting=off}\\
+		Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus. \\
+	\item \textbf{equality\_proxy=off}\\
+	\item \textbf{general\_splitting=off}\\
+	\item \textbf{inequality\_splitting=0}\\
+	\item \textbf{naming=0}\\
+		Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
+		Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
+\end{itemize}
+	
+
 \subsubsection{-~-saturation\_algorithm}
 \label{subsubsec: commandssaturationalgorithm}
 \begin{itemize}
@@ -305,6 +345,8 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 		Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
 \item \textbf{consequence\_elemination} \\
 		 Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.\\
+\item \textbf{bpa} \\
+		Bound Propagation (bpa) ersetzt hierbei für das Lösen von lineare Ungleichheiten (quantorenfreie lineare, reelle und rationale Arithmetik) das Superpositionscalculus.
 \item \textbf{program\_analysis} \\
 		Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
 \end{itemize}
@@ -329,6 +371,32 @@ So funktionsierts.
 
 \subsection{Preprocessing}
 \label{subsec:preprocessing}
+\begin{enumerate}
+	\item Wähle eine relevante Teilmenge von Formeln \\(optional).
+	\item Füge die Axiome hinzu (optional).
+	\item Bereinige die Formeln.
+	\item Sollte eine Formel $\top$ oder $\bot$ beinhalten, \\vereinfache sie.
+	\item Entferne if-then-else und let-in Verbindungen.
+	\item Ebne die Formeln.
+	\item Entferne reine Prädikate.
+	\item Entferne nicht genutzte Prädikatdefinitionen \\(optional).
+	\item Konvertiere die Formeln in equivalence negation normal form (ennf).
+	\item Ersetze Subformeln durch ihre Namen.
+	\item Konvertiere die Formeln in negation normal form (nnf) (optional).
+	\item Skolemisiere die Formeln.
+	\item Ersetze equality axioms.
+	\item Lege eine Ordnung der Literale fest.
+	\item Transformiere die Formeln in \\conjunctive normal form (cnf).
+	\item Entferne die Funktionsdefinitionen (optional).
+	\item Wende inequality splitting an (optional).
+	\item Entferne Tautologien.
+	\item Entferne reine Literale (optional).
+	\item Entferne Klauseldefinitionen (optional).
+\end{enumerate}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Beweisverfahren}
