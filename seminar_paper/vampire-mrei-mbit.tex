@@ -230,20 +230,28 @@ $tff(example,conjecture, \\ ? [X:\$int,Y:\$int]:
 \subsection{If-Then-Else}
 \label{subsec:tptpitef}
 
-Sowohl für Terme als auch für Formeln kann vereinfachend das if-then-else-Konstrukt $ \$itef $ benutzt werden:
+Vereinfachend kann das if-then-else-Konstrukt $ \$ite\_f $ für Formeln und $\$ite\_t$ für Terme benutzt werden:
 
-$tff(c1,axiom,(((\textbf{\$itef}(p\&q,\sim p|\sim q,p\&q))\\
-	(sP0<=>(p\&q) \\
-	((p\&q)\&\sim sP0)|((\sim p|\sim q)\&sP0)$\\
-	\\
-$tff(c2,axiom,(\textbf{\$itet}(p,a,b)(!=a\&p).\\
-\textbf{\$itef}(p,sG0(X0,X1)=X0,sG0(X0,X1)=X1)\\
-sG0(a,b)!=a\&p$ 
+$tff(c1,axiom,(((\textbf{\$ite\_f}(p\&q,\sim p|\sim q,p\&q))$\\
 
-\cite{cav2013}
+$tff(c2,axiom,(\textbf{\$ite\_t}(p,a,b)(!=a\&p).$\\ ~\cite{hoder2011slides}
 
+\subsection{Let...in}
+\label{subsec:tptpletin}
 
+Gleichsam kann das $let\dots in$-Konstrukt für für Therme $\$let\_tt$, für Formeln $\$let\_ff$, und zwischen Thermen und Formeln, bzw. Formeln und Thermen $\$let\_tf$ und $\$let\_ft$ verwendet werden.
 
+$tff(c1,axiom,\\
+\textbf{\$let\_tt}(f(X),g(X),f(a))!=g(a)).$\\
+
+$tff(c2,axiom,\\
+\textbf{\$let\_ff}(p(X),q(X)|r(X),p(c)) \& \sin q(c)\& \sin r(c)).$\\
+
+$tff(c3,axiom,\\
+\textbf{\$let\_tf}(f(X),g(X),p(f(X)))\& \sin p(g(X))).$\\
+
+$tff(c4,axiom,\\
+\textbf{\$let\_ft}(p(X),q,\$ite\_t(p(a),a,b))!=\$ite\_t(q,a,b)).$\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Vergleich}
@@ -253,7 +261,7 @@ TPTP und sein Struktur verhält sich ähnlich wie die der Logik-Programmiersprac
 Ähnlich wie bei PROVER 9 wird durch das angeben der Rolle der Verwendungszweck der Formel an VAMPIRE übergeben. Axiom und hypotheses sind dabei die assumtions und die conjecture sind die goals in PROVER 9.
 Unterschiede in der Syntax sind selbstverständlich, da PROVER 9 nicht TPTP verwendet, obgleich es viele Übereinstimmungen gibt.
 Auch der Punkt am Ende einer Zeile ist äquivalent. Unterschiedlich ist die Verwendung von Inifix-Operationen und deren vorherigen Definition als solche in PROVER 9, 
-dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ dafür aber möglich explizit mit Variablen verschiedem Typs zu arbeiten.\cite{cav2013, prover9manual} 
+dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ dafür aber möglich explizit mit Variablen verschiedener Typen zu arbeiten.\cite{cav2013, prover9manual} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -261,6 +269,8 @@ dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ daf
 \label{sec:invocation}
 
 Grundsätzlich ist die Benutzung von VAMPIRE wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun kann direkt in der Kommandozeile eine TPTP-Formel eingegeben werden, die an VAMPIRE übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei direkt über die üblichen Kommandozeilenbefehle an VAMPIRE übergeben werden. Nachdem VAMPIRE das Problem erhalten hat, beginnt es direkt mit der Arbeit.
+
+$ vampire.exe < input.txt > output.txt $ beispielsweise liefert den Beweis für das in der input.txt geschriebene Problem und schreibt diesen, sonst in der Kommandozeile angezeigten Beweis, in die output.txt.
 
 \subsection{Kommandozeilenparameter}
 \label{subsec:commands}
@@ -354,13 +364,13 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Segfaults}
-\label{subsec:segfaults}
+%\subsection{Segfaults}
+%\label{subsec:segfaults}
 
-\begin{itemize}
-\item parentheses in input not aligned to magic waves in room
-\item it crash
-\end{itemize}
+%\begin{itemize}
+%\item parentheses in input not aligned to magic waves in room
+%\item it crash
+%\end{itemize}
 
 
 
