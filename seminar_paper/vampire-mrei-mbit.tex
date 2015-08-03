@@ -230,7 +230,10 @@ $tff(example,conjecture, \\ ? [X:\$int,Y:\$int]:
 \subsection{If-Then-Else}
 \label{subsec:tptpitef}
 
-Vereinfachend kann das if-then-else-Konstrukt $ \$ite\_f $ für Formeln und $\$ite\_t$ für Terme benutzt werden:
+Vereinfachend für die Programmverifikation kann beim umschreiben von Programmen nach TPTP das \\if-then-else-Konstrukt $ \$ite\_f $ für Formeln und $\$ite\_t$ für Terme benutzt werden.
+
+$\$ite\_f(Bedingung,~Dann,~Sonst)$\\
+(äquivalent für $\$ite\_t$).
 
 $tff(c1,axiom,(((\textbf{\$ite\_f}(p\&q,\sim p|\sim q,p\&q))$\\
 
@@ -245,10 +248,10 @@ $tff(c1,axiom,\\
 \textbf{\$let\_tt}(f(X),g(X),f(a))!=g(a)).$\\
 
 $tff(c2,axiom,\\
-\textbf{\$let\_ff}(p(X),q(X)|r(X),p(c)) \& \sin q(c)\& \sin r(c)).$\\
+\textbf{\$let\_ff}(p(X),q(X)|r(X),p(c)) \& \sim q(c)\& \sim r(c)).$\\
 
 $tff(c3,axiom,\\
-\textbf{\$let\_tf}(f(X),g(X),p(f(X)))\& \sin p(g(X))).$\\
+\textbf{\$let\_tf}(f(X),g(X),p(f(X)))\& \sim p(g(X))).$\\
 
 $tff(c4,axiom,\\
 \textbf{\$let\_ft}(p(X),q,\$ite\_t(p(a),a,b))!=\$ite\_t(q,a,b)).$\\
@@ -285,7 +288,7 @@ Möchte man die Gewissheit, dass das Problem bewiesen wurde, aber keinen Beweis 
 \subsubsection{-~-t X oder -~-time\_limit X}
 \label{subsubsec: commandtimelimit}
 Mit diesem Parameter und X als ganze Zahl bricht VAMPIRE nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
-In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. %Standardmäßig liegt das Zeitlimit bei 60  Sekunden???
+In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
 \subsubsection{-~-m X oder -~-memory\_limit X}
 \label{subsubsec: commandmemorylimit}
 Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für VAMPIRE. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
