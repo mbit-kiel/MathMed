@@ -1,63 +1,97 @@
-%% SE-KCSS-Style v1.3
-\input{docstyleDE}
+% Use the document class appropriate to your language and leave the other
+% line commented out
+\documentclass{acm_proc_article-sp-german}
+%\documentclass{acm_proc_article-sp}
 
-\hypersetup{pdftitle=Vampire}
-\hypersetup{pdfauthor=Maximilian Reinhart und Martin Bittermann}
-\hypersetup{pdfsubject=Seminarbeit}
-\hypersetup{pdfkeywords=}
+% These two lines help to keep enumerations and itemizations compact.
+% Try commenting them out if you want to see the effect.
+\usepackage{enumitem}
+\setlist{nolistsep}
 
-% Set up an environment for definitions
-\newtheorem{defi}{Definition}
+% The next two commands are for the code display example. Look into the
+% documentation of the listings package for other configurations, in
+% particular for a list of supported programming languages.
+\usepackage{listings}
+\lstset{language = C, 
+        numbers=left, 
+        numberstyle=\tiny,
+        columns=fullflexible, 
+        basicstyle=\sf, 
+        xleftmargin = 0.5 cm}
+
+% Display subfigures
+\usepackage{subfig}
+
+% Generate PDF hyperlinks when referencing sections and stuff. 
+\usepackage{hyperref}
+
+% Theorems like Definition and Proof
+%\usepackage{amsthm}
+
+% list bibliography by occurrence
+\bibliographystyle{unsrt}
+
+% Define Saturated sets
+\newtheorem{satset}{Definition}
+
+% This is the name of the folder you are placing your graphics files in.
+% Defining it here makes LaTeX look for files there without you having
+% to specify the folder again throughout the document.
+\graphicspath{ {./graphics/} }
 
 \begin{document}
-\frontmatter
-  \thesistitlepage
-    {Grundlagen und Anwendung von VAMPIRE}% Title
-    {Seminararbeit}% Thesistype
-    {Maximilian Reinhart\\Martin Bittermann}% Name
-    {\today}% Date
-    {Insa Stucke} % additional advisors (add more than one with: name1 \\& name2 \\& name3
 
-  \eidesstatt{}
+\title{VAMPIRE: TODO: Titel}
+\numberofauthors{2}
+\author{
+	\alignauthor
+	Maximilian Reinhart\\
+	\affaddr{mrei@informatik.uni-kiel.de}
+	\alignauthor
+	Martin Bittermann\\
+	\affaddr{mbit@informatik.uni-kiel.de}
+}
 
-  \chapter*{Zusammenfassung}
-  Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
-  stellt den Bezug zu ~\cite{cav2013} her. \\
-  Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
-  die Funktionsweise und einige ausgewählte Algorithmen erklärt und
-  die Ausgabe von VAMPIRE sowohl analysiert als auch grafisch dargestellt.
-  Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, VAMPIRE mit diesen Verglichen 
-  und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
+\date{\today}
 
-  \tableofcontents{}
-  %\listoffigures{}\listoftables{}\lstlistoflistings{}
-  %\chapter*{List of Acronyms}
-  %% List of acronyms
-
-\mainmatter
-
-%% the actual thesis
-%% use \include{filename} and \includeonly{filename} to organize your thesis
-
-\chapter{Einleitung}\label{chp:introduction}
-  
-  
-  Dieser Artikel bezieht sich primär auf ~\cite{cav2013} und versucht ebenso einen grundlegenden Überblick zu geben.
-  Dazu beziehen wir uns auf die Artikel ~\cite{hoder2010} und ~\cite{kovacs2009finding}.
-  (Überblick) 
-  
-  (Struktur dieses Artikel mit Verweisen auf Kapitel)
-  
-  Zuerst werden \hyperref[chp:foundations]{Grundlagen} über ATP vermittelt.\\
-  Dann \hyperref[chp:input]{TPTP Eingabe}.\\
-  Danach wird in \hyperref[chp:invocation]{Benutzung von Vampire}.\\
-  Anschließend \hyperref[chp:mechanics]{Funktionsweise}.\\
-  Schließlich \hyperref[chp:output]{Beweisausgabe} erklärt.\\
-  Schlussendlich \hyperref[chp:conclusion]{Fazit}.
+\maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+%Notes:
+%Klaren Bezug auf [1] herausstellen.
+%Grafiken nicht am Anfang des paper, eher am anfang von kapitel 2.
+Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
+stellt den Bezug zu ~\cite{cav2013} her. \\
+Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
+die Funktionsweise und einige ausgewählte Algorithmen erklärt und
+die Ausgabe von VAMPIRE sowohl analysiert als auch grafisch dargestellt.
+Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, VAMPIRE mit diesen Verglichen 
+und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
+\end{abstract}
 
-\chapter{Grundlagen}\label{chp:foundations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Einleitung}
+\label{sec:introduction}
+
+
+Dieser Artikel bezieht sich primär auf ~\cite{cav2013} und versucht ebenso einen grundlegenden Überblick zu geben.
+Dazu beziehen wir uns auf die Artikel ~\cite{hoder2010} und ~\cite{kovacs2009finding}.
+(Überblick) 
+
+(Struktur dieses Artikel mit Verweisen auf Kapitel)
+
+Zuerst werden \hyperref[sec:foundations]{Grundlagen} über ATP vermittelt.\\
+Dann \hyperref[sec:input]{TPTP Eingabe}.\\
+Danach wird in \hyperref[sec:invocation]{Benutzung von Vampire}.\\
+Anschließend \hyperref[sec:mechanics]{Funktionsweise}.\\
+Schließlich \hyperref[sec:output]{Beweisausgabe} erklärt.\\
+Schlussendlich \hyperref[sec:conclusion]{Fazit}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Grundlagen}
+\label{sec:foundations}
 Automatische Theorembeweiser (ATP) versuchen eigenständig Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
 Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann und diesem dann zur Bearbeitung übergeben.
 Diese Formalisierung ist auch für triviale Probleme nicht gleichermaßen einfach und ist daher eine gefährliche Fehlerquelle. 
@@ -78,8 +112,8 @@ Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strateg
 Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{TPTP Eingabe}
-\label{chp:input}
+\section{TPTP Eingabe}
+\label{sec:input}
 
 TPTP ist die Sprache in der Probleme geschrieben sein müssen, damit Vampire sie bearbeiten kann. Sie wird ebenfalls in der Thousands of Problems for Theorem Provers (TPTP) Bibliothek benutzt.
 In ihr unterstützte Formeltypen sind unteranderem 
@@ -92,8 +126,8 @@ In ihr unterstützte Formeltypen sind unteranderem
 \end{itemize}
 von denen die für uns hier wichtigsten, die VAMPIRE zudem unterstützt, FOF, TFF und CNF sind.
 
-\section{Syntax}
-\label{sec:syntax}
+\subsection{Syntax}
+\label{subsec:syntax}
 Die Syntax von TPTP ist wie folgt definiert:
 
 \begin{tabular}{|c|c|}
@@ -122,8 +156,8 @@ dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um 
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
 Letztendlich steht die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
 
-\section{first oder formular}
-\label{sec:tptpfof}
+\subsection{first oder formular}
+\label{subsec:tptpfof}
 Wollen wir nun die Formel
 
 $\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y$,
@@ -148,8 +182,8 @@ Eine solcher Block wird immer mit einem Punkt abgeschlossen, dieser markiert das
 Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das $member$ Prädikat automatisch.
 Über den Befehl $include(\dots)$ können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden.
 
-\section{typed first oder formular}
-\label{sec:tptptff}
+\subsection{typed first oder formular}
+\label{subsec:tptptff}
 
 In $tff(\dots)$ können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck (sort) folgen.
 Typenausdrücke sind \begin{itemize}
@@ -186,155 +220,170 @@ Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhal
 	\item $\$lesseq$: kleiner-gleich $(x \leq y)$
 	\item $\$greater$: größer als $(x > y)$
 	\item $\$greatereq$: größer-gleich $(x \geq y)$ \\ \\
-	Beispiel: \\ $(x + y) \geq 0$ mit x,y aus den ganzen Zahlen \\
-	
-	$tff(example,conjecture, \\ ? [X:\$int,Y:\$int]:
-	\$greatereq(\$sum(X,Y),0)).$
-	
+Beispiel: \\ $(x + y) \geq 0$ mit x,y aus den ganzen Zahlen \\
+
+$tff(example,conjecture, \\ ? [X:\$int,Y:\$int]:
+\$greatereq(\$sum(X,Y),0)).$
+
 \end{itemize}
 
-\section{If-Then-Else}
-\label{sec:tptpitef}
+\subsection{If-Then-Else}
+\label{subsec:tptpitef}
 
-Sowohl für Terme als auch für Formeln kann vereinfachend das if-then-else-Konstrukt $ \$itef $ benutzt werden:
+Vereinfachend für die Programmverifikation kann beim umschreiben von Programmen nach TPTP das \\if-then-else-Konstrukt $ \$ite\_f $ für Formeln und $\$ite\_t$ für Terme benutzt werden.
 
-$tff(c1,axiom,(((\textbf{\$itef}(p\&q,\sim p|\sim q,p\&q))\\
-(sP0<=>(p\&q) \\
-((p\&q)\&\sim sP0)|((\sim p|\sim q)\&sP0)$\\
-\\
-$tff(c2,axiom,(\textbf{\$itet}(p,a,b)(!=a\&p).\\
-\textbf{\$itef}(p,sG0(X0,X1)=X0,sG0(X0,X1)=X1)\\
-sG0(a,b)!=a\&p$ 
+$\$ite\_f(Bedingung,~Dann,~Sonst)$\\
+(äquivalent für $\$ite\_t$).
 
-\cite{cav2013}
+$tff(c1,axiom,(((\textbf{\$ite\_f}(p\&q,\sim p|\sim q,p\&q))$\\
 
+$tff(c2,axiom,(\textbf{\$ite\_t}(p,a,b)(!=a\&p).$\\ ~\cite{hoder2011slides}
 
+\subsection{Let...in}
+\label{subsec:tptpletin}
 
+Gleichsam kann das $let\dots in$-Konstrukt für für Therme $\$let\_tt$, für Formeln $\$let\_ff$, und zwischen Thermen und Formeln, bzw. Formeln und Thermen $\$let\_tf$ und $\$let\_ft$ verwendet werden.
+
+$tff(c1,axiom,\\
+\textbf{\$let\_tt}(f(X),g(X),f(a))!=g(a)).$\\
+
+$tff(c2,axiom,\\
+\textbf{\$let\_ff}(p(X),q(X)|r(X),p(c)) \& \sim q(c)\& \sim r(c)).$\\
+
+$tff(c3,axiom,\\
+\textbf{\$let\_tf}(f(X),g(X),p(f(X)))\& \sim p(g(X))).$\\
+
+$tff(c4,axiom,\\
+\textbf{\$let\_ft}(p(X),q,\$ite\_t(p(a),a,b))!=\$ite\_t(q,a,b)).$\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Vergleich}
-\label{sec:tptpcomp}
+\subsection{Vergleich}
+\label{subsec:tptpcomp}
 TPTP und sein Struktur verhält sich ähnlich wie die der Logik-Programmiersprache Prolog, in der Prädikate durch ihre Benutzung und Angabe definiert werden.
 
 Ähnlich wie bei PROVER 9 wird durch das angeben der Rolle der Verwendungszweck der Formel an VAMPIRE übergeben. Axiom und hypotheses sind dabei die assumtions und die conjecture sind die goals in PROVER 9.
 Unterschiede in der Syntax sind selbstverständlich, da PROVER 9 nicht TPTP verwendet, obgleich es viele Übereinstimmungen gibt.
 Auch der Punkt am Ende einer Zeile ist äquivalent. Unterschiedlich ist die Verwendung von Inifix-Operationen und deren vorherigen Definition als solche in PROVER 9, 
-dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ dafür aber möglich explizit mit Variablen verschiedem Typs zu arbeiten.\cite{cav2013, prover9manual} 
+dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ dafür aber möglich explizit mit Variablen verschiedener Typen zu arbeiten.\cite{cav2013, prover9manual} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Benutzung von Vampire}
-\label{chp:invocation}
+\section{Benutzung von Vampire}
+\label{sec:invocation}
 
 Grundsätzlich ist die Benutzung von VAMPIRE wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun kann direkt in der Kommandozeile eine TPTP-Formel eingegeben werden, die an VAMPIRE übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei direkt über die üblichen Kommandozeilenbefehle an VAMPIRE übergeben werden. Nachdem VAMPIRE das Problem erhalten hat, beginnt es direkt mit der Arbeit.
 
-\section{Kommandozeilenparameter}
-\label{sec:commands}
+$ vampire.exe < input.txt > output.txt $ beispielsweise liefert den Beweis für das in der input.txt geschriebene Problem und schreibt diesen, sonst in der Kommandozeile angezeigten Beweis, in die output.txt.
+
+\subsection{Kommandozeilenparameter}
+\label{subsec:commands}
 VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt von denen hier nur einige genannt werden.
 
-\subsection{-~-theory\_axioms\_off}
-\label{subsec:commandtheoryaxiomsoff}
+\subsubsection{-~-theory\_axioms\_off}
+\label{subsubsec: commandtheoryaxiomsoff}
 Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt VAMPIRE selbstständig im bekannte Axiome hinzu. Dies kann mit diesem Parameter unterbunden werden.
-\subsection{-~-proof\_off}
-\label{subsec:commandproofoff}
+\subsubsection{-~-proof\_off}
+\label{subsubsec: commandproofoff}
 Möchte man die Gewissheit, dass das Problem bewiesen wurde, aber keinen Beweis an sich ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
-\subsection{-~-t X oder -~-time\_limit X}
-\label{subsec:commandtimelimit}
+\subsubsection{-~-t X oder -~-time\_limit X}
+\label{subsubsec: commandtimelimit}
 Mit diesem Parameter und X als ganze Zahl bricht VAMPIRE nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
-In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. %Standardmäßig liegt das Zeitlimit bei 60  Sekunden???
-\subsection{-~-m X oder -~-memory\_limit X}
-\label{subsec:commandmemorylimit}
+In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
+\subsubsection{-~-m X oder -~-memory\_limit X}
+\label{subsubsec: commandmemorylimit}
 Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für VAMPIRE. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
-\subsection{-~-age\_weight\_ratio X:Y}
-\label{subsec:commandageweightratio}
+\subsubsection{-~-age\_weight\_ratio X:Y}
+\label{subsubsec: commandageweightratio}
 Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die VAMPIRE von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
 2:3 würde beispielsweise bedeuten, dass insgesamt 5 Klauseln gewählt werden, davon 2 der ältesten und 3 der leichtesten. 
-\subsection{-~-nongoal\_weight\_coefficient}
-\label{subsec:commandweightcoefficient}
+\subsubsection{-~-nongoal\_weight\_coefficient}
+\label{subsubsec: commandweightcoefficient}
 Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
-\subsection{-~-max\_weight}
-\label{subsec:commandmaxweight}
+\subsubsection{-~-max\_weight}
+\label{subsubsec: commandmaxweight}
 Stellt das ansonsten von VAMPIRE veränderbare maximale Klauselgewicht ein. VAMPIRE kann bei Speicherknappheit oder bei nutzen der $ limited~resource~strategy $ das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
-\subsection{-~-forced\_options}
-\label{subsec:commandforcedoptions}
+\subsubsection{-~-forced\_options}
+\label{subsubsec: commandforcedoptions}
 Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hintereinander gereiht werden um mehrfache Optionen gemeinsam zu forcieren. 
 \begin{itemize}
 	\item \textbf{propositional\_to\_bdd=off}\\
-	Schaltet das Einführen von Prädikaten für BDD-Variablen aus. \\
+		Schaltet das Einführen von Prädikaten für BDD-Variablen aus. \\
 	\item \textbf{splitting=off}\\
-	Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus. \\
+		Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus. \\
 	\item \textbf{equality\_proxy=off}\\
 	\item \textbf{general\_splitting=off}\\
 	\item \textbf{inequality\_splitting=0}\\
 	\item \textbf{naming=0}\\
-	Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
-	Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
+		Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
+		Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
 \end{itemize}
+	
 
-
-\subsection{-~-saturation\_algorithm}
-\label{subsec:commandssaturationalgorithm}
+\subsubsection{-~-saturation\_algorithm}
+\label{subsubsec: commandssaturationalgorithm}
 \begin{itemize}
 	\item \textbf{lrs}\\
-	Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist $lrs$, welcher sich auf die \\$ limited~resource~strategy $ bezieht.
-	Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited} \\
+			Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist $lrs$, welcher sich auf die \\$ limited~resource~strategy $ bezieht.
+			Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited} \\
 	\item \textbf{discount}\\
-	Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch WALDMEISTER, E und SPASS. 
-	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} \\
+			Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
+			Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch WALDMEISTER, E und SPASS. 
+			Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} \\
 	\item \textbf{otter}\\
-	Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch GANDALF und SPASS. 
-	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} \\
+			Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
+			Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch GANDALF und SPASS. 
+			Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} \\
 \end{itemize}
 
-\subsection{-~-modes}
-\label{subsec:commandsmodes}
+\subsubsection{-~-modes}
+\label{subsubsec:commandsmodes}
 
 Modes bestimmen den Ablauf des Beweisprozesses indem eine spezielle Strategie oder Strategiegemische verwendet werden. 
 Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \begin{itemize}
-	\item \textbf{casc} \\
-	Dieser auch bei dem gleichnamigen Wettbewerb verwendete Mode ist laut ~\cite{hoder2011slides}  der beste der möglichen Modes.
-	Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
-	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-	\item \textbf{casc\_ltb} \\
-	Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet.
-	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-	\item\textbf{ axiom\_selection} \\
-	Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
-	Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.\\
-	\item \textbf{clausify} \\
-	Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet. \\
-	\item \textbf{grounding} \\
-	Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
-	Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
-	\item \textbf{consequence\_elemination} \\
-	Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.\\
-	\item \textbf{bpa} \\
-	Bound Propagation (bpa) ersetzt hierbei für das Lösen von lineare Ungleichheiten (quantorenfreie lineare, reelle und rationale Arithmetik) das Superpositionscalculus.
-	\item \textbf{program\_analysis} \\
-	Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
+\item \textbf{casc} \\
+		Dieser auch bei dem gleichnamigen Wettbewerb verwendete Mode ist laut ~\cite{hoder2011slides}  der beste der möglichen Modes.
+		Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
+		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
+\item \textbf{casc\_ltb} \\
+		Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet.
+		Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
+\item\textbf{ axiom\_selection} \\
+		Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
+		Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.\\
+\item \textbf{clausify} \\
+		Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet. \\
+\item \textbf{grounding} \\
+		Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
+		Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
+\item \textbf{consequence\_elemination} \\
+		 Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.\\
+\item \textbf{bpa} \\
+		Bound Propagation (bpa) ersetzt hierbei für das Lösen von lineare Ungleichheiten (quantorenfreie lineare, reelle und rationale Arithmetik) das Superpositionscalculus.
+\item \textbf{program\_analysis} \\
+		Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
 \end{itemize}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Segfaults}
-\label{sec:segfaults}
+%\subsection{Segfaults}
+%\label{subsec:segfaults}
 
-\begin{itemize}
-	\item parentheses in input not aligned to magic waves in room
-	\item it crash
-\end{itemize}
+%\begin{itemize}
+%\item parentheses in input not aligned to magic waves in room
+%\item it crash
+%\end{itemize}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Funktionsweise}\label{chp:mechanics}
+\section{Funktionsweise}
+\label{sec:mechanics}
 So funktionsierts.
 
-\section{Preprocessing}\label{sec:preprocessing}
+\subsection{Preprocessing}
+\label{subsec:preprocessing}
 \begin{enumerate}
 	\item Wähle eine relevante Teilmenge von Formeln \\(optional).
 	\item Füge die Axiome hinzu (optional).
@@ -363,44 +412,53 @@ So funktionsierts.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Beweisverfahren}\label{sec:proofmech}
+\subsection{Beweisverfahren}
+\label{subsec:proofmech}
 
-\begin{defi}
+\begin{satset}
 	Saturated set of S: Contains S, no more formulas can be inferred under the inference system.\\
 	TODO: More math symbols!
-\end{defi}
+\end{satset}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ausgewählte Algorithmen im Detail}\label{sec:algos}
+\subsection{Ausgewählte Algorithmen im Detail}
+\label{subsec:algos}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Beweisausgabe}\label{chp:output}
+\section{Beweisausgabe}
+\label{sec:output}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Erklärung}\label{sec:outputexplained}
+\subsection{Erklärung}
+\label{subsec:outputexplained}
 
 \begin{itemize}
-	\item Formelnummer
-	\item Formel
-	\item ???
-	\item Regel
-	\item Benutzte Formeln
-	
+\item Formelnummer
+\item Formel
+\item ???
+\item Regel
+\item Benutzte Formeln
+
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Visualisierung}\label{sec:outputvis}
+\subsection{Visualisierung}
+\label{subsec:outputvis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Fazit}\label{chp:conclusion}
+\section{Fazit}
+\label{sec:conclusion}
 Write a small conclusion that summarizes what has been said ...?
 Open research areas...
 
-%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
 
-\backmatter
-  \tocbibliography
+% The bibliography entries are stored in "myrefs.bib"
+\bibliographystyle{abbrv}
+\bibliography{myrefs}
 
 \end{document}
+

@@ -1,0 +1,192 @@
+\documentclass{article}
+
+\include{Seminar}
+
+\usepackage{enumerate}
+
+\author{Name des Autors}
+
+\title{Name der Arbeit}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In diesem Dokument wird das Grundger\"ust einer
+Seminarausarbeitung vorgestellt.
+Wir zeigen, wie man einige der vordefinierten Befehle unserer Vorlage verwendet
+und geben eine grobe Strukturierung an.
+\end{abstract}
+
+\section{Einleitung}
+
+Hier beschreiben wir in Worten die Problemstellung unserer Arbeit. Wir
+versuchen dabei, Formeln u. \"a. zu vermeiden. Um das Beispiel zu
+vervollst\"andigen wenden wir uns einem konkreten Problem zu -- wir zeigen
+n\"amlich im Verlauf dieser Arbeit, wie man mit Hilfe des bekannten
+Unendlichkeitsaxioms die Existenz der nat\"urlichen Zahlen erh\"alt und zeigen
+exemplarisch auf, wie man die Arithmetik darauf erkl\"art. Im zweiten Kapitel
+werden wir dazu den Begriff der induktiven Menge einf\"uhren und die Existenz
+einer kleinsten induktiven Menge (bez\"uglich Inklusion) zeigen. Im dritten
+Abschnitt gehen wir auf das Prinzip der vollst\"andigen Induktion ein und geben
+eine Anwendung an.
+
+\section{Die nat\"urlichen Zahlen}
+
+Wir benutzen die Definition der nat\"urlichen Zahlen \"uber sogenannte
+induktive Mengen.
+
+\begin{definition}{Induktive Menge}{def:induktiveMenge}
+Sei $\mathcal{I}$ eine Menge. $\mathcal{I}$ hei\ss{}t \textbf{induktiv}
+\begin{align*}
+:\!\iff \emptyset \in \mathcal{I}
+        \, \wedge \,
+        \forall\, A \in \mathcal{I}: A \cup \set{A} \in \mathcal{I}\text.
+\end{align*}
+\end{definition}
+
+Die Existenz induktiver Mengen kann \"uber das Unendlichkeitsaxiom zugesichert
+werden.
+
+\begin{lemma}{Durchschnitte induktiver Mengen sind induktiv}{lem:durchschnitte}
+Sei $\mathfrak{I}$ eine nichtleere Menge induktiver Mengen. Dann ist auch
+$\bigcap\mathfrak{I}$ induktiv.
+\end{lemma}
+\begin{proof}
+ Es gilt
+zun\"achst:
+\begin{align*}
+    \emptyset \in \bigcap\mathfrak{I}
+    & \iff
+    \forall\, \mathcal{A} \in \mathfrak{I} : \emptyset \in \mathcal{A}
+        \tag{Definition $\bigcap$}\\
+    & \iff \text{true}
+        \tag{siehe unten}
+\end{align*}
+Die Korrektheit des letzten Schrittes folgt aus der Tatsache, dass jedes
+$\mathcal{A} \in \mathfrak{I}$ induktiv ist und somit $\emptyset \in
+\mathcal{A}$ gilt. Sei nun $A \in \bigcap\mathfrak{I}$. Dann gilt:
+\begin{align*}
+    A \cup \set{A} \in \bigcap\mathfrak{I} 
+    & \iff \forall\, \mathcal{A} \in \mathfrak{I}:
+                     A \cup \set{A} \in \mathcal{A}
+         \tag{Definition $\bigcap$}\\
+    & \iff \forall\, \mathcal{A} \in \mathfrak{I}: \text{true}
+         \tag{$\mathcal{A} \in \mathfrak{I} \Rightarrow \mathcal{A}$ induktiv}\\
+    & \iff \text{true}
+\end{align*}
+Damit ist $\bigcap\mathfrak{I}$ eine induktive Menge.
+\end{proof}
+
+
+\begin{lemma}{Kleinste induktive Menge}{lem:kleinsteInduktiveMenge}
+Es existiert eine induktive Menge $\mathcal{I}_0$ mit der Eigenschaft, dass
+f\"ur jede induktive Menge $\mathcal{I}$ gilt:
+$\mathcal{I}_0 \subseteq \mathcal{I}$.
+\end{lemma}
+\begin{proof}
+Sei $\mathcal{M}$ eine induktive Menge (existiert nach dem
+Unendlichkeitsaxiom). Wir definieren $\mathfrak{I} := \Set{ \mathcal{A}
+\subseteq \mathcal{M} | \mathcal{A} \text{ induktiv}}$. Offensichtlich ist
+$\mathfrak{I} \neq \emptyset$, da $\mathcal{M} \in \mathfrak{I}$ gilt. Damit
+ist die folgende Setzung wohldefiniert:
+\[\mathcal{I}_0 := \bigcap \mathfrak{I} \text.\]
+Nach Lemma \ref{lem:durchschnitte} wissen wir bereits, dass $\mathcal{I}_0$
+induktiv ist. Sei nun $\mathcal{I}$ eine weitere induktive Menge. Dann ist
+wiederum nach Lemma \ref{lem:durchschnitte} die Menge $\mathcal{I} \cap
+\mathcal{I}_0$ induktiv. Au\ss{}erdem ist $\mathcal{I} \cap
+\mathcal{I}_0 \subseteq \mathcal{I}_0 \subseteq \mathcal{M}$, also $\mathcal{I}
+\cap \mathcal{I}_0 \in \mathfrak{I}$. Damit gilt $\mathcal{I}_0 =
+\bigcap\mathfrak{I} \subseteq \mathcal{I} \cap \mathcal{I}_0$ und somit
+$\mathcal{I} \cap \mathcal{I}_0 = \mathcal{I}_0$, was \"aquivalent zu
+$\mathcal{I}_0 \subseteq \mathcal{I}$ ist. Also ist $\mathcal{I}_0$ die
+kleinste induktive Menge.
+\end{proof}
+
+\begin{definition}{Die nat\"urlichen Zahlen}{def:natuerlicheZahlen}
+Wir definieren die Menge der nat\"urlichen Zahlen $\mathbb{N}$ als die nach dem
+Lemma \ref{lem:kleinsteInduktiveMenge} existierende kleinste induktive Menge.
+Im weiteren Verlauf werden wir die Elemente dieser Menge mit kleinen
+lateinischen Buchstaben bezeichnen. Ferner definieren wir $0 := \emptyset$.
+\end{definition}
+
+\section{Arithmetik der nat\"urlichen Zahlen}
+
+Nach der rein mengentheoretischen Einf\"uhrung widmen wir uns nun der
+Definition von Rechenoperationen auf den nat\"urlichen Zahlen zu.
+
+\begin{definition}{Nachfolgerfunktion}{def:nachfolgerfunktion}
+Wir definieren:
+\[\nu : \mathbb{N} \to \mathbb{N}, \, n \mapsto n \cup \set{n}\]
+und nennen diese Funktion \textbf{die Nachfolgerfunktion auf den nat\"urlichen
+Zahlen}.
+\end{definition}
+
+Die Idee bei dieser Funktion ist, dass f\"ur eine nat\"urliche Zahl $n \in
+\mathbb{N}$ durch $\nu(n)$ der Nachfolger gegeben ist, den man sich anschaulich
+als $n + 1$ vorstellen kann.
+
+\begin{theorem}{Vollst\"andige Induktion (abstrakt)}
+               {satz:vollstaendigeInduktion1}
+Sei $A \subseteq \mathbb{N}$ mit den folgenden Eigenschaften:
+\begin{enumerate}[(a)]
+    \item $0 \in A$,
+    \item $\forall\, n \in \mathbb{N}: n \in A \rightarrow \nu(n) \in A$.
+\end{enumerate}
+Dann gilt $A = \mathbb{N}$.
+\end{theorem}
+\begin{proof}
+Die Eigenschaften (a), (b) besagen offensichtlich, dass $A$ eine induktive
+Menge ist. Da $\mathbb{N}$ die kleinste induktive Menge ist, gilt $\mathbb{N}
+\subseteq A$. Nach Voraussetzung gilt aber auch $A \subseteq \mathbb{N}$, also
+$A = \mathbb{N}$.
+\end{proof}
+
+Die Idee an dem Satz ist folgende -- will man zeigen, dass etwas f\"ur alle
+nat\"urlichen Zahlen gilt, so betrachtet man die Menge jener Elemente, f\"ur
+welche die besagte Eigenschaft gilt. Von dieser Menge zeigt man dann, dass sie
+die $0$ enth\"alt und mit jedem Element $n$ auch deren Nachfolger $\nu(n)$.
+
+Wir wenden diesen Satz nun sofort in genau dieser Form an, um eine Darstellung
+der nat\"urlichen Zahlen zu erhalten.
+
+\begin{lemma}{Darstellung nat\"urlicher Zahlen}
+             {lem:darstellung}
+Sei $n \in \mathbb{N}$. Dann ist $n = 0$ oder es existiert $m \in \mathbb{N}$
+mit der Eigenschaft $n = \nu(m)$.
+\end{lemma}
+\begin{proof}
+Sei
+$A:=\Set{n \in \mathbb{N} | n = 0 \vee \exists\, m \in \mathbb{N}: n = \nu(m)}$.
+Klar ist $0 \in A$. Sei $n \in A$. Wir m\"ussen zeigen, dass $\nu(n) \in A$
+gilt. Es existiert ein $m \in \mathbb{N}$ mit $\nu(n) = \nu(m)$ (n\"amlich
+$m := n$). Damit ist aber $\nu(n) \in A$. Nach Satz
+\ref{satz:vollstaendigeInduktion1} erhalten wir $A = \mathbb{N}$.
+\end{proof}
+
+\section{Diskussion und Ausblick}
+
+Wir haben mit Hilfe rein mengentheoretischer Methoden und des
+Un\-end\-lich\-keits\-ax\-ioms die nat\"urlichen Zahlen eingef\"uhrt. Mit Hilfe der
+Nachfolgerfunktion haben wir dann das Induktionsprinzip bewiesen und als
+Anwendung die Darstellung der nat\"urlichen Zahlen als $0$ oder als Nachfolger
+einer anderen nat\"urlichen Zahl erhalten. Unter Verwendung der Injektivit\"at
+der Funktion $\nu$ k\"onnen wir auch die Addition nat\"urlicher Zahlen
+erkl\"aren, welche dann wiederum die Definition der Multiplikation und der
+Potenzierung zul\"asst. Eigenschaften dieser arithmetischen Operationen
+k\"onnen wir jedes Mal mit Hilfe des Induktionsprinzips beweisen.
+
+Die vorgestellte Einf\"uhrung nat\"urlicher Zahlen ist nicht die einzig
+naheliegende. In der Variante von Peano werden die nat\"urlichen Zahlen direkt
+mit Hilfe der Nachfolgerfunktion eingef\"uhrt und Eigenschaften dieser Funktion
+werden axiomatisch gefordert (siehe \cite{Peano}).
+
+Weitere Hintergrundinformationen zur Einf\"uhrung nat\"urlicher Zahlen findet
+man in \cite{Dedekind}. Wir verweisen weiterhin auf \cite{Zermelo}, worin die
+Axiome der Mengenlehre vorgestellt und untersucht werden.
+
+\bibliographystyle{plain}
+\bibliography{Seminar}
+
+\end{document}

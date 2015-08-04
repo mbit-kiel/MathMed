@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% German language settings. Allows the use of umlauts.                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% These packages provide fonts for the document, but may require manual        %
+% installation. The usual procedure (on Linux) is the following:               %
+% 1. Download the package files                                                %
+% 2. Extract the files to ~/texmf/tex/latex/newpackage                         %
+% 3. If never done before, run "texhash ~/texmf" in a terminal                 %
+% 4. run "sudo texhash" in a terminal                                          %
+%                                                                              %
+% At least one of these fonts is most likely available on your system. If this %
+% is not the case, you can simply comment all package imports to use the       %
+% default font "Computer Modern Roman".                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TeX Gyre Times 
+\usepackage{tgtermes}
+
+% Fourier Font
+% \usepackage{fourier}
+
+% A somewhat outdated Times alternative
+% \usepackage{mathptmx}
+
+% A Palatino substitute with adjusted line spreading.
+% \usepackage{mathpazo}
+% \linespread{1.05}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This package provides the useful commands \set and \Set, that can be used to %
+% denote sets. The \set command uses rigid brackets, whereas the \Set command  %
+% employs flexible brackets to enclose the set.                                %
+% Examples:                                                                    %
+%  A \setminus \set{a_0}                                                       %
+%  \set{x \in A | x \le 4}                                                     %
+%  \Set{\int_{\Omega} f d\mu | f \in \mathcal{L}_2(\Omega, \mathfrak{A}, \mu)} %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{braket}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Several packages for mathematical symbols.                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath, amsfonts, amssymb}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provides double-stroked black board letters. In general \mathbb{LETTER is    %
+% preferrable, but this package also provides a double-stroked 1: mathds{1}.   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage{dsfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This package provides theorem-like environments.                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsthm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem environments, use "thm" for italic fonts inside theorem environments %
+% and "def" for normal fonts. These differ from the originals: newline is      %
+% created after the complete name (including optional parenthesis) of the      %
+% theorem.                                                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+\newtheoremstyle{thm}       % name
+    {15pt}                  % Space above
+    {10pt}                  % Space below
+    {\itshape}              % Body font
+    {}                      % indent amount
+    {\bf}                   % Theorem head font
+    {}                      % Punctuation after theorem head
+    {\newline}              % space after theorem head
+    {}                      % Theorem head spec
+
+\newtheoremstyle{def}
+    {15pt}
+    {10pt}
+    {}
+    {}
+    {\bf}
+    {}
+    {\newline}
+    {}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The following commands provide enumeration features that yield a section-    %
+% based numbering, which is continous through all defined environments. This   %
+% is achieved by anchoring one environment to the section numbering. All       %
+% subsequent environment are numbered in the same fashion as the single one.   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\swapnumbers
+
+\theoremstyle{thm}
+
+\newtheorem{intTheorem}{Satz}[section]             % Theorem
+\newtheorem{intCorollary}[intTheorem]{Korollar}    % Corollary
+\newtheorem{intLemma}[intTheorem]{Lemma}           % Lemma
+
+\theoremstyle{def}
+\newtheorem{intDefinition}[intTheorem]{Definition} % Definition
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Actual environments. The parameters are:                                     %
+% #1 - name of the block (e.g. term to be defined)                             %
+% #2 - label of the block (purely for internal reference purposes)             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{theorem}[2] % 1=Name, 2=Label
+  {\begin{intTheorem}[#1] 
+   \label{#2}
+   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}} 
+  {\end{intTheorem}}
+
+\newenvironment{corollary}[2] % 1=Name, 2=Label
+  {\begin{intCorollary}[#1]
+   \label{#2}
+   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}}
+  {\end{intCorollary}}
+
+\newenvironment{lemma}[2] % 1=Name, 2=Label
+  {\begin{intLemma}[#1]
+   \label{#2}
+   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}} 
+  {\end{intLemma}}
+ 
+\newenvironment{definition}[2] % 1=Name, 2=Label
+  {\begin{intDefinition}[#1]
+   \label{#2}
+   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} {#1}}}
+  {\end{intDefinition}}
