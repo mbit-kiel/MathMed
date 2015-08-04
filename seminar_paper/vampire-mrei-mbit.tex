@@ -39,8 +39,7 @@
 		bnf,
 	},
 	tfffunctions={
-		\$sum,
-		\$product,
+		\$sum,		\$product,
 		\$difference,
 		\$uminus,
 		\$torat,
@@ -69,9 +68,9 @@
 		sum,
 	},
 	sensitive=true, % keywords are case-sensitive
-	morecomment=[l]{//}, % l is for line comment
+	morecomment=[l]{\%}, % l is for line comment
 	morecomment=[s]{/*}{*/}, % s is for start and end delimiter
-	morestring=[b]" % defines that strings are enclosed in double quotes
+	%morestring=[b]" % defines that strings are enclosed in double quotes
 }
 
 % Define Colors for highlighting
@@ -83,6 +82,7 @@
 \definecolor{red}{RGB}{205,38,38}
 \definecolor{orange}{RGB}{205,102,0}
 \definecolor{brown}{RGB}{139,69,19}
+\definecolor{grey}{RGB}{160,160,160}
 
 % Set Language for highlighing
 \lstset{
@@ -96,11 +96,10 @@
 	showstringspaces=false, % lets spaces in strings appear as real spaces
 	breaklines=true, % wrap lines if they don't fit
 	frame=trbl, % draw a frame at the top, right, left and bottom of the listing
-	%frameround=tttt, % make the frame round at all four corners
-	%framesep=4pt, % quarter circle size of the round corners
+	frameround=tttt, % make the frame round at all four corners
 	numbers=left, % show line numbers at the left
 	numberstyle=\tiny\ttfamily, % style of the line numbers
-	%commentstyle=\color{missing_color}, % style of comments
+	commentstyle=\color{grey}, % style of comments
 	%stringstyle=\color{missing_color}, % style of strings
 	tfftypesstyle=\color{lightblue}, % style of tff-types (e.g. $int)
 	formulatypesstyle=\color{purple}, % style of foruma-types (e.g. fof)
@@ -244,7 +243,7 @@ wir nicht zwingend eines zur Zeit in einem Axiom definieren, sondern manchmal al
 Ein Prädikat wird in VAMPIRE definiert indem es benutzt wird und im Verlauf des Beweises sucht VAMPIRE nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
 So wandelt sich die obige Formel in TPTP um in \\ \\
 \begin{lstlisting}[language=tptp]
-! [X,A] : (member(X,sum(A)) 
+! [X,A] : (member(X,sum(A))
 	<=> ? [Y] : (member(Y,A) & member(X,Y)).
 \end{lstlisting}
 $\in$ wurde durch $member(\dots)$ ersetzt, $\bigcup$ durch $sum(\dots)$.
