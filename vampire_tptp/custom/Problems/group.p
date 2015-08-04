@@ -5,6 +5,6 @@ fof(left_inverse,axiom, ! [X] : mult(inverse(X),X) = e).
 %---- (x*y)*z = x*(y*z)
 fof(associativity, axiom, ! [X,Y,Z] : mult(mult(X,Y),Z) = mult(X,mult(Y,Z))).
 %---- x*x = 1
-%fof(group_of_order_2, hypothesis, ).
+fof(group_of_order_2, hypothesis, ! [X] : mult(X,X) = e).
 %---- prove x*y = y*x
-fof(commutativity, conjecture, (! [X] : (mult(X,X) = e)) => (! [A,B] : mult(A,B) = mult(B,A))).
+fof(commutativity, conjecture, ! [X,Y] : mult(X,Y) = mult(Y,X)).
