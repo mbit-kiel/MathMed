@@ -160,22 +160,24 @@ Schlussendlich \hyperref[sec:conclusion]{Fazit}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Grundlagen}
 \label{sec:foundations}
-Automatische Theorembeweiser (ATP) versuchen eigenständig Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
-Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann und diesem dann zur Bearbeitung übergeben.
+Automatische Theorembeweiser (ATP) versuchen ohne Benutzerinteraktion Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
+Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann.
 Diese Formalisierung ist auch für triviale Probleme nicht gleichermaßen einfach und ist daher eine gefährliche Fehlerquelle. 
 Nichtsdestotrotz ist für komplexe Probleme das Formalisieren einfacher als das Beweisen per Hand und nach korrekter Formalisierung liefert der ATP, 
 sofern er einen Beweis findet, einen, wovon auszugehen ist, richtigen Beweis. 
-Anwendung finden solche Beweiser in vielerlei Gebieten, wie zum Beispiel Software- und Hardware-Verifikation, Hardware Design und Systemen mit Wissenssammlungen.
+Anwendung finden ATP in vielerlei Gebieten, unter anderem Hardware-Design und -verifikation, Softwareverifikation, wissensbasierte Systeme und klassische mathematische Problemstellungen.
+Der Vorteil von ATP liegt in diesen Gebieten in der Fähigkeit, Probleme zu bearbeiten, 
+die für eine manuelle Beweisführung (teils um Größenordnungen) zu umfangreich sind.
 
-VAMPIRE ist ein ATP für Logik erster Stufe, der erstmals 1993 implementiert wurde und im Verlauf mehrere Male um- und neugeschrieben wurde.
-Der etwa 152,000 SLOC und wurde hauptsächlich von Andrei Voronkov und Kry{\v{s}}tof Hoder vollständig in C++ geschrieben, 
-wobei neuere Entwicklungen und Ideen vermehrt von Laura Kov{\'a}cs stammen und Ioan Dragan die Arbeiten am SAT-Beweiser und der bound propagation übernommen hat.
-Derzeitig wird an der vierten Version von VAMPIRE gearbeitet.
+VAMPIRE ist ein ATP für Logik erster Stufe (Prädikatenlogik) mit Gleichheit. Die erste Implementierung stammt von 1993, im Verlauf wurde die Software mehrfach um- und neugeschrieben.
+Die Software umfasst heute etwa 152,000 SLOC in C++ und wurde hauptsächlich von Andrei Voronkov und Kry{\v{s}}tof Hoder an der University of Manchester entwickelt.
+Neuere Entwicklungen und Ideen stammen vemehrt von Laura Kov{\'a}cs und Ioan Dragan, der Arbeiten am SAT-Beweiser und der Bound Propagation übernommen hat.
+Derzeit wird an der vierten Version von VAMPIRE gearbeitet.
 
 VAMPIRE hat dreißig Preise gewonnen und seit 1999 in der Weltmeisterschaft für automatische Theorembeweiser (CASC) jedes Mal mindestens in einer Kategorie gewonnen.
 Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt VAMPIRE allgemein hin als sehr schnell.
 Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
-Wir vermögen zu bestätigen, dass die uns vorliegende Version auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
+Wir vermögen zu bestätigen, dass die uns vorliegende Version 3.0 auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
 Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist VAMPIRE zur Programmverifikation für C-Programme mit Schleifen geeignet. 
 Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
 
@@ -183,16 +185,16 @@ Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer l
 \section{TPTP Eingabe}
 \label{sec:input}
 
-TPTP ist die Sprache in der Probleme geschrieben sein müssen, damit Vampire sie bearbeiten kann. Sie wird ebenfalls in der Thousands of Problems for Theorem Provers (TPTP) Bibliothek benutzt.
-In ihr unterstützte Formeltypen sind unteranderem 
+TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit Vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Therembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek.\\
+Die Sprache unterstützt folgende Formeltypen:
 \begin{itemize}
-	\item first order formula (FOF)
-	\item typed first order formula (TFF)
-	\item clause normal form (CNF)
+	\item First order formula (FOF)
+	\item Typed first order formula (TFF)
+	\item Clause normal form (CNF)
 	\item TPTP Process Instruction Language  (TPI)
-	\item typed higher order form (THF)
+	\item Typed higher order form (THF)
 \end{itemize}
-von denen die für uns hier wichtigsten, die VAMPIRE zudem unterstützt, FOF, TFF und CNF sind.
+Vampire unterstützt hieraus FOF, TFF und CNF.
 
 \subsection{Syntax}
 \label{subsec:syntax}
@@ -460,9 +462,19 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \section{Funktionsweise}
 \label{sec:mechanics}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Beweisverfahren}
+\label{subsec:proofmech}
+
+Dieser Abschnitt gibt einen Einblick in die beweisrelevanten Abläufe, die durch einen typischen Aufruf von VAMPIRE ausgelöst werden, bis zur Ausgabe eines Ergebnisses.
+
 
 \subsection{Preprocessing}
 \label{subsec:preprocessing}
+
+Nachdem VAMPIRE die Eingabe gelesen hat, finden vor der eigentlichen, oft zeitintensiven
+Beweissuche einige vorbereitende Schritte statt.
+
 \begin{enumerate}
 	\item Wähle eine relevante Teilmenge von Formeln \\(optional).
 	\item Füge die Axiome hinzu (optional).
@@ -486,17 +498,36 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 	\item Entferne Klauseldefinitionen (optional).
 \end{enumerate}
 
+\subsection{Beweis durch Widerspruch}
+\label{subsec:refutation}
 
+Vampire beweist Theoreme durch Widerspruch.
+Dazu wird die Negation der Hypothese $F$, zusammen mit den Axiomen,
+der Formelmenge hinzugefügt.
+Nun leitet Vampire durch Inferenz neue Formeln aus den Axiomen und $F$ her, 
+mit dem Ziel, die leere Klausel $\bot$ (\texttt{\$false} in TPTP-Schreibweise) zu folgern.
+Kann diese hergeleitet werden, ist die gesamte Formelmenge unerfüllbar.
+Demzufolge hat die \textit{Negation} der Hypothese unter den angegebenen Axiomen keine Gültigkeit,
+im Umkehrschluss ist die Hypothese $F$ bewiesen. \cite[S. 5]{cav2013}
 
-
+Ist die Formelmenge hingegen erfüllbar, kann $\neg F$ aus den Axiomen bewiesen werden.
+Damit ist $F$ widerlegt. \cite[S. 7]{cav2013}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Beweisverfahren}
-\label{subsec:proofmech}
+\subsection{Inferenzsystem}
+\label{subsec:inference}
+Resolution and superposition inference system
 
-\begin{definition}{Gesättigte Formelmenge}{def:saturatedset}
-	Eine Formelmenge $S$ heißt gesättigt unter einem Inferenzsystem $\mathds{I}$, wenn für jede $\mathds{I}$-Inferenz mit Prämissen in $S$ die Konklusion auch in $S$ ist.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Saturation}
+\label{subsec:saturation}
+
+
+\begin{definition}{Saturierte Formelmenge}{def:saturatedset}
+	Eine Formelmenge $S$ heißt saturiert unter einem Inferenzsystem $\mathds{I}$, wenn für jede $\mathds{I}$-Inferenz mit Prämissen in $S$ die Konklusion auch in $S$ ist.
 \end{definition}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ausgewählte Algorithmen im Detail}
@@ -507,19 +538,27 @@ Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
 \section{Beweisausgabe}
 \label{sec:output}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Erklärung}
-\label{subsec:outputexplained}
-
+Während der Formelerzeugung bekommt jede Formel eine fortlaufende Nummer, beginnend mit den Axiomen und den Eingabeformeln. Wird ein Beweis gefunden, so gibt es einen gerichteten azyklischen Graphen (\textit{directed acyclic graph, DAG}) mit genau den Formeln als Knoten, welche zum Beweis (also dem Knoten \texttt{\$false}) hinführen. Die Kanten des DAG stellen Inferenz dar. Dieser DAG wird in der Beweisausgabe zeilenweise angezeigt. 
+Am Beispiel dieser Zeile werden die einzelnen Bestandteile erklärt:\\ \\
+\texttt{28. mult(inverse(X2),e) = X2 (2:6) [superposition 22,10]}
 \begin{itemize}
-	\item Formelnummer
-	\item Formel
-	\item ???
-	\item Regel
-	\item Benutzte Formeln
+	\item Formelnummer (\texttt{28.})\\
+		Die eindeutige Nummer, die jeder Formel zugewiesen wird
+	\item Konklusion (\texttt{mult(inverse(X2),e) = X2})\\
+		Die Konklusionsformel in TPTP-Syntax. Hier können automatisch erzeugte und abgeänderte
+		Variablen- und Literalnamen auftauchen.
+	\item ??? (\texttt{(2:6)})\\
+		Kein Plan wofür das steht.
+	\item Resolutionsregel (\texttt{superposition})\\
+		Die Regel, anhand derer diese Formel hergeleitet wurde.\\
+		Formeln der Eingabe sind als \texttt{[input]} deklariert.
+	\item Prämisse (\texttt{22,10})\\
+		In diesem Resolutionsschritt benutzte Formeln.
+		
 	
 \end{itemize}
+In dieser Zeile ist also Formel 28 durch Superposition aus Formeln 22 und 10 hergeleitet worden.
+Meist erzeugt Vampire viel mehr Formeln, die nicht zum Beweis führen und daher nicht zum Beweis-DAG gehören. Diese werden nicht ausgegeben.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Visualisierung}
