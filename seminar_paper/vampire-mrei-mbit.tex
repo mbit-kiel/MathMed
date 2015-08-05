@@ -11,6 +11,9 @@
 \setlist[itemize,2]{label=$\circ$} %nur blubbel für aufzählung zweiter-stufe
 \setlist[itemize]{itemsep=1pt} % geringerer abstand zwischen items
 
+\newcommand{\vampire}{\textsc{Vampire}~} 
+\newcommand{\proverNine}{\textsc{Prover}9~} 
+
 \makeatletter %definition of classes for highlighting
 \lst@InstallKeywords k{tfftypes}{tfftypesstyle}\slshape{tfftypesstyle}{}ld
 \lst@InstallKeywords k{tfffunctions}{tfffunctionsstyle}\slshape{tfffunctionsstyle}{}ld
@@ -117,7 +120,7 @@
 	Martin Bittermann
 }
 
-\title{VAMPIRE: Grundlagen und Anwendung}
+\title{\vampire: Grundlagen und Anwendung}
 
 % Generate PDF hyperlinks when referencing sections and stuff. 
 \usepackage{hyperref}
@@ -136,12 +139,12 @@
 	%Grafiken nicht am Anfang des paper, eher am anfang von kapitel 2.
 	\texttt{ARBEITSFASSUNG}\\
 	\\
-	Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser VAMPIRE und
+	Dieser Artikel verschafft zunächst ein grundlegendes Verständnis über den automatischen Theorembeweiser \vampire und
 	stellt den Bezug zu ~\cite{cav2013} her. \\
 	Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
 	die Funktionsweise und einige ausgewählte Algorithmen erklärt und
-	die Ausgabe von VAMPIRE sowohl analysiert als auch grafisch dargestellt.
-	Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, VAMPIRE mit diesen Verglichen 
+	die Ausgabe von \vampire sowohl analysiert als auch grafisch dargestellt.
+	Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, \vampire mit diesen Verglichen 
 	und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
 \end{abstract}
 
@@ -149,7 +152,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Einleitung}
 \label{sec:introduction}
-
 Automatische Theorembeweiser (ATP) versuchen ohne Benutzerinteraktion Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
 Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann.
 Diese Formalisierung stellt auch für triviale Probleme eine gefährliche Fehlerquelle dar. 
@@ -160,25 +162,25 @@ Komponente in das automatische Theorembeweisen.
 Anwendung finden ATP in vielerlei Gebieten, unter anderem Hardwaredesign und -verifikation, Softwareverifikation, wissensbasierte Systeme und klassische mathematische Problemstellungen.
 Der Vorteil von ATP liegt in diesen Gebieten in der Fähigkeit, Probleme zu bearbeiten, 
 die für eine manuelle Beweisführung (teils um Größenordnungen) zu umfangreich sind.
-VAMPIRE ist ein ATP für Logik erster Stufe (Prädikatenlogik) mit Gleichheit. Die erste Implementierung stammt von 1993, im Verlauf wurde die Software mehrfach um- und neugeschrieben.
+\vampire ist ein ATP für Logik erster Stufe (Prädikatenlogik) mit Gleichheit. Die erste Implementierung stammt von 1993, im Verlauf wurde die Software mehrfach um- und neugeschrieben.
 Die Software umfasst heute etwa 152,000 SLOC in C++ und wurde hauptsächlich von Andrei Voronkov und Kry{\v{s}}tof Hoder an der University of Manchester entwickelt.
 Neuere Entwicklungen und Ideen stammen vemehrt von Laura Kov{\'a}cs und Ioan Dragan, der Arbeiten am SAT-Beweiser und der Bound Propagation übernommen hat.
-Derzeit wird an der vierten Version von VAMPIRE gearbeitet.
-VAMPIRE hat dreißig Preise gewonnen und seit 1999 in der Weltmeisterschaft für automatische Theorembeweiser (CASC) jedes Mal mindestens in einer Kategorie gewonnen.
-Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt VAMPIRE allgemein hin als sehr schnell.
+Derzeit wird an der vierten Version von \vampire gearbeitet.
+\vampire hat dreißig Preise gewonnen und seit 1999 in der Weltmeisterschaft für automatische Theorembeweiser (CASC) jedes Mal mindestens in einer Kategorie gewonnen.
+Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt \vampire allgemein hin als sehr schnell.
 Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
 Wir vermögen zu bestätigen, dass die uns vorliegende Version 3.0 auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
-Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist VAMPIRE zur Programmverifikation für C-Programme mit Schleifen geeignet. 
+Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist \vampire zur Programmverifikation für C-Programme mit Schleifen geeignet. 
 Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
-Als Primärquelle für diese Arbeit dient der Artikel \textit{First-Order Theorem Proving and VAMPIRE}~\cite{cav2013}.
+Als Primärquelle für diese Arbeit dient der Artikel \textit{First-Order Theorem Proving and \vampire}~\cite{cav2013}.
 Weitere Informationen stammen aus \textit{Interpolation and Symbol Elimination in Vampire}~\cite{hoder2010} 
 und \textit{Finding Loop Invariants for Programs over Arrays Using a Theorem Prover}~\cite{kovacs2009finding}.
 Die Arbeit ist praxisorientiert und kann als Einstiegstutorial verwendet werden.
 In dieser \hyperref[sec:introduction]{Einleitung} wurden Grundlagen über automatische Theorembeweiser vermittelt, die einen schnellen Einstieg in das Thema ermöglichen.\\
-Als Vorbereitung für die Benutzung von VAMPIRE wird auf die Syntax und Semantik der von VAMPIRE verwendeten \hyperref[sec:input]{Problembeschreibungssprache TPTP} eingegangen. Es werden Hilfestellungen zur Formulierung von Axiomen und Problemen gegeben, sowie auf Erweiterungen der Sprache durch VAMPIRE eingegangen.
+Als Vorbereitung für die Benutzung von \vampire wird auf die Syntax und Semantik der von \vampire verwendeten \hyperref[sec:input]{Problembeschreibungssprache TPTP} eingegangen. Es werden Hilfestellungen zur Formulierung von Axiomen und Problemen gegeben, sowie Erweiterungen der Sprache durch \vampire dargelegt.
 Mit dieser Grundlage wird die \hyperref[sec:invocation]{Benutzung von Vampire}, insbesondere der Aufruf des Programms und die vielen einstellbaren Optionen behandelt.\\
-Anschließend wird die \hyperref[sec:mechanics]{Funktionsweise} von VAMPIRE in den Grundzügen erklärt. Das zugrunde liegende Beweisverfahren wird erläutert und ausgewählte Algorithmen erklärt.\\
-Schließlich folgt eine Erklärung der \hyperref[sec:output]{Beweisausgabe}. Es wird versucht, mit VAMPIRE erzeugte Beweise nachzuvollziehen.\\
+Anschließend wird die \hyperref[sec:mechanics]{Funktionsweise} von \vampire in den Grundzügen erklärt und das zugrunde liegende Beweisverfahren mit einigen ausgewählten Algorithmen erläutert.\\
+Schließlich folgt eine Veranschaulichung der \hyperref[sec:output]{Beweisausgabe}. Es wird versucht, mit \vampire erzeugte Beweise nachzuvollziehen.\\
 Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
 
 
@@ -187,7 +189,7 @@ Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
 \section{TPTP Eingabe}
 \label{sec:input}
 
-TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit Vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Therembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek. Die Sprache unterstützt folgende Formeltypen:
+TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit Vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Therembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek. Die Sprache unterstützt unteranderem folgende Formeltypen:
 \begin{itemize}
 	\item First order formula (FOF)
 	\item Typed first order formula (TFF)
@@ -195,7 +197,7 @@ TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit
 	\item TPTP Process Instruction Language  (TPI)
 	\item Typed higher order form (THF)
 \end{itemize}
-Vampire unterstützt hieraus FOF, TFF und CNF.
+Die wichtigsten, die von \vampire unterstützten werden, sind FOF, TFF und CNF.
 
 \subsection{Syntax}
 \label{subsec:syntax}
@@ -218,89 +220,88 @@ Vampire unterstützt hieraus FOF, TFF und CNF.
 	\hline
 \end{tabular} 
 \end{wraptable}
-Die Syntax von TPTP ist wie folgt definiert:\\
-Eine Formel in TPTP beginnt stets mit der Information über ihren Typ. Hierbei können zum Beispiel $fof(\dots)$, $tff(\dots)$, $cnf(\dots)$ und einige mehr verwendet werden.
+Eine Formel in TPTP beginnt stets mit der Information über ihren Typ. Hierbei können zum Beispiel \textit{fof(...), tff(...), cnf(...)} und einige mehr verwendet werden.
 Innerhalb der Klammern werden drei Bereiche unterschieden, die jeweils mit einem Komma voneinander getrennt sind. 
 Zuerst kommt der Name der Formel, welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt noch eindeutig sein muss,
-dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (axiom), eine Hypothese (hypothesis) oder auch eine Behauptung (conjecture) handeln.
+dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (\textit{axiom}), eine Hypothese (\textit{hypothesis}) oder auch eine Behauptung (\textit{conjecture}) handeln.
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
-Letztendlich steht die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
+Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
 \subsection{First order formula (FOF)}
 \label{subsec:tptpfof}
-Wollen wir nun die Formel 
 \[\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y,\]
-die für einen späteren Beweis als Axiom dienen soll, in TPTP umwandeln, 
+Wollen wir nun die oben gezeigte Formel in TPTP umwandeln,
 so bedarf es der Definition der Operationen, die im formalen Aufschrieb einfach benutzt werden können, 
 die in der Syntax von TPTP jedoch nicht vorhanden sind.
 Hierzu gehört neben $\in$ auch  $\bigcup$. 
 Nun verhält es sich derart, dass wenn wir die fehlenden Operationen als Prädikate definieren, 
 wir nicht zwingend eines zur Zeit in einem Axiom definieren, sondern manchmal allein durch die Definition und Nutzung eines Prädikates der Verwendungszweck erschlossen werden kann.
-Ein Prädikat wird in VAMPIRE definiert indem es benutzt wird und im Verlauf des Beweises sucht VAMPIRE nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
+Ein Prädikat wird in \vampire definiert indem es benutzt wird und im Verlauf des Beweises sucht \vampire nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
 So wandelt sich die obige Formel in TPTP um in 
 \begin{lstlisting}[language=tptp]
 ! [X,A] : (member(X,sum(A))
 	<=> ? [Y] : (member(Y,A) & member(X,Y)).
 \end{lstlisting}
-$\in$ wurde durch $member(\dots)$ ersetzt, $\bigcup$ durch $sum(\dots)$.
-Legen wir jetzt fest, dass es sich um Logik erster Stufe handelt ($fof(\dots)$), dass die Definition, die Namensgeber wird, da wir diese vorwiegend tätigen, die große Vereinigung über eine Menge ist ($sum$) und, dass es sich um ein $Axiom$ handelt,
+$\in$ wurde durch \verb=member(...)= ersetzt, $\bigcup$ durch \verb=sum(...)=.
+Legen wir jetzt fest, dass es sich um Logik erster Stufe handelt (\textit{fof(...)}), dass die Definition, 
+die Namensgeber wird, da wir diese vorwiegend tätigen, die große Vereinigung über eine Menge ist (Sum) und, dass es sich um ein \textit{axiom} handelt,
 entsteht in Verbindung mit unser umgewandelten TPTP-Formel folgende fertige TPTP-Aussage:
 \begin{lstlisting}[language=tptp]
-fof(sum, axiom, (	
+fof(Sum, axiom, (	
 	! [X,A] : (member(X, sum(A)) 
 		<=> ? [Y] : (member(Y, A) & member(X, Y))))).
 \end{lstlisting}
 Eine solcher Block wird immer mit einem Punkt abgeschlossen, dieser markiert das Ende.
-Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das $member$ Prädikat automatisch.
-Über den Befehl $include(\dots)$ können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden.
+Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das \verb=member=-Prädikat automatisch.
+Über den Befehl \verb|include(...)| können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden.
 
 \subsection{Typed first order formula (TFF)}
 \label{subsec:tptptff}
 
-In $tff(\dots)$ können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck (sort) folgen.
+In \textit{tff(...)} können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck, ein \textit{sort} folgen.
 Typenausdrücke sind \begin{itemize}
-	\item \$i: individuell. Standard-Typ, wenn nichts angegeben
-	\item \$o: Boolesch
-	\item \$int: Integer
-	\item \$rat: Rational
-	\item \$real: Reell
-	\item \$array1: Integer-Array
-	\item \$array2: Array von Integer-Array
+	\item \verb=$i=: individuell. Standard-Typ, wenn nichts angegeben
+	\item \verb=$o=: Boolesch
+	\item \verb=$int=: Integer
+	\item \verb=$rat=: Rational
+	\item \verb=$real=: Reell
+	\item \verb=$array1=: Integer-Array
+	\item \verb=$array2=: Array von Integer-Array
 \end{itemize}
-wobei die letzten beiden spezifisch von VAMPIRE definiert sind und nicht im TPTP-Standard verankert sind.
-Eigene Typenausdrücke können durch ein ähnliches Schema definiert werden wie ein generelles $fof$-Formular:
+wobei die letzten beiden spezifisch von \vampire definiert sind und nicht im TPTP-Standard verankert sind.
+Eigene Typenausdrücke können durch ein ähnliches Schema definiert werden wie ein generelles \textit{fof}-Formular:
 \begin{lstlisting}[language=tptp]
-tff(name, type, typ_name: $tType).
+tff(own_type,type,own: $tType).
 \end{lstlisting}
-Ein Name kann wie bekannt frei gewählt werden und das Wort $type$ ist die Deklaration, dass es sich um eine Typendefinition handelt, wobei dieses Wort sowohl uneindeutig als auch redundant ist.
-Zuletzt wird der $typ\_name$, der wieder frei gewählt werden kann, als neuer Typ definiert. Beispiel:
+Der Name, hier \verb|own_type|, kann wie bekannt frei gewählt werden und das Wort \textit{type} ist die Deklaration, dass es sich um eine Typendefinition handelt, wobei dieses Wort sowohl uneindeutig als auch redundant ist.
+Zuletzt wird \verb|own|, der eigentliche Typname, der auch frei gewählt werden kann, angegeben und mit dem angefügten \verb|$tType| als neuer Typ definiert.
+Nachfolgend gezeigt ist die Typdefinition eines Literals a des Typs \verb|own| und einer Funktion f, die zwei Argumente übernimmt, deren Typen \verb|own| sind, und deren Ausgabe wieder des Typs \verb|own| ist.\\
 \begin{lstlisting}[language=tptp]
 tff(a_has_type_own,type,a : own).
 tff(f_has_type_own,type,f : own * own > own).
 \end{lstlisting}
-Letzteres zeigt die Typdefinition einer Funktion f, die zwei Argumente übernimmt, deren Typ $own$ ist, und deren Ausgabe wieder des Typs $own$ ist.\\
-\\
 Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet Vampire folgende, im TPTP-Standard definierten Funktionen:
 \begin{itemize}
-	\item $\$sum$: Addition $(x + y)$
-	\item $\$product$: Multiplication $(x * y)$
-	\item $\$difference$: Differnenz $(x - y)$
-	\item $\$uminus$: einstelliges Minus $(-x)$
-	\item $\$to rat$: Konvertierung zu rationalen Zahlen
-	\item $\$to real$: Konvertierung zu reellen Zahlen
-	\item $\$less$: kleiner als $(x < y)$
-	\item $\$lesseq$: kleiner-gleich $(x \leq y)$
-	\item $\$greater$: größer als $(x > y)$
-	\item $\$greatereq$: größer-gleich $(x \geq y)$ 
+	\item \verb=$sum=: Addition $(x + y)$
+	\item \verb=$product=: Multiplication $(x * y)$
+	\item \verb=$difference=: Differnenz $(x - y)$
+	\item \verb=$uminus=: einstelliges Minus $(-x)$
+	\item \verb=$to_rat=: Konvertierung zu rationalen Zahlen
+	\item \verb=$to_real=: Konvertierung zu reellen Zahlen
+	\item \verb=$less=: kleiner als $(x < y)$
+	\item \verb=$lesseq=: kleiner-gleich $(x \leq y)$
+	\item \verb=$greater=: größer als $(x > y)$
+	\item \verb=$greatereq=: größer-gleich $(x \geq y)$ 
 \end{itemize}
 Beispiel: $(x + y) \geq 0$ mit x, y aus den ganzen Zahlen
 \begin{lstlisting}[language=tptp]
 tff(example,conjecture, 
 	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting}
 
+\iffalse %bis auf weiteres gestrichen!!!
 \subsection{If-Then-Else}
 \label{subsec:tptpitef}
 
-Vereinfachend für die Programmverifikation kann beim umschreiben von Programmen nach TPTP das if-then-else-Konstrukt $ \$ite\_f $ für Formeln und $\$ite\_t$ für Terme benutzt werden.
+Vereinfachend für die Programmverifikation kann beim umschreiben von Programmen nach TPTP das if-then-else-Konstrukt \verb=$ite_f= für Formeln und \verb=$ite_t= für Terme benutzt werden.
 \begin{lstlisting}[language=tptp]
 $ite_f(Bedingung, Dann, Sonst) % aequivalent fuer $ite_t
 \end{lstlisting}
@@ -312,7 +313,7 @@ tff(c2,axiom,($ite_t(p,a,b) != (a & p)).
 \subsection{Let...in}
 \label{subsec:tptpletin}
 
-Gleichsam kann das $let\dots in$-Konstrukt für für Therme $\$let\_tt$, für Formeln $\$let\_ff$, und zwischen Thermen und Formeln, bzw. Formeln und Thermen $\$let\_tf$ und $\$let\_ft$ verwendet werden.
+Gleichsam kann das $let\dots in$-Konstrukt für für Therme \verb=$let_tt=, für Formeln \verb=$let_ff=, und zwischen Thermen und Formeln, bzw. Formeln und Thermen \verb=$let_tf= und \verb=$let_ft= verwendet werden.
 \begin{lstlisting}[language=tptp]
 tff(c1,axiom,
 	$let_tt(f(X), g(X), f(a)) != g(a)).
@@ -323,22 +324,26 @@ tff(c3,axiom,
 tff(c4,axiom,
 $let_ft(p(X), q, $ite_t(p(a), a, b)) != $ite_t(q, a, b)).
 \end{lstlisting}
+
+\fi % ende der streichung
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Vergleich}
 \label{subsec:tptpcomp}
 Das Programmierparadigma von TPTP ähnelt dem der Logik-Programmiersprache Prolog.
 Prädikate werden durch Constraints, die in einer oder mehreren Formeln ausgedrückt werden, definiert.
-Ähnlich wie bei PROVER 9 wird durch das angeben der Rolle der Verwendungszweck der Formel an VAMPIRE übergeben. Axiome und Hypothesen sind dabei die \textit{assumptions} und die Conjectures entsprechen den \textit{goals} aus PROVER 9.
-Unterschiede in der Syntax sind selbstverständlich, da PROVER 9 nicht TPTP verwendet, obgleich es viele Übereinstimmungen gibt.
-Auch der Punkt am Ende einer Zeile ist äquivalent. Unterschiedlich ist die Verwendung von Infix-Operatoren und deren vorherigen Definition als solche in PROVER 9, 
-dies ist in VAMPIRE nicht möglich. In VAMPIRE ist es durch die $tff(\dots)$ jedoch möglich, explizit mit Variablen verschiedener Typen zu arbeiten.\cite{cav2013, prover9manual} 
+Ähnlich wie bei \proverNine wird durch das angeben der Rolle der Verwendungszweck der Formel an \vampire übergeben. Axiome und Hypothesen sind dabei die \textit{assumptions} und die Conjectures entsprechen den \textit{goals} aus \proverNine.
+Unterschiede in der Syntax sind selbstverständlich, da \proverNine nicht TPTP verwendet, obgleich es viele Übereinstimmungen gibt.
+Auch der Punkt am Ende einer Zeile ist äquivalent. Unterschiedlich ist die Verwendung von Infix-Operatoren und deren vorherigen Definition als solche in \proverNine, 
+dies ist in \vampire nicht möglich. In \vampire ist es durch \textit{tff} jedoch möglich, explizit mit Variablen verschiedener Typen zu arbeiten.\cite{cav2013, prover9manual} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benutzung von Vampire}
 \label{sec:invocation}
 
-Grundsätzlich ist die Benutzung von VAMPIRE wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun liest VAMPIRE von \texttt{STDIN}. Der Benutzer kann direkt in der Kommandozeile eine TPTP-Formel eingegeben, die an VAMPIRE übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei über die jeweilige Shell-Syntax an VAMPIRE übergeben werden. Nachdem VAMPIRE das Problem erhalten hat, beginnt es direkt mit der Arbeit.\\
+Grundsätzlich ist die Benutzung von \vampire wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun liest \vampire von \texttt{STDIN}. Der Benutzer kann direkt in der Kommandozeile eine TPTP-Formel eingegeben, die an \vampire übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei über die jeweilige Shell-Syntax an \vampire übergeben werden. Nachdem \vampire das Problem erhalten hat, beginnt es direkt mit der Arbeit. 
 Unter Windows liefert die folgende Kommandozeile den Beweis für das in der input.txt geschriebene Problem und schreibt diesen, sonst in der Kommandozeile angezeigten Beweis, in die output.txt:\\
 
 
@@ -346,31 +351,31 @@ Unter Windows liefert die folgende Kommandozeile den Beweis für das in der inpu
 
 \subsection{Kommandozeilenparameter}
 \label{subsec:commands}
-VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt, von denen hier nur einige genannt werden.
+\vampire lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt, von denen hier nur einige genannt werden.
 \begin{itemize}
 	\item \verb= --theory_axioms [on|off]= \label{arg:theoryaxiomsoff}\\
-	Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt VAMPIRE selbstständig bekannte 
+	Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt \vampire selbstständig bekannte 
 	Axiome über bestimmte \emph{theories}, wie die Arithmetik auf natürlichen Zahlen, hinzu. 
 	Dies kann mit diesem Parameter unterbunden werden.
 	\item \verb=--proof [on|off]= \label{arg:proofoff}\\
 	Möchte man die Gewissheit, dass das Problem bewiesen wurde, jedoch keinen Beweis ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
 
 \item \verb|-t X| oder \verb|--time_limit X| \label{arg:timelimit}
-Mit diesem Parameter und X als ganze Zahl bricht VAMPIRE nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
-In diesem Fall gibt VAMPIRE \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
+Mit diesem Parameter und X als ganze Zahl bricht \vampire nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
+In diesem Fall gibt \vampire \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
 
 \item \verb|-m X oder --memory_limit X| \label{arg:memorylimit}
-Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für VAMPIRE. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
+Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für \vampire. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
 
 \item \verb|--age_weight_ratio X:Y| \label{arg:ageweightratio}
-Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die VAMPIRE von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
+Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die \vampire von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
 2:3 würde beispielsweise bedeuten, dass insgesamt 5 Klauseln gewählt werden, davon 2 der ältesten und 3 der leichtesten. 
 
 \item \verb|--nongoal_weight_coefficient X| \label{arg:weightcoefficient}
 Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
 
 \item \verb|--max_weight X| \label{arg:maxweight}
-Stellt das ansonsten von VAMPIRE veränderbare maximale Klauselgewicht ein. VAMPIRE kann bei Speicherknappheit oder bei nutzen der \emph{limited resource strategy} das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
+Stellt das ansonsten von \vampire veränderbare maximale Klauselgewicht ein. \vampire kann bei Speicherknappheit oder bei nutzen der \emph{limited resource strategy} das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
 
 \item \verb|--forced_options <option1[:option2[:option3[...]]]>| \label{arg:forcedoptions}
 Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hintereinander gereiht werden um mehrfache Optionen gemeinsam zu forcieren. 
@@ -390,15 +395,15 @@ Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hinterein
 \item \verb|--saturation_algorithm| \label{arg:saturationalgorithm}
 \begin{itemize}
 	\item \verb|lrs|\\
-	Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist \emph{lrs} (\emph{limited resource strategy}).
-	Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited}
+	Der standardmäßig gewählte Saturationsalgorithmus von \vampire ist \emph{lrs} (\emph{limited resource strategy}).
+	Dieser Algorithmus, der einzigartig in \vampire sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited}
 	\item \verb|discount|\\
 	Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch WALDMEISTER, E und SPASS. 
+	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch WALDMEISTER, E und SPASS. 
 	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} 
 	\item \verb|otter|\\
 	Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch GANDALF und SPASS. 
+	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch GANDALF und SPASS. 
 	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} 
 \end{itemize}
 
@@ -427,7 +432,7 @@ Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben sind:
 	Bound Propagation (bpa) ersetzt hierbei für das Lösen von lineare Ungleichheiten (quantorenfreie lineare, reelle und rationale Arithmetik) das Superpositionscalculus.
 	Dieser Mode ist in unserer Version nicht implementiert.
 	\item \verb|program_analysis| \\
-	Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
+	Der letzte hier gezeigte Mode ist für die mit \vampire mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an \vampire übergeben werden.
 	Dieser Mode wird in unserer Version nicht unterstützt.
 \end{itemize}
 
@@ -446,12 +451,12 @@ Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben sind:
 \section{Funktionsweise}
 \label{sec:mechanics}
 
-Dieser Abschnitt gibt einen Einblick in die beweisrelevanten Abläufe, die durch einen typischen Aufruf von VAMPIRE ausgelöst werden, bis zur Ausgabe eines Ergebnisses.
+Dieser Abschnitt gibt einen Einblick in die beweisrelevanten Abläufe, die durch einen typischen Aufruf von \vampire ausgelöst werden, bis zur Ausgabe eines Ergebnisses.
 
 \subsection{Preprocessing}
 \label{subsec:preprocessing}
 
-Nachdem VAMPIRE die Eingabe gelesen hat, finden vor der eigentlichen, oft zeitintensiven
+Nachdem \vampire die Eingabe gelesen hat, finden vor der eigentlichen, oft zeitintensiven
 Beweissuche einige vorbereitende Schritte statt.
 
 \begin{enumerate}
