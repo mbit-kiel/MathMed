@@ -149,10 +149,12 @@
 
 Automatische Theorembeweiser (ATP) versuchen ohne Benutzerinteraktion Aussagen über gegebene Formeln durch Anwendung von Regeln und Axiomen, die ihnen vorliegen, zu beweisen.
 Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Beweiser verarbeiten kann.
-Diese Formalisierung ist auch für triviale Probleme nicht gleichermaßen einfach und ist daher eine gefährliche Fehlerquelle. 
-Nichtsdestotrotz ist für komplexe Probleme das Formalisieren einfacher als das Beweisen per Hand und nach korrekter Formalisierung liefert der ATP, 
-sofern er einen Beweis findet, einen, wovon auszugehen ist, richtigen Beweis. 
-Anwendung finden ATP in vielerlei Gebieten, unter anderem Hardware-Design und -verifikation, Softwareverifikation, wissensbasierte Systeme und klassische mathematische Problemstellungen.
+Diese Formalisierung stellt auch für triviale Probleme eine gefährliche Fehlerquelle dar. 
+Nichtsdestotrotz ist für komplexe Probleme das Formalisieren einfacher als das Beweisen per Hand und nach korrekter Formalisierung liefert der ATP mit etwas Glück, nach vertretbarer Zeit,
+einen formal korrekten Beweis. Scheitert der Beweis an Zeit- oder Speicherlimits, kann eine
+Umformulierung oder Aufteilung in kleinere Probleme helfen, dies bringt eine interaktive
+Komponente in das automatische Theorembeweisen.
+Anwendung finden ATP in vielerlei Gebieten, unter anderem Hardwaredesign und -verifikation, Softwareverifikation, wissensbasierte Systeme und klassische mathematische Problemstellungen.
 Der Vorteil von ATP liegt in diesen Gebieten in der Fähigkeit, Probleme zu bearbeiten, 
 die für eine manuelle Beweisführung (teils um Größenordnungen) zu umfangreich sind.
 
@@ -171,7 +173,7 @@ Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer l
 
 Als Primärquelle für diese Arbeit dient der Artikel \textit{First-Order Theorem Proving and VAMPIRE}~\cite{cav2013}.
 Weitere Informationen stammen aus \textit{Interpolation and Symbol Elimination in Vampire}~\cite{hoder2010} 
-und \textit{Finding Loop Invariants for Programs over Arrays	Using a Theorem Prover}~\cite{kovacs2009finding}.
+und \textit{Finding Loop Invariants for Programs over Arrays Using a Theorem Prover}~\cite{kovacs2009finding}.
 
 Die Arbeit ist praxisorientiert und kann als Einstiegstutorial verwendet werden.
 In dieser \hyperref[sec:introduction]{Einleitung} wurden Grundlagen über automatische Theorembeweiser vermittelt, die einen schnellen Einstieg in das Thema ermöglichen.\\
@@ -179,7 +181,7 @@ Als Vorbereitung für die Benutzung von VAMPIRE wird auf die Syntax und Semantik
 Mit dieser Grundlage wird die \hyperref[sec:invocation]{Benutzung von Vampire}, insbesondere der Aufruf des Programms und die vielen einstellbaren Optionen behandelt.\\
 Anschließend wird die \hyperref[sec:mechanics]{Funktionsweise} von VAMPIRE in den Grundzügen erklärt. Das zugrunde liegende Beweisverfahren wird erläutert und ausgewählte Algorithmen erklärt.\\
 Schließlich folgt eine Erklärung der \hyperref[sec:output]{Beweisausgabe}. Es wird versucht, mit VAMPIRE erzeugte Beweise nachzuvollziehen.\\
-Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab und
+Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
 
 
 
@@ -363,94 +365,93 @@ Unter Windows liefert die folgende Kommandozeile den Beweis für das in der inpu
 
 \subsection{Kommandozeilenparameter}
 \label{subsec:commands}
-VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt von denen hier nur einige genannt werden.
+VAMPIRE lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt, von denen hier nur einige genannt werden.
+\begin{itemize}
+	\item \verb|--theory_axioms_off| \label{arg:theoryaxiomsoff}\\
+	Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt VAMPIRE selbstständig bekannte 
+	Axiome über bestimmte \emph{theories}, wie die Arithmetik auf natürlichen Zahlen, hinzu. 
+	Dies kann mit diesem Parameter unterbunden werden.
+	\item \verb|--proof_off| \label{arg:proofoff}\\
+	Möchte man die Gewissheit, dass das Problem bewiesen wurde, jedoch keinen Beweis ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
 
-\subsubsection{-~-theory\_axioms\_off}
-\label{subsubsec: commandtheoryaxiomsoff}
-Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt VAMPIRE selbstständig im bekannte Axiome hinzu. Dies kann mit diesem Parameter unterbunden werden.
-\subsubsection{-~-proof\_off}
-\label{subsubsec: commandproofoff}
-Möchte man die Gewissheit, dass das Problem bewiesen wurde, aber keinen Beweis an sich ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
-\subsubsection{-~-t X oder -~-time\_limit X}
-\label{subsubsec: commandtimelimit}
+
+
+\item \verb|--t X| oder \verb|--time_limit X| \label{arg:timelimit}
 Mit diesem Parameter und X als ganze Zahl bricht VAMPIRE nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
-In diesem Fall gibt VAMPIRE $time~limit~expired$ aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
-\subsubsection{-~-m X oder -~-memory\_limit X}
-\label{subsubsec: commandmemorylimit}
+In diesem Fall gibt VAMPIRE \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
+
+\item \verb|--m X oder --memory_limit X| \label{arg:memorylimit}
 Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für VAMPIRE. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
-\subsubsection{-~-age\_weight\_ratio X:Y}
-\label{subsubsec: commandageweightratio}
+
+\item \verb|--age_weight_ratio X:Y| \label{arg:ageweightratio}
 Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die VAMPIRE von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
 2:3 würde beispielsweise bedeuten, dass insgesamt 5 Klauseln gewählt werden, davon 2 der ältesten und 3 der leichtesten. 
-\subsubsection{-~-nongoal\_weight\_coefficient}
-\label{subsubsec: commandweightcoefficient}
+
+\item \verb|--nongoal_weight_coefficient| \label{arg:weightcoefficient}
 Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
-\subsubsection{-~-max\_weight}
-\label{subsubsec: commandmaxweight}
+
+\item \verb|--max_weight| \label{arg:maxweight}
 Stellt das ansonsten von VAMPIRE veränderbare maximale Klauselgewicht ein. VAMPIRE kann bei Speicherknappheit oder bei nutzen der $ limited~resource~strategy $ das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
-\subsubsection{-~-forced\_options}
-\label{subsubsec: commandforcedoptions}
+
+\item \verb|--forced_options| \label{arg:forcedoptions}
 Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hintereinander gereiht werden um mehrfache Optionen gemeinsam zu forcieren. 
 \begin{itemize}
-	\item \textbf{propositional\_to\_bdd=off}\\
-	Schaltet das Einführen von Prädikaten für BDD-Variablen aus. \\
-	\item \textbf{splitting=off}\\
-	Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus. \\
-	\item \textbf{equality\_proxy=off}\\
-	\item \textbf{general\_splitting=off}\\
-	\item \textbf{inequality\_splitting=0}\\
-	\item \textbf{naming=0}\\
+	\item \verb|propositional_to_bdd=off| \\
+	Schaltet das Einführen von Prädikaten für BDD-Variablen aus.
+	\item \verb|splitting=off| \\
+	Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus.
+	\item \verb|equality_proxy=off|
+	\item \verb|general_splitting=off|
+	\item \verb|inequality_splitting=0|
+	\item \verb|naming=0| \\
 	Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
 	Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
 \end{itemize}
 
-
-\subsubsection{-~-saturation\_algorithm}
-\label{subsubsec: commandssaturationalgorithm}
+\item \verb|--saturation_algorithm| \label{arg:saturationalgorithm}
 \begin{itemize}
-	\item \textbf{lrs}\\
-	Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist $lrs$, welcher sich auf die \\$ limited~resource~strategy $ bezieht.
-	Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited} \\
-	\item \textbf{discount}\\
+	\item \verb|lrs|\\
+	Der standardmäßig gewählte Saturationsalgorithmus von VAMPIRE ist \emph{lrs} (\emph{limited resource strategy}).
+	Dieser Algorithmus, der einzigartig in VAMPIRE sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited}
+	\item \verb|discount|\\
 	Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
 	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch WALDMEISTER, E und SPASS. 
 	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} \\
-	\item \textbf{otter}\\
+	\item \verb|otter|\\
 	Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
 	Einen ähnlich arbeitenden Algorithmus verwenden neben VAMPIRE auch GANDALF und SPASS. 
 	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} \\
 \end{itemize}
 
-\subsubsection{-~-modes}
-\label{subsubsec:commandsmodes}
-
-Modes bestimmen den Ablauf des Beweisprozesses indem eine spezielle Strategie oder Strategiegemische verwendet werden. 
-Einige mögliche Modes wie in ~\cite{hoder2011slides} beschrieben sind:
+\item \verb|--modes| \label{arg:modes}
+Die Angabe eines Modus oder mehrerer Modi bestimmt den Ablauf des Beweisprozesses, 
+indem die Verwendung einer bestimmten Strategie oder Strategiegemische vorgeben wird.
+Einige mögliche Modi wie in ~\cite{hoder2011slides} beschrieben sind:
 \begin{itemize}
-	\item \textbf{casc} \\
-	Dieser auch bei dem gleichnamigen Wettbewerb verwendete Mode ist laut ~\cite{hoder2011slides}  der beste der möglichen Modes.
+	\item \verb|casc| \\
+	Dieser auch bei dem gleichnamigen Wettbewerb verwendete Modus ist laut ~\cite{hoder2011slides} der beste der möglichen Modes.
 	Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
-	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-	\item \textbf{casc\_ltb} \\
+	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.
+	\item \verb|casc_ltb| \\
 	Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet.
-	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.\\
-	\item\textbf{ axiom\_selection} \\
+	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein.
+	\item \verb|axiom_selection| \\
 	Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
-	Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.\\
-	\item \textbf{clausify} \\
-	Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet. \\
-	\item \textbf{grounding} \\
+	Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.
+	\item \verb|clausify| \\
+	Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet.
+	\item \verb|grounding| \\
 	Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
-	Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten. \\
-	\item \textbf{consequence\_elemination} \\
-	Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.\\
-	\item \textbf{bpa} \\
+	Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten.
+	\item \verb|consequence_elemination| \\
+	Dieser Mode versucht aus einer gegebenen Menge an Behauptungen, der eine Theorie begründet liegen mag, eine der Behauptung aus den anderen herzuleiten.
+	\item \verb|bpa| \\
 	Bound Propagation (bpa) ersetzt hierbei für das Lösen von lineare Ungleichheiten (quantorenfreie lineare, reelle und rationale Arithmetik) das Superpositionscalculus.
-	\item \textbf{program\_analysis} \\
+	\item \verb|program_analysis| \\
 	Der letzte hier gezeigte Mode ist für die mit VAMPIRE mögliche Programmverifikation von C-Programmen. Hierbei muss die *.c-Datei an VAMPIRE übergeben werden.
 \end{itemize}
 
-
+\end{itemize} % Kommandozeilenoptionen
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{Segfaults}
@@ -478,7 +479,8 @@ Nachdem VAMPIRE die Eingabe gelesen hat, finden vor der eigentlichen, oft zeitin
 Beweissuche einige vorbereitende Schritte statt.
 
 \begin{enumerate}
-	\item Wähle eine relevante Teilmenge von Formeln \\(optional).
+	\itemsep0em 
+	\item Wähle eine relevante Teilmenge von Formeln (optional).
 	\item Füge die Axiome hinzu (optional).
 	\item Bereinige die Formeln.
 	\item Sollte eine Formel $\top$ oder $\bot$ beinhalten, \\vereinfache sie.
@@ -541,25 +543,24 @@ TODO: Redundancy Elimination erklären
 \section{Beweisausgabe}
 \label{sec:output}
 
-Während der Formelerzeugung bekommt jede Formel eine fortlaufende Nummer, beginnend mit den Axiomen und den Eingabeformeln. Wird ein Beweis gefunden, so gibt es einen gerichteten azyklischen Graphen (\textit{directed acyclic graph, DAG}) mit genau den Formeln als Knoten, welche zum Beweis (also dem Knoten \texttt{\$false}) hinführen. Die Kanten des DAG stellen Inferenz dar. Dieser DAG wird in der Beweisausgabe zeilenweise angezeigt. 
+Während der Formelerzeugung bekommt jede Formel eine fortlaufende Nummer, beginnend mit den Axiomen und den Eingabeformeln. Wird ein Beweis gefunden, so gibt es einen gerichteten azyklischen Graphen (\emph{directed acyclic graph, DAG}) mit genau den Formeln als Knoten, welche zum Beweis (also dem Knoten \texttt{\$false}) hinführen. Die Kanten des DAG stellen Inferenz dar. Dieser DAG wird in der Beweisausgabe zeilenweise angezeigt. 
 Am Beispiel dieser Zeile werden die einzelnen Bestandteile erklärt:\\ \\
 \texttt{28. mult(inverse(X2),e) = X2 (2:6) [superposition 22,10]}
-\begin{itemize}
-	\item Formelnummer (\texttt{28.})\\
-		Die eindeutige Nummer, die jeder Formel zugewiesen wird
-	\item Konklusion (\texttt{mult(inverse(X2),e) = X2})\\
-		Die Konklusionsformel in TPTP-Syntax. Hier können automatisch erzeugte und abgeänderte
-		Variablen- und Literalnamen auftauchen.
-	\item ??? (\texttt{(2:6)})\\
-		Kein Plan wofür das steht.
-	\item Resolutionsregel (\texttt{superposition})\\
-		Die Regel, anhand derer diese Formel hergeleitet wurde.\\
-		Formeln der Eingabe sind als \texttt{[input]} deklariert.
-	\item Prämisse (\texttt{22,10})\\
-		In diesem Resolutionsschritt benutzte Formeln.
-		
-	
-\end{itemize}
+\begin{enumerate}
+	\itemsep0em 
+	\item Formelnummer: ~ \verb|28.|\\
+	Die eindeutige Nummer, die jeder Formel zugewiesen wird
+	\item Konklusion: ~ \verb|mult(inverse(X2),e) = X2|\\
+	Die Konklusionsformel in TPTP-Syntax. Hier können automatisch erzeugte und abgeänderte
+	Variablen- und Literalnamen auftauchen.
+	\item ???: ~ \verb|(2:6)|\\
+	Kein Plan wofür das steht.
+	\item Resolutionsregel: ~ \verb|superposition|\\
+	Die Regel, anhand derer diese Formel hergeleitet wurde.\\
+	Formeln der Eingabe sind als \verb|[input]| deklariert.
+	\item Prämissen: ~ \verb|22,10|\\
+	In diesem Resolutionsschritt benutzte Formeln.
+\end{enumerate}
 In dieser Zeile ist also Formel 28 durch Superposition aus Formeln 22 und 10 hergeleitet worden.
 Meist erzeugt Vampire viel mehr Formeln, die nicht zum Beweis führen und daher nicht zum Beweis-DAG gehören. Diese werden nicht ausgegeben.
 
@@ -570,7 +571,7 @@ Meist erzeugt Vampire viel mehr Formeln, die nicht zum Beweis führen und daher 
 TODO: Kurze Demo der Visualisationsmöglichkeit mit graphviz.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Fazit}
+\section{Schlusswort}
 \label{sec:conclusion}
 Write a small conclusion that summarizes what has been said ...?
 Pointers to further reading...
