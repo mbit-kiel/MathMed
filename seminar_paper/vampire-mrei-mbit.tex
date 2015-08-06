@@ -218,7 +218,7 @@ Die wichtigsten, die von \vampire unterstützten werden, sind FOF, TFF und CNF.
 	\hline / & $\lor$ \\
 	\hline \& & $\land$ \\
 	\hline => & $\Rightarrow$ \\
-	\hline <=> & $\leftrightarrow$ \\
+	\hline <=> & $\Leftrightarrow$ \\
 	\hline Y & Variable \\
 	\hline y & Literal \\
 	\hline f(x, A, B) & Prädikat \\
@@ -228,7 +228,7 @@ Die wichtigsten, die von \vampire unterstützten werden, sind FOF, TFF und CNF.
 \end{wraptable}
 Eine Formel in TPTP beginnt stets mit der Information über ihren Typ. Hierbei können zum Beispiel \textit{fof(...), tff(...), cnf(...)} und einige mehr verwendet werden.
 Innerhalb der Klammern werden drei Bereiche unterschieden, die jeweils mit einem Komma voneinander getrennt sind. 
-Zuerst kommt der Name der Formel, welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt noch eindeutig sein muss,
+Zuerst kommt der Name der Formel, beginnend mit einem kleinen Buchstaben [a-z], welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt noch eindeutig sein muss.
 dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (\textit{axiom}), eine Hypothese (\textit{hypothesis}) oder auch eine Behauptung (\textit{conjecture}) handeln.
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
 Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
@@ -245,7 +245,6 @@ anderen Prädikaten oder Funktionen. Diese Art der Definition findet sich auch i
 Logikprogrammiersprachen.
 Ein Axiom kann daher mehrere Prädikate definieren und die Definition eines Prädikats kann 
 auf mehrere Axiome verteilt sein.
-
 Im Verlauf des Beweises sucht \vampire nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
 So kann die obige Formel in TPTP formuliert werden:
 \begin{lstlisting}[language=tptp]
@@ -254,7 +253,7 @@ So kann die obige Formel in TPTP formuliert werden:
 \end{lstlisting}
 $\in$ wurde durch \verb=member(...)= ersetzt, $\bigcup$ durch \verb=sum(...)=.
 Legen wir jetzt fest, dass es sich um Logik erster Stufe handelt (\textit{fof(...)}), dass die Definition, 
-die Namensgeber wird, da wir diese vorwiegend tätigen, die große Vereinigung über eine Menge ist (Sum) und, dass es sich um ein \textit{axiom} handelt,
+die Namensgeber wird, da wir diese vorwiegend tätigen, die große Vereinigung über eine Menge ist (sum) und, dass es sich um ein \textit{axiom} handelt,
 entsteht in Verbindung mit unser umgewandelten TPTP-Formel folgende fertige TPTP-Aussage:
 \begin{lstlisting}[language=tptp]
 fof(Sum, axiom, (	
@@ -296,6 +295,9 @@ Beispiel: $(x + y) \geq 0$ mit x, y aus den ganzen Zahlen
 \begin{lstlisting}[language=tptp]
 tff(example,conjecture, 
 	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting}
+	
+{%%%%%da keine gute Möglichkeit eigene Typen zu verwenden oder hinreichend zu erklären bis auf weiteres gestrichen.%%%%%
+\iffalse  
 Möchte man eigene Typen definieren, ist dies ebenfalls möglich:
 \begin{lstlisting}[language=tptp]
 tff(own_type,type,own: $tType).
@@ -308,8 +310,13 @@ tff(a_has_type_own,type,a : own).
 tff(f_has_type_own,type,f : own * own > own).
 \end{lstlisting}
 
+\fi 
+} % Ende der streichung
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\iffalse %bis auf weiteres gestrichen!!!
+
+{%%%%%if-then-else und let...in bis auf weiteres gestrichen%%%%%
+\iffalse 
 \subsection{If-Then-Else}
 \label{subsec:tptpitef}
 
@@ -338,7 +345,7 @@ $let_ft(p(X), q, $ite_t(p(a), a, b)) != $ite_t(q, a, b)).
 \end{lstlisting}
 
 \fi % ende der streichung
-
+}
 
 \subsection{Beispiel}
 \label{subsec:tptpexample}
@@ -362,26 +369,26 @@ Für Definition \ref{def:primpythtrip} benötigen wir ein teilt-Prädikat, damit
 Eine Hypothese-Formel benötigen wir nicht, da der Satz unter den gegebenen Axiomen allgemeingültig sein sollte.
 \begin{lstlisting}[language=tptp]
 % even-Praedikat: X ist gerade
-tff(Even, axiom, ![X:$int] : (even(X) =>
+tff(even, axiom, ![X:$int] : (even(X) =>
 (?[Y:$int] : ($product(Y,2) = X)))).
 
 % Teilbarkeits-Praedikat: X teilt Y <=> es ex. Z mit Z*X = Y
-tff(Divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
+tff(divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
    (?[Z:$int] : $product(Z,X) = Y)))).
 
 % pyth-Praedikat: X,Y,Z ist pyth. Tripel mit Z Hypotenuse
-tff(Pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
+tff(pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
    <=> ($sum($product(X,X),$product(Y,Y))=$product(Z,Z)))).
 
 % Primitives-Pyth.-Tripel Praedikat
-tff(PrimPyth, axiom, (![X:$int,Y:$int,Z:$int] : 
+tff(primPyth, axiom, (![X:$int,Y:$int,Z:$int] : 
    primPyth(X,Y,Z) <=> (pyth(X,Y,Z) & (~?[D:$int]: 
    ($product(D,D) != 1) & divides(D,X) & divides(D,Y) & 
    divides(D,Z))))).
 
 % Behauptung: Die Hypotenuse jedes primitiven 
 % pythagoreischen Tripels ist ungerade.
-tff(OddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : 
+tff(oddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : 
    primPyth(X,Y,Z) => ~even(Z))).
 \end{lstlisting}
 Das Problem speichern wir in der Datei \verb|pytrip.p|.
@@ -435,11 +442,13 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 		\item \verb|splitting=off| \\
 		Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus.
 		
-		\iffalse %da keine ahnung was diese tun, bis auf weiteres gestrichen	
+		{ %%%%%da keine ahnung was diese swithes tun, bis auf weiteres gestrichen%%%%
+		\iffalse	
 		\item \verb|equality_proxy=off|
 		\item \verb|general_splitting=off|
 		\item \verb|inequality_splitting=0|
-		\fi % ende der streichung
+		\fi % ende der streichung 
+		}
 		
 		\item \verb|naming=0| \\
 		Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
@@ -547,8 +556,7 @@ Nun leitet Vampire durch Inferenz neue Formeln aus den Axiomen und $F$ her,
 mit dem Ziel, die leere Klausel $\bot$ (\texttt{\$false} in TPTP-Schreibweise) zu folgern.
 Kann diese hergeleitet werden, ist die gesamte Formelmenge unerfüllbar.
 Demzufolge hat die \textit{Negation} der Hypothese unter den angegebenen Axiomen keine Gültigkeit,
-im Umkehrschluss ist die Hypothese $F$ bewiesen. \cite[S. 5]{cav2013}
-
+im Umkehrschluss ist die Hypothese $F$ bewiesen. \cite[S. 5]{cav2013}\\
 Ist die Formelmenge hingegen erfüllbar, kann $\neg F$ aus den Axiomen bewiesen werden.
 Damit ist $F$ widerlegt. \cite[S. 7]{cav2013}
 
