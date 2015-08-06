@@ -1,17 +1,18 @@
-%even-axiom
-tff(even, axiom, ![X:$int] : (even(X) => (?[Y:$int] : ($product(Y,2) = X))) ).
+% even-Praedikat: X ist gerade
+tff(even, axiom, ![X:$int] : (even(X) =>
+   (?[Y:$int] : ($product(Y,2) = X)))).
 
-tff(pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z) 
-	<=> ($sum($product(X,X),$product(Y,Y)) = $product(Z,Z))) ).
+% Teilbarkeits-Praedikat: X teilt Y <=> es ex. Z mit Z*X = Y
+tff(divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
+   (?[Z:$int] : $product(Z,X) = Y)))).
 
+% pyth-Praedikat: X,Y,Z ist pyth. Tripel mit Z Hypotenuse
+tff(pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
+   <=> ($sum($product(X,X),$product(Y,Y)) = $product(Z,Z)))).
 
-tff(divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=> (?[Z:$int] : $product(Z,X) = Y)))).
+% Primitives-Pyth.-Tripel Praedikat
+tff(primPyth, axiom, (![X:$int,Y:$int,Z:$int] : primPyth(X,Y,Z) <=>
+   (pyth(X,Y,Z) & (~?[D:$int]: ($product(D,D) != 1) & divides(D,X) & divides(D,Y) & divides(D,Z))))).
 
-% tff(primPyth, axiom, ![X:$int,Y:$int,Z:$int] : (primPyth(X,Y,Z) 
-			% <=> (pyth(X,Y,Z) & (![A:$int,B:$int,C:$int,D:$int] : ($greater(D,1) 
-			% => ($product(A,D) != X | $product(B,D) != Y | $product(C,D) != Z)))))).
-
-tff(primPyth, axiom, (![X:$int,Y:$int,Z:$int] : primPyth(X,Y,Z) <=> (pyth(X,Y,Z) 
-		& (~?[D:$int]: D!=1 & divides(D,X) & divides(D,Y) & divides(D,Z))))).
-			
-tff(unevenZ, conjecture, (![X:$int,Y:$int,Z:$int] : primPyth(X,Y,Z) => ~even(Z))).
+% Behauptung: Die Hypotenuse jedes prim. pyth. Tripels ist ungerade.
+tff(oddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : primPyth(X,Y,Z) => ~even(Z))).
