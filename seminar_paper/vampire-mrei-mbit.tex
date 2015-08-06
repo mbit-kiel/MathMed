@@ -7,6 +7,8 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
 
 \setlist[itemize,2]{label=$\circ$} %nur blubbel für aufzählung zweiter-stufe
 \setlist[itemize]{itemsep=1pt} % geringerer abstand zwischen items
@@ -230,13 +232,18 @@ Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, 
 \label{subsec:tptpfof}
 \[\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y,\]
 Wollen wir nun die oben gezeigte Formel in TPTP umwandeln,
-so bedarf es der Definition der Operationen, die im formalen Aufschrieb einfach benutzt werden können, 
-die in der Syntax von TPTP jedoch nicht vorhanden sind.
-Hierzu gehört neben $\in$ auch  $\bigcup$. 
-Nun verhält es sich derart, dass wenn wir die fehlenden Operationen als Prädikate definieren, 
-wir nicht zwingend eines zur Zeit in einem Axiom definieren, sondern manchmal allein durch die Definition und Nutzung eines Prädikates der Verwendungszweck erschlossen werden kann.
-Ein Prädikat wird in \vampire definiert indem es benutzt wird und im Verlauf des Beweises sucht \vampire nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
-So wandelt sich die obige Formel in TPTP um in 
+so bedarf es der Definition der Operatoren $\in$ und $\bigcup$, welche in der Syntax von TPTP 
+nicht vorhanden sind.
+Ein Prädikat kann ohne vorherige Deklaration einfach in einer oder mehreren Formeln 
+verwendet werden. 
+Die Definition erfolgt über die in jenen Formeln festgelegten logischen Eigenschaften gegenüber 
+anderen Prädikaten oder Funktionen. Diese Art der Definition findet sich auch in anderen
+Logikprogrammiersprachen.
+Ein Axiom kann daher mehrere Prädikate definieren und die Definition eines Prädikats kann 
+auf mehrere Axiome verteilt sein.
+
+Im Verlauf des Beweises sucht \vampire nach Möglichkeiten aus den gegebenen Axiomen und Hypothesen Schlüsse und Herleitungen zu ziehen.
+So kann die obige Formel in TPTP formuliert werden:
 \begin{lstlisting}[language=tptp]
 ! [X,A] : (member(X,sum(A))
 	<=> ? [Y] : (member(Y,A) & member(X,Y)).
@@ -297,6 +304,7 @@ Beispiel: $(x + y) \geq 0$ mit x, y aus den ganzen Zahlen
 tff(example,conjecture, 
 	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \iffalse %bis auf weiteres gestrichen!!!
 \subsection{If-Then-Else}
 \label{subsec:tptpitef}
@@ -328,6 +336,52 @@ $let_ft(p(X), q, $ite_t(p(a), a, b)) != $ite_t(q, a, b)).
 \fi % ende der streichung
 
 
+\subsection{Beispiel}
+\label{subsec:tptpexample}
+
+Mit den TFF-Formeln und \vampire's Axiomatisierung der ganzen Zahlen können wir nun 
+ein einfaches Problem aus dem Gebiet der Zahlentheorie formulieren.
+
+\begin{definition}{Pythagoreisches Tripel}{def:pythtrip}
+	Ein Tripel $(x, y, z) \in \mathds{N}^3$ ist ein pythagoreisches Tripel, wenn
+	$x^2+y^2=z^2$ gilt.
+\end{definition}
+\begin{definition}{Primitives pythagoreisches Tripel}{def:primpythtrip}
+	Ein pythagoreisches Tripel $(x, y, z)$ heißt \emph{primitiv}, falls x, y und z teilerfremd sind.
+\end{definition}
+Folgenden Satz möchten wir beweisen:
+\begin{theorem}{}{thm:oddHyp}
+	Für jedes primitive pythagoreische Tripel $(x, y, z)$ gilt: $z$ ist ungerade.
+\end{theorem}
+Aus Definition \ref{def:pythtrip} lässt sich mit den eingebauten Funktionen direkt ein Prädikat schreiben.
+Für Definition \ref{def:primpythtrip} benötigen wir ein teilt-Prädikat.
+Dann lässt sich der Satz als Behauptung formulieren. Eine Hypothese-Formel benötigen wir nicht,
+da der Satz unter den gegebenen Axiomen allgemeingültig sein sollte.
+\begin{lstlisting}[language=tptp]
+% even-Praedikat: X ist gerade
+tff(even, axiom, ![X:$int] : (even(X) =>
+(?[Y:$int] : ($product(Y,2) = X)))).
+
+% Teilbarkeits-Praedikat: X teilt Y <=> es ex. Z mit Z*X = Y
+tff(divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
+   (?[Z:$int] : $product(Z,X) = Y)))).
+
+% pyth-Praedikat: X,Y,Z ist pyth. Tripel mit Z Hypotenuse
+tff(pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
+   <=> ($sum($product(X,X),$product(Y,Y))=$product(Z,Z)))).
+
+% Primitives-Pyth.-Tripel Praedikat
+tff(primPyth, axiom, (![X:$int,Y:$int,Z:$int] : 
+   primPyth(X,Y,Z) <=> (pyth(X,Y,Z) & (~?[D:$int]: 
+   ($product(D,D) != 1) & divides(D,X) & divides(D,Y) & 
+   divides(D,Z))))).
+
+% Behauptung: Die Hypotenuse jedes primitiven 
+% pythagoreischen Tripels ist ungerade.
+tff(oddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : 
+   primPyth(X,Y,Z) => ~even(Z))).
+\end{lstlisting}
+Das Problem speichern wir in der Datei \verb|pytrip.p|.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Vergleich}
 \label{subsec:tptpcomp}
@@ -342,12 +396,17 @@ dies ist in \vampire nicht möglich. In \vampire ist es durch \textit{tff} jedoc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benutzung von Vampire}
 \label{sec:invocation}
-
 Grundsätzlich ist die Benutzung von \vampire wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun liest \vampire von \texttt{STDIN}. Der Benutzer kann direkt in der Kommandozeile eine TPTP-Formel eingegeben, die an \vampire übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei über die jeweilige Shell-Syntax an \vampire übergeben werden. Nachdem \vampire das Problem erhalten hat, beginnt es direkt mit der Arbeit. 
-Unter Windows liefert die folgende Kommandozeile den Beweis für das in der input.txt geschriebene Problem und schreibt diesen, sonst in der Kommandozeile angezeigten Beweis, in die output.txt:\\
+Unter Windows liefert die folgende Kommandozeile den Beweis für das in der \verb|pytrip.p| 
+formulierte Problem:\\
 
+\texttt{vampire.exe < pytrip.p}
 
-\texttt{vampire.exe < input.txt > output.txt}
+Die gesamte Ausgabe kann auch zur späteren Verwendung in die Datei output.txt geschrieben werden:\\
+
+\texttt{vampire.exe < pytrip.p > output.txt}\\
+
+In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 
 \subsection{Kommandozeilenparameter}
 \label{subsec:commands}
@@ -523,33 +582,82 @@ TODO: Redundancy Elimination erklären
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Beweisausgabe}
 \label{sec:output}
+Wir greifen hier das Beispiel aus \ref{subsec:tptpexample} wieder auf.
+Dies ist ein Ausschnitt der Ausgabe aus der Datei \verb|output.txt|, die wir in \ref{sec:invocation}
+erstellt haben:
 
-Während der Formelerzeugung bekommt jede Formel eine fortlaufende Nummer, beginnend mit den Axiomen und den Eingabeformeln. Wird ein Beweis gefunden, so gibt es einen gerichteten azyklischen Graphen (\emph{directed acyclic graph, DAG}) mit genau den Formeln als Knoten, welche zum Beweis (also dem Knoten \texttt{\$false}) hinführen. Die Kanten des DAG stellen Inferenz dar. Dieser DAG wird in der Beweisausgabe zeilenweise angezeigt. 
-Am Beispiel dieser Zeile werden die einzelnen Bestandteile erklärt:\\ \\
-\texttt{28. mult(inverse(X2),e) = X2 (2:6) [superposition 22,10]}
+\begin{verbatim}
+Refutation found. Thanks to Tanya!
+78. $false (0:0) [sat splitting refutation 77,54,59,49,61,60,76]
+...
+22. $product(X0,0) = 0 (0:5) [theory axiom]
+...
+42. ! [X1,X2,X3] : primPyth(X1,X2,X3) & even(sK6) [skolemisation 32]
+32. ? [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) & even(X0)) [ennf transformation 29]
+29. ~! [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) => ~even(X0)) [flattening 28]
+28. ~! [X0] : (! [X1,X2,X3] : primPyth(X1,X2,X3) => ~even(X0)) [rectify 6]
+6. ~! [X2] : (! [X0,X1,X2] : primPyth(X0,X1,X2) => ~even(X2)) [negated conjecture 5]
+5. ! [X0,X1,X2] : primPyth(X0,X1,X2) => ~even(X2) [input]
+...
+------------------------------
+Version: Vampire 3.0 (commit unknown)
+Termination reason: Refutation
+
+Active clauses: 8
+Passive clauses: 33
+Generated clauses: 55
+...
+Memory used [KB]: 127
+Time elapsed: 0.008 s
+------------------------------
+\end{verbatim}
+
+Die Ausgabe von \vampire nach einem erfolgreichen Beweis ist zweigeteilt:
+In der ersten Zeile wird durch \verb|Refutation found| angezeigt, dass der 
+\emph{Beweis durch Widerspruch} gelungen ist. Danach folgen einige der Formeln, 
+die während des Beweises erzeugt wurden. 
+Während der Formelerzeugung bekommt jede Formel eine fortlaufende Nummer, beginnend mit den Axiomen und den Eingabeformeln. Wird ein Beweis gefunden, so gibt es einen gerichteten azyklischen Graphen (\emph{directed acyclic graph, DAG}) mit genau den Formeln als Knoten, welche zum Beweis (also dem Knoten \texttt{\$false}) hinführen. Dies ist die erste aufgeführte Formel mit der höchsten Nummer.
+Die Kanten des DAG stellen Inferenz dar. Dieser DAG wird in der Beweisausgabe zeilenweise angezeigt. 
+Am Beispiel einer Zeile werden die einzelnen Bestandteile erklärt:\\ 
+
+\verb|42. ! [X1,X2,X3] : primPyth(X1,X2,X3) & even(sK6) [skolemisation 32]|
 \begin{enumerate}
 	\itemsep0em 
-	\item Formelnummer: ~ \verb|28.|\\
+	\item Formelnummer: ~ \verb|42.|\\
 	Die eindeutige Nummer, die jeder Formel zugewiesen wird
-	\item Konklusion: ~ \verb|mult(inverse(X2),e) = X2|\\
+	\item Konklusion: ~ \verb|! [X1,X2,X3] : primPyth(X1,X2,X3) & even(sK6)|\\
 	Die Konklusionsformel in TPTP-Syntax. Hier können automatisch erzeugte und abgeänderte
 	Variablen- und Literalnamen auftauchen.
-	\item ???: ~ \verb|(2:6)|\\
-	Kein Plan wofür das steht.
-	\item Resolutionsregel: ~ \verb|superposition|\\
-	Die Regel, anhand derer diese Formel hergeleitet wurde.\\
-	Formeln der Eingabe sind als \verb|[input]| deklariert.
-	\item Prämissen: ~ \verb|22,10|\\
-	In diesem Resolutionsschritt benutzte Formeln.
+	\item Resolutionsregel: ~ \verb|skolemisation|\\
+	Die Regel, anhand derer diese Formel hergeleitet wurde. \vampire implementiert 79 Regeln.
+	Formeln aus der Eingabe sind mit \verb|[input]| notiert, eingebaute Axiome mit \verb|[theory axiom]|. Hier finden sich auch viele Regeln, die zum Preprocessing gehören.
+	\item Prämissen: ~ \verb|32|\\
+	Von der Regel in dieser Herleitung benutzte Formeln.
 \end{enumerate}
-In dieser Zeile ist also Formel 28 durch Superposition aus Formeln 22 und 10 hergeleitet worden.
-Meist erzeugt Vampire viel mehr Formeln, die nicht zum Beweis führen und daher nicht zum Beweis-DAG gehören. Diese werden nicht ausgegeben.
+In dieser Zeile ist also Formel 42 durch Skolemisierung aus Formel 32 hervorgegangen.
+
+
+Der zweite Abschnitt unter dem Trennstrich gibt einige Metainformationen zum Beweisvorgang an.
+Erwähnt werden zum Beispiel die \vampire - Version, die generierten Klauseln, der verwendete Speicher
+und die benötigte Zeit. Die Anzahl an generierten Klauseln kann für schwere Beweise um Größenordnungen 
+höher sein als die Anzahl der Formeln, die schließlich zum Beweis führen.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Visualisierung}
 \label{subsec:outputvis}
 
-TODO: Kurze Demo der Visualisationsmöglichkeit mit graphviz.
+Die zeilenweise Beweisausgabe kann schwer nachzuvollziehen sein. Eine erste Abhilfe schafft
+die Darstellung des DAG in der Ebene. Wir benutzen dazu Graphviz zum automatischen Layouten
+des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesbares Format.
+
+\begin{figure}[H]
+	\centering
+	% You don't need to include the .pdf file name extension
+	\includegraphics[scale=0.25]{./graphics/pytriple.pdf}
+	\caption{Graphdarstellung des Beweises.}
+	\label{fig:pytriple}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Schlusswort}
