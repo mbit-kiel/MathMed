@@ -176,15 +176,15 @@ Derzeit wird an der vierten Version von \vampire gearbeitet.
 Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt \vampire allgemein hin als sehr schnell.
 Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
 Wir vermögen zu bestätigen, dass die uns vorliegende Version 3.0 auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
-Vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit Vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist \vampire zur Programmverifikation für C-Programme mit Schleifen geeignet. 
-Leider steht Vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
+\vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit \vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist \vampire zur Programmverifikation für C-Programme mit Schleifen geeignet. 
+Leider steht \vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
 Als Primärquelle für diese Arbeit dient der Artikel \textit{First-Order Theorem Proving and \vampire}~\cite{cav2013}.
-Weitere Informationen stammen aus \textit{Interpolation and Symbol Elimination in Vampire}~\cite{hoder2010} 
+Weitere Informationen stammen aus \textit{Interpolation and Symbol Elimination in \vampire}~\cite{hoder2010} 
 und \textit{Finding Loop Invariants for Programs over Arrays Using a Theorem Prover}~\cite{kovacs2009finding}.
 Die Arbeit ist praxisorientiert und kann als Einstiegstutorial verwendet werden.
 In dieser \hyperref[sec:introduction]{Einleitung} wurden Grundlagen über automatische Theorembeweiser vermittelt, die einen schnellen Einstieg in das Thema ermöglichen.\\
 Als Vorbereitung für die Benutzung von \vampire wird auf die Syntax und Semantik der von \vampire verwendeten \hyperref[sec:input]{Problembeschreibungssprache TPTP} eingegangen. Es werden Hilfestellungen zur Formulierung von Axiomen und Problemen gegeben, sowie Erweiterungen der Sprache durch \vampire dargelegt.
-Mit dieser Grundlage wird die \hyperref[sec:invocation]{Benutzung von Vampire}, insbesondere der Aufruf des Programms und die vielen einstellbaren Optionen behandelt.\\
+Mit dieser Grundlage wird die \hyperref[sec:invocation]{Benutzung von \vampire}, insbesondere der Aufruf des Programms und die vielen einstellbaren Optionen behandelt.\\
 Anschließend wird die \hyperref[sec:mechanics]{Funktionsweise} von \vampire in den Grundzügen erklärt und das zugrunde liegende Beweisverfahren mit einigen ausgewählten Algorithmen erläutert.\\
 Schließlich folgt eine Veranschaulichung der \hyperref[sec:output]{Beweisausgabe}. Es wird versucht, mit \vampire erzeugte Beweise nachzuvollziehen.\\
 Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
@@ -195,7 +195,7 @@ Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
 \section{TPTP Eingabe}
 \label{sec:input}
 
-TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit Vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Therembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek. Die Sprache unterstützt unteranderem folgende Formeltypen:
+TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit \vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Therembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek. Die Sprache unterstützt unteranderem folgende Formeltypen:
 \begin{itemize}
 	\item First order formula (FOF)
 	\item Typed first order formula (TFF)
@@ -278,7 +278,7 @@ Typenausdrücke sind \begin{itemize}
 	\item \verb=$array2=: Array von Integer-Array
 \end{itemize}
 wobei die letzten beiden spezifisch von \vampire definiert sind und nicht im TPTP-Standard verankert sind.
-Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet Vampire folgende, im TPTP-Standard definierten Funktionen, die in \textit{tff} verwendet werden können:
+Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet \vampire folgende, im TPTP-Standard definierten Funktionen, die in \textit{tff} verwendet werden können:
 \begin{itemize}
 	\item \verb=$sum=: Addition $(x + y)$
 	\item \verb=$product=: Multiplication $(x * y)$
@@ -404,7 +404,7 @@ dies ist in \vampire nicht möglich. In \vampire ist es durch \textit{tff} jedoc
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Benutzung von Vampire}
+\section{Benutzung von \vampire}
 \label{sec:invocation}
 Grundsätzlich ist die Benutzung von \vampire wie in \cite{cav2013} gesagt, recht einfach. Nachdem man das Programm vorliegen hat, wird über die Kommandozeile die enthaltene ausführbare Datei gestartet. Nun liest \vampire von \texttt{STDIN}. Der Benutzer kann direkt in der Kommandozeile eine TPTP-Formel eingegeben, die an \vampire übergeben werden soll. Falls diese schon vorgeschrieben in einer Datei vorliegt, kann diese Datei über die jeweilige Shell-Syntax an \vampire übergeben werden. Nachdem \vampire das Problem erhalten hat, beginnt es direkt mit der Arbeit. 
 Unter Windows liefert die folgende Kommandozeile den Beweis für das in der \verb|pytrip.p| 
@@ -427,7 +427,7 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 	\item \verb|-t X| oder \verb|--time_limit X| \label{arg:timelimit}\\
 	\vampire bricht nach X Sekunden den Versuch ab das Problem zu lösen. Sollte bis dahin kein Beweis gefunden worden sein, gibt \vampire \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
 	\item \verb|-m X oder --memory_limit X| \label{arg:memorylimit}\\
-	Dieser Befehl setzt das Speicherlimit auf X in Megabyte. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
+	Dieser Befehl setzt das Speicherlimit auf X in Megabyte. Grundsätzlich nutzt \vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
 	\item \verb|--age_weight_ratio X:Y| \label{arg:ageweightratio}\\
 	Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die \vampire von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
 	2:3 würde beispielsweise bedeuten, dass je 2 der ältesten und je 3 der leichtesten Klauseln gewählt werden.  
@@ -473,19 +473,19 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 \item \verb|-mode <mode>| \label{arg:modes}
 Die Angabe eines Modus bestimmt den Ablauf des Beweisprozesses, 
 indem die Verwendung einer bestimmten Strategie oder Strategiegemische vorgeben wird.
-Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben sind:
+Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben, sind:
 \begin{itemize}
 	\item \verb|casc| \\
 	Dieser auch bei dem gleichnamigen Wettbewerb verwendete Modus ist laut ~\cite{hoder2011slides} der beste der möglichen Modes.
 	Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
-	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein (\texttt{sio is not a valid option}).
+	Der Mode scheint aber in der von uns verwendeten Version von \vampire nicht lauffähig zu sein (\texttt{sio is not a valid option}).
 	\item \verb|casc_ltb| \\
 	Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet. Dieser Mode wurde von uns nicht getestet.
 	\item \verb|axiom_selection| \\
 	Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
 	Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.
 	\item \verb|clausify| \\
-	Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die Vampire beinhaltet.
+	Dieser Mode konvertiert Formeln von TPTP nach CNF um und unterstützt dabei getypte Formeln, Arithmetik und auch Antwortliterale. Er erlaubt die Anwendung von etlichen Preprocessing rules die \vampire beinhaltet.
 	\item \verb|grounding| \\
 	Mit diesem Mode wird ein Einstein-Podolsky-Rosen-Paradoxon in ein aussagenlogisches Problem umgewandelt. Der Input erfolgt über TPTP, der Output ist im DIMACS CNF Format.
 	Es wird splitting angewendet um die Anzahl der Variablen in den Klauseln und damit die der generierten aussagenlogischen Klauseln gering zu halten.
@@ -549,10 +549,10 @@ Beweissuche einige vorbereitende Schritte statt.
 \subsection{Beweis durch Widerspruch}
 \label{subsec:refutation}
 
-Vampire beweist Theoreme durch Widerspruch.
+\vampire beweist Theoreme durch Widerspruch.
 Dazu wird die Negation der Hypothese $F$, zusammen mit den Axiomen,
 der Formelmenge hinzugefügt.
-Nun leitet Vampire durch Inferenz neue Formeln aus den Axiomen und $F$ her, 
+Nun leitet \vampire durch Inferenz neue Formeln aus den Axiomen und $F$ her, 
 mit dem Ziel, die leere Klausel $\bot$ (\texttt{\$false} in TPTP-Schreibweise) zu folgern.
 Kann diese hergeleitet werden, ist die gesamte Formelmenge unerfüllbar.
 Demzufolge hat die \textit{Negation} der Hypothese unter den angegebenen Axiomen keine Gültigkeit,
@@ -665,8 +665,7 @@ des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesb
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Schlusswort}
 \label{sec:conclusion}
-Write a small conclusion that summarizes what has been said ...?
-Pointers to further reading...
+\vampire ist einer der schnellsten automatischen Theorembeweiser die es gibt. Im Vordergrund steht Logik erster Stufe, doch auch andere Aufgaben, wie Beantworten von Fragen anhand einer Wissenssammlung oder das Analysieren von C-Programmen, kann er bewältigen. So Komplex, die hier nur angerissenen Themen seiner Algorithmen und mathematischen Methoden sind, bleibt er ein einfach zu bedienendes Werkzeug für schwere Beweise. Einzig seine \textit{Liberale Lizenz}, die geringe Verfügbarkeit (der Download existiert auf der Entwicklerseite seit 2013 nicht mehr) und vor allem seine mangelnde Dokumentation, dämpfen diesen Erfolg und machen ihn zu einem unerreichbar-scheinenden Wunderwerkzeug von dem man weiß was es kann, aber nicht wie es funktioniert. Quellen und Dokumente über \vampire sind rar, verstreut oder sind nur gegen Bezahlung einzusehen. Zudem beinhalten viele lediglich die interessanten mathematischen und algorithmischen Ansätze, nicht aber die Handhabung und Aufbereitung von Problemen für \vampire. Wir hoffen, dass dieser Artikel jedem eine Hilfe ist, der auf der Suche nach einem schnellen Einstieg in \vampire und seine Benutzung ist.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
