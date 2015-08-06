@@ -74,6 +74,10 @@
 	keywords={ %add more for highlighting of in formula defined functions
 		member, 
 		sum,
+		even,
+		divides,
+		pyth,
+		primPyth,
 	},
 	sensitive=true, % keywords are case-sensitive
 	morecomment=[l]{\%}, % l is for line comment
@@ -257,14 +261,14 @@ fof(Sum, axiom, (
 	! [X,A] : (member(X, sum(A)) 
 		<=> ? [Y] : (member(Y, A) & member(X, Y))))).
 \end{lstlisting}
-Eine solcher Block wird immer mit einem Punkt abgeschlossen, dieser markiert das Ende.
+Eine solcher Block wird immer mit einem Punkt abgeschlossen.
 Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das \verb=member=-Prädikat automatisch.
 Über den Befehl \verb|include(...)| können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden.
 
 \subsection{Typed first order formula (TFF)}
 \label{subsec:tptptff}
 
-In \textit{tff(...)} können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck, ein \textit{sort} folgen.
+\textit{Tff} ist äquivalent zu \textit{fof} aufgebaut, doch hier können getypte Variablen verwendet werden. Um eine Variable zu typen muss ihr bei ihrer Verwendung im Quantor mit einem Doppelpunkt ein Typenausdruck, ein \textit{sort}, folgen.
 Typenausdrücke sind \begin{itemize}
 	\item \verb=$i=: individuell. Standard-Typ, wenn nichts angegeben
 	\item \verb=$o=: Boolesch
@@ -275,18 +279,7 @@ Typenausdrücke sind \begin{itemize}
 	\item \verb=$array2=: Array von Integer-Array
 \end{itemize}
 wobei die letzten beiden spezifisch von \vampire definiert sind und nicht im TPTP-Standard verankert sind.
-Eigene Typenausdrücke können durch ein ähnliches Schema definiert werden wie ein generelles \textit{fof}-Formular:
-\begin{lstlisting}[language=tptp]
-tff(own_type,type,own: $tType).
-\end{lstlisting}
-Der Name, hier \verb|own_type|, kann wie bekannt frei gewählt werden und das Wort \textit{type} ist die Deklaration, dass es sich um eine Typendefinition handelt, wobei dieses Wort sowohl uneindeutig als auch redundant ist.
-Zuletzt wird \verb|own|, der eigentliche Typname, der auch frei gewählt werden kann, angegeben und mit dem angefügten \verb|$tType| als neuer Typ definiert.
-Nachfolgend gezeigt ist die Typdefinition eines Literals a des Typs \verb|own| und einer Funktion f, die zwei Argumente übernimmt, deren Typen \verb|own| sind, und deren Ausgabe wieder des Typs \verb|own| ist.\\
-\begin{lstlisting}[language=tptp]
-tff(a_has_type_own,type,a : own).
-tff(f_has_type_own,type,f : own * own > own).
-\end{lstlisting}
-Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet Vampire folgende, im TPTP-Standard definierten Funktionen:
+Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhaltet Vampire folgende, im TPTP-Standard definierten Funktionen, die in \textit{tff} verwendet werden können:
 \begin{itemize}
 	\item \verb=$sum=: Addition $(x + y)$
 	\item \verb=$product=: Multiplication $(x * y)$
@@ -303,6 +296,17 @@ Beispiel: $(x + y) \geq 0$ mit x, y aus den ganzen Zahlen
 \begin{lstlisting}[language=tptp]
 tff(example,conjecture, 
 	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting}
+Möchte man eigene Typen definieren, ist dies ebenfalls möglich:
+\begin{lstlisting}[language=tptp]
+tff(own_type,type,own: $tType).
+\end{lstlisting}
+Der Name, hier \verb|own_type|, kann wie bekannt frei gewählt werden und das Wort \textit{type} ist die Deklaration, dass es sich um eine Typendefinition handelt, wobei dieses Wort sowohl uneindeutig als auch redundant ist.
+Zuletzt wird \verb|own|, der eigentliche Typname, der auch frei gewählt werden kann, angegeben und mit dem angefügten \verb|$tType| als neuer Typ definiert.
+Nachfolgend gezeigt ist die Typdefinition eines Literals a des Typs \verb|own| und einer Funktion f, die zwei Argumente übernimmt, deren Typen \verb|own| sind, und deren Ausgabe wieder des Typs \verb|own| ist.\\
+\begin{lstlisting}[language=tptp]
+tff(a_has_type_own,type,a : own).
+tff(f_has_type_own,type,f : own * own > own).
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \iffalse %bis auf weiteres gestrichen!!!
@@ -354,31 +358,30 @@ Folgenden Satz möchten wir beweisen:
 	Für jedes primitive pythagoreische Tripel $(x, y, z)$ gilt: $z$ ist ungerade.
 \end{theorem}
 Aus Definition \ref{def:pythtrip} lässt sich mit den eingebauten Funktionen direkt ein Prädikat schreiben.
-Für Definition \ref{def:primpythtrip} benötigen wir ein teilt-Prädikat.
-Dann lässt sich der Satz als Behauptung formulieren. Eine Hypothese-Formel benötigen wir nicht,
-da der Satz unter den gegebenen Axiomen allgemeingültig sein sollte.
+Für Definition \ref{def:primpythtrip} benötigen wir ein teilt-Prädikat, damit sich der Satz als Behauptung formulieren lässt. 
+Eine Hypothese-Formel benötigen wir nicht, da der Satz unter den gegebenen Axiomen allgemeingültig sein sollte.
 \begin{lstlisting}[language=tptp]
 % even-Praedikat: X ist gerade
-tff(even, axiom, ![X:$int] : (even(X) =>
+tff(Even, axiom, ![X:$int] : (even(X) =>
 (?[Y:$int] : ($product(Y,2) = X)))).
 
 % Teilbarkeits-Praedikat: X teilt Y <=> es ex. Z mit Z*X = Y
-tff(divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
+tff(Divides, axiom, (![X:$int,Y:$int] : (divides(X,Y) <=>
    (?[Z:$int] : $product(Z,X) = Y)))).
 
 % pyth-Praedikat: X,Y,Z ist pyth. Tripel mit Z Hypotenuse
-tff(pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
+tff(Pyth, axiom, ![X:$int,Y:$int,Z:$int] : (pyth(X,Y,Z)
    <=> ($sum($product(X,X),$product(Y,Y))=$product(Z,Z)))).
 
 % Primitives-Pyth.-Tripel Praedikat
-tff(primPyth, axiom, (![X:$int,Y:$int,Z:$int] : 
+tff(PrimPyth, axiom, (![X:$int,Y:$int,Z:$int] : 
    primPyth(X,Y,Z) <=> (pyth(X,Y,Z) & (~?[D:$int]: 
    ($product(D,D) != 1) & divides(D,X) & divides(D,Y) & 
    divides(D,Z))))).
 
 % Behauptung: Die Hypotenuse jedes primitiven 
 % pythagoreischen Tripels ist ungerade.
-tff(oddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : 
+tff(OddHyp, conjecture, (![X:$int,Y:$int,Z:$int] : 
    primPyth(X,Y,Z) => ~even(Z))).
 \end{lstlisting}
 Das Problem speichern wir in der Datei \verb|pytrip.p|.
@@ -400,12 +403,10 @@ Grundsätzlich ist die Benutzung von \vampire wie in \cite{cav2013} gesagt, rech
 Unter Windows liefert die folgende Kommandozeile den Beweis für das in der \verb|pytrip.p| 
 formulierte Problem:\\
 
-\texttt{vampire.exe < pytrip.p}
-
+\texttt{vampire.exe < pytrip.p}\\\\
 Die gesamte Ausgabe kann auch zur späteren Verwendung in die Datei output.txt geschrieben werden:\\
 
-\texttt{vampire.exe < pytrip.p > output.txt}\\
-
+\texttt{vampire.exe < pytrip.p > output.txt}\\\\
 In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 
 \subsection{Kommandozeilenparameter}
@@ -413,43 +414,37 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 \vampire lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Hierzu werden dem Aufruf in der Konsole Parameter beigefügt, von denen hier nur einige genannt werden.
 \begin{itemize}
 	\item \verb= --theory_axioms [on|off]= \label{arg:theoryaxiomsoff}\\
-	Neben den Axiomen, die man der Problem-Datei hinzufügt, fügt \vampire selbstständig bekannte 
-	Axiome über bestimmte \emph{theories}, wie die Arithmetik auf natürlichen Zahlen, hinzu. 
-	Dies kann mit diesem Parameter unterbunden werden.
+	\vampire fügt selbstständig ihm bekannte Axiome über bestimmte \emph{theories}, wie die Arithmetik auf natürlichen Zahlen, hinzu. Standard ist \textit{on}.
 	\item \verb=--proof [on|off]= \label{arg:proofoff}\\
-	Möchte man die Gewissheit, dass das Problem bewiesen wurde, jedoch keinen Beweis ausgegeben haben, kann man diesen Parameter übergeben, um die Ausgabe zu unterbinden.
-
-\item \verb|-t X| oder \verb|--time_limit X| \label{arg:timelimit}
-Mit diesem Parameter und X als ganze Zahl bricht \vampire nach X Sekunden den Versuch ab das Problem zu lösen, sollte bis dahin kein Beweis gefunden worden sein.
-In diesem Fall gibt \vampire \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
-
-\item \verb|-m X oder --memory_limit X| \label{arg:memorylimit}
-Ähnlich wie bei dem Zeitlimit wird hier mit X als ganzzahliger Wert das Speicherlimit in Megabyte für \vampire. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
-
-\item \verb|--age_weight_ratio X:Y| \label{arg:ageweightratio}
-Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die \vampire von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
-2:3 würde beispielsweise bedeuten, dass insgesamt 5 Klauseln gewählt werden, davon 2 der ältesten und 3 der leichtesten. 
-
-\item \verb|--nongoal_weight_coefficient X| \label{arg:weightcoefficient}
-Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
-
-\item \verb|--max_weight X| \label{arg:maxweight}
-Stellt das ansonsten von \vampire veränderbare maximale Klauselgewicht ein. \vampire kann bei Speicherknappheit oder bei nutzen der \emph{limited resource strategy} das Maximum ansonsten automatisch verringern um schwere Klauseln, zu verwerfen.
-
-\item \verb|--forced_options <option1[:option2[:option3[...]]]>| \label{arg:forcedoptions}
-Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hintereinander gereiht werden um mehrfache Optionen gemeinsam zu forcieren. 
-\begin{itemize}
-	\item \verb|propositional_to_bdd=off| \\
-	Schaltet das Einführen von Prädikaten für BDD-Variablen aus.
-	\item \verb|splitting=off| \\
-	Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus.
-	\item \verb|equality_proxy=off|
-	\item \verb|general_splitting=off|
-	\item \verb|inequality_splitting=0|
-	\item \verb|naming=0| \\
-	Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
-	Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
-\end{itemize}
+	Die Beweisausgabe kann entweder mit vollständigem Beweis oder nur mit einer Aussage über den Ausgang des Beweisversuches geschehen. Standard ist \textit{on}.
+	\item \verb|-t X| oder \verb|--time_limit X| \label{arg:timelimit}\\
+	\vampire bricht nach X Sekunden den Versuch ab das Problem zu lösen. Sollte bis dahin kein Beweis gefunden worden sein, gibt \vampire \texttt{time limit expired} aus. Standardmäßig liegt das Zeitlimit bei 60  Sekunden.
+	\item \verb|-m X oder --memory_limit X| \label{arg:memorylimit}\\
+	Dieser Befehl setzt das Speicherlimit auf X in Megabyte. Grundsätzlich nutzt Vampire allen verfügbaren Speicher, den es adressieren kann, was bei 32-bit Binaries weniger als 4GB entspricht.
+	\item \verb|--age_weight_ratio X:Y| \label{arg:ageweightratio}\\
+	Das Verhältnis von Alter zu Gewicht bestimmt, von welchen der beiden Prioritätsqueues, die \vampire von Klauseln unterhält, wie viele gewählt werden. X und Y müssen ganzzahlige, positive Zahlen sein.
+	2:3 würde beispielsweise bedeuten, dass je 2 der ältesten und je 3 der leichtesten Klauseln gewählt werden.  
+	\item \verb|--nongoal_weight_coefficient X| \label{arg:weightcoefficient}\\
+	Erlaubt das einstellen des Koeffizienten, der das Gewicht einer Klausel bestimmt. Normalerweise ist die Anzahl der Symbole in der Klausel gleichsam das Gewicht.
+	\item \verb|--max_weight X| \label{arg:maxweight}\\
+	Stellt das ansonsten von \vampire veränderbare maximale Klauselgewicht ein. \vampire kann bei Speicherknappheit oder bei nutzen der \emph{limited resource strategy} das Maximum ansonsten automatisch verringern um schwere Klauseln zu verwerfen.
+	\item \verb|--forced_options <option1[:option2[:option3[...]]]>| \label{arg:forcedoptions}\\
+	\begin{itemize}
+		\item \verb|propositional_to_bdd=off| \\
+		Schaltet das Einführen von Prädikaten für BDD-Variablen aus.
+		\item \verb|splitting=off| \\
+		Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus.
+		
+		\iffalse %da keine ahnung was diese tun, bis auf weiteres gestrichen	
+		\item \verb|equality_proxy=off|
+		\item \verb|general_splitting=off|
+		\item \verb|inequality_splitting=0|
+		\fi % ende der streichung
+		
+		\item \verb|naming=0| \\
+		Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
+		Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
+	\end{itemize}
 
 \item \verb|--saturation_algorithm| \label{arg:saturationalgorithm}
 \begin{itemize}
@@ -457,12 +452,12 @@ Alle hier einzeln aufgeführten Optionen können mit einem Doppelpunkt hinterein
 	Der standardmäßig gewählte Saturationsalgorithmus von \vampire ist \emph{lrs} (\emph{limited resource strategy}).
 	Dieser Algorithmus, der einzigartig in \vampire sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited}
 	\item \verb|discount|\\
-	Diese Art des Algorithmus wurde ursprünglich im DISCOUNT System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch WALDMEISTER, E und SPASS. 
+	Diese Art des Algorithmus wurde ursprünglich im \textsc{Discount} System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
+	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch \textsc{Waldmeister}, \textsc{E} und \textsc{SPASS}. 
 	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} 
 	\item \verb|otter|\\
 	Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
-	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch GANDALF und SPASS. 
+	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch \textsc{Gandalf} und \textsc{SPASS}. 
 	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} 
 \end{itemize}
 
@@ -476,7 +471,7 @@ Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben sind:
 	Das gegebene Problem wird im Vorfeld analysiert um die Charakteristiken zu erkennen, dann wird es einer von derzeit 43 Klassen zugewiesen. Jede Klasse besitzt eine Abfolge von Strategien, die das Problem lösen sollten.
 	Der Mode scheint aber in der von uns verwendeten Version von Vampire nicht lauffähig zu sein (\texttt{sio is not a valid option}).
 	\item \verb|casc_ltb| \\
-	Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet. Dieser Mode wurde von uns nicht verwendet.
+	Dieser Mode wählt die Strategie äquivalent zum normalen casc-Mode. Der Input ist eine Batch-Datei nach den Vorgaben der CASC LTB (Large Theory Batch). Eine Besonderheit um Zeit zu sparen ist das nur einmalige einlesen der Axiome und das anschließende Hinzufügen dieser zu den Problemen denen sie zugewiesen sind. Dieser Mode ist multiprocessing-fähig und kann somit mehrere Strategien parallel verwendet. Dieser Mode wurde von uns nicht getestet.
 	\item \verb|axiom_selection| \\
 	Sowohl Input als auch Output bei diesem Mode sind Formeln in TPTP oder CNF, wodurch er als Filter fungieren kann, da sein Output von zb. anderen Modes gelesen werden kann.
 	Er vollzieht eine Sine-Axiom-Selection, wie in ~\cite{sinquanon} beschrieben.
