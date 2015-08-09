@@ -116,23 +116,27 @@
 \newenvironment{theorem}[2] % 1=Name, 2=Label
   {\begin{intTheorem}[#1] 
    \label{#2}
-   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}} 
+   %\addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}
+   } 
   {\end{intTheorem}}
 
 \newenvironment{corollary}[2] % 1=Name, 2=Label
   {\begin{intCorollary}[#1]
    \label{#2}
-   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}}
+   %\addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}
+   }
   {\end{intCorollary}}
 
 \newenvironment{lemma}[2] % 1=Name, 2=Label
   {\begin{intLemma}[#1]
    \label{#2}
-   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}} 
+   %\addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} #1}
+   } 
   {\end{intLemma}}
  
 \newenvironment{definition}[2] % 1=Name, 2=Label
   {\begin{intDefinition}[#1]
    \label{#2}
-   \addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} {#1}}}
+   %\addcontentsline{toc}{section}{\protect\numberline{\ref{#2}} {#1}}
+   }
   {\end{intDefinition}}

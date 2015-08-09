@@ -149,8 +149,8 @@
 	stellt den Bezug zu ~\cite{cav2013} her. \\
 	Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
 	die Funktionsweise und einige ausgewählte Algorithmen erklärt und
-	die Ausgabe von \vampire sowohl analysiert als auch grafisch dargestellt.
-	Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, \vampire mit diesen Verglichen 
+	die Ausgabe von \vampire sowohl analysiert als auch graphisch dargestellt.
+	Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, \vampire mit diesen verglichen 
 	und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
 \end{abstract}
 
@@ -691,13 +691,10 @@ Die zeilenweise Beweisausgabe kann schwer nachzuvollziehen sein. Eine erste Abhi
 die Darstellung des DAG in der Ebene. Wir benutzen dazu Graphviz zum automatischen Layouten
 des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesbares Format.
 
-\begin{figure}[H]
-	\centering
-	% You don't need to include the .pdf file name extension
-	\includegraphics[scale=0.25]{./graphics/pytriple.pdf}
-	\caption{Graphdarstellung des Beweises.}
-	\label{fig:pytriple}
-\end{figure}
+In \hyperref[fig:pytripleproof]{Abbildung 1} ist eine solche Darstellung für den Beweis aus \ref{sec:output} 
+zu sehen.
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -707,11 +704,23 @@ des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesb
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Bibliography
 
 % The bibliography entries are stored in "vampire.bib"
 \bibliographystyle{unsrt}
 \bibliography{vampire}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Anhang}
+\begin{figure}[hbtp]
+	\centering
+		\makebox[\textwidth]{\includegraphics[width=.9\paperwidth]{./graphics/pytriple.pdf}}
+	\caption{Graphdarstellung des Beweis-DAG.}
+	\label{fig:pytripleproof}
+\end{figure}
 
 \end{document}
 
