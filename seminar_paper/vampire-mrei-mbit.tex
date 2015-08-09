@@ -234,7 +234,7 @@ Zuerst kommt der Name der Formel, beginnend mit einem kleinen Buchstaben [a-z], 
 dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (\textit{axiom}), eine Hypothese (\textit{hypothesis}) oder auch eine Behauptung (\textit{conjecture}) handeln.
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
 In einer Problemdatei sollte nur eine einzige Behauptung stehen, denn sobald \vampire einen Beweis zu einer der gegebenen Behauptungen gefunden hat, gibt er diesen aus und bricht die Arbeit an den anderen ab.
-Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann. \cite[S.4-5]{cav2013}
+Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann. \cite[S. 4-5]{cav2013}
 \subsection{First order formula (FOF)}
 \label{subsec:tptpfof}
 \[\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y\]
@@ -265,7 +265,7 @@ fof(Sum, axiom, (
 \end{lstlisting}
 Eine solcher Block wird immer mit einem Punkt abgeschlossen.
 Zusätzlich mit diesem und anderen Axiomen, die es nutzen, definiert sich das \verb=member=-Prädikat automatisch.
-Über den Befehl \verb|include(...)| können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden. \cite[S.4-5]{cav2013}
+Über den Befehl \verb|include(...)| können Dateien, wie zum Beispiel eine Datei mit vorgefertigten Axiomen, von extern in die TPTP-Problem-Datei eingebunden werden. \cite[S. 4-5]{cav2013}
 
 \subsection{Typed first order formula (TFF)}
 \label{subsec:tptptff}
@@ -297,7 +297,7 @@ Um besser mit ganzen, rellen oder rationalen Zahlen arbeiten zu können, beinhal
 Beispiel: $(x + y) \geq 0$ mit x, y aus den ganzen Zahlen
 \begin{lstlisting}[language=tptp]
 tff(example,conjecture, 
-	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting} \cite[S.24-25]{cav2013}
+	? [X:$int,Y:$int] : $greatereq($sum(X,Y),0)).\end{lstlisting} \cite[S. 24-25]{cav2013}
 	
 {%%%%%da keine gute Möglichkeit eigene Typen zu verwenden oder hinreichend zu erklären bis auf weiteres gestrichen.%%%%%
 \iffalse  
@@ -411,7 +411,7 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 
 \subsection{Kommandozeilenparameter}
 \label{subsec:commands}
-\vampire lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Dazu werden dem Aufruf in der Konsole Parameter beigefügt, die in \cite{cav2013} und in \cite[S. 2,20]{hoder2011slides} aufgeführt sind und von denen nachfolgend einige Ausgewählte genannt werden:
+\vampire lässt sich hochgradig in seiner Bearbeitung des Problems beeinflussen. Dazu werden dem Aufruf in der Konsole Parameter beigefügt, die in \cite{cav2013} und in \cite[S. 2, 20]{hoder2011slides} aufgeführt sind und von denen nachfolgend einige Ausgewählte genannt werden:
 \begin{itemize}	
 	\item \verb= --theory_axioms [on|off]= \label{arg:theoryaxiomsoff}\\
 	\vampire fügt selbstständig ihm bekannte Axiome über bestimmte \emph{theories}, wie die Arithmetik auf natürlichen Zahlen, hinzu. Standard ist \textit{on}.
@@ -454,16 +454,17 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 \begin{itemize}
 	\item \verb|lrs|\\
 	Der standardmäßig gewählte Saturationsalgorithmus von \vampire ist \emph{lrs} (\emph{limited resource strategy}).
-	Dieser Algorithmus, der einzigartig in \vampire sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese. \cite{riazanov2003limited}
+	Dieser Algorithmus, der einzigartig in \vampire sein soll, versucht unter den passiven und neuen Klauseln jene zu identifizieren, die niemals in der gegebenen Zeit gelöst werden können und verwirft diese.
 	\item \verb|discount|\\
 	Diese Art des Algorithmus wurde ursprünglich im \textsc{Discount} System von Jürgen Avenhaus, Jörg Denzinger und Matthias Fuchs implementiert.
 	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch \textsc{Waldmeister}, \textsc{E} und \textsc{SPASS}. 
-	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil. \cite{riazanov2003limited} 
+	Die passiven Klauseln, der erzeugten Klauselmenge nehmen nicht am Inferenz- oder Vereinfachungssystem teil.
 	\item \verb|otter|\\
 	Dieser Art des Algorithmus wurde ursprünglich im OTTER Theorembeweiser von William McCune implementiert.
 	Einen ähnlich arbeitenden Algorithmus verwenden neben \vampire auch \textsc{Gandalf} und \textsc{SPASS}. 
-	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. \cite{riazanov2003limited} 
+	Anders als beim vorherig genannten Algorithmus ist die Teilnahme der passiven Klauseln an der Vereinfachung möglich, wie zum Beispiel, bei Gleichheit der Einheiten, das Neuschreiben oder die Subsumtion. 
 \end{itemize}
+\cite{cav2013}, \cite[S. 107]{riazanov2003limited}
 
 	\subsubsection{Einstellen des Modus}
 
@@ -696,7 +697,7 @@ zu sehen.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Schlusswort}
 \label{sec:conclusion}
-\vampire ist einer der schnellsten automatischen Theorembeweiser die es gibt. Im Vordergrund steht Logik erster Stufe, doch auch andere Aufgaben, wie Beantworten von Fragen anhand einer Wissenssammlung oder das Analysieren von C-Programmen, kann er bewältigen. So Komplex, die hier nur angerissenen Themen seiner Algorithmen und mathematischen Methoden sind, bleibt er ein einfach zu bedienendes Werkzeug für schwere Beweise. Einzig seine \textit{Liberale Lizenz}, die geringe Verfügbarkeit (der Download existiert auf der Entwicklerseite seit 2013 nicht mehr) und vor allem seine mangelnde Dokumentation, dämpfen diesen Erfolg und machen ihn zu einem unerreichbar-scheinenden Wunderwerkzeug von dem man weiß was es kann, aber nicht wie es funktioniert. Quellen und Dokumente über \vampire sind rar, verstreut oder sind nur gegen Bezahlung einzusehen. Zudem beinhalten viele lediglich die interessanten mathematischen und algorithmischen Ansätze, nicht aber die Handhabung und Aufbereitung von Problemen für \vampire. Wir hoffen, dass dieser Artikel jedem eine Hilfe ist, der auf der Suche nach einem schnellen Einstieg in \vampire und seine Benutzung ist.
+\vampire ist einer der schnellsten automatischen Theorembeweiser die es gibt. Im Vordergrund steht Logik erster Stufe, doch auch andere Aufgaben, wie Beantworten von Fragen anhand einer Wissenssammlung oder das Analysieren von C-Programmen, kann er bewältigen. So Komplex, die hier nur angerissenen Themen seiner Algorithmen und mathematischen Methoden sind, bleibt er ein einfach zu bedienendes Werkzeug für schwere Beweise. Einzig seine \textit{Liberale Lizenz}, die geringe Verfügbarkeit (der Download existiert auf der Entwicklerseite seit 2013 nicht mehr) und vor allem seine mangelnde Dokumentation, dämpfen diesen Erfolg. Viele Quellen beinhalten lediglich die interessanten mathematischen und algorithmischen Ansätze, nicht aber die Handhabung und Aufbereitung von Problemen für \vampire. Wir hoffen, dass dieser Artikel jedem eine Hilfe ist, der auf der Suche nach einem schnellen Einstieg in \vampire und seine Benutzung ist.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
