@@ -234,7 +234,7 @@ Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erf
 Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann.
 \subsection{First order formula (FOF)}
 \label{subsec:tptpfof}
-\[\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y,\]
+\[\forall X,A : X \in \bigcup A \Leftrightarrow \exists Y : Y \in A \land X \in Y\]
 Wollen wir nun die oben gezeigte Formel in TPTP umwandeln,
 so bedarf es der Definition der Operatoren $\in$ und $\bigcup$, welche in der Syntax von TPTP 
 nicht vorhanden sind.
@@ -516,6 +516,19 @@ Einige mögliche Modi, die wie in ~\cite{hoder2011slides} beschrieben, sind:
 
 Dieser Abschnitt gibt einen Einblick in die beweisrelevanten Abläufe, die durch einen typischen Aufruf von \vampire ausgelöst werden, bis zur Ausgabe eines Ergebnisses.
 
+Jedes Problem wird von \vampire nach folgenden Schritten bearbeitet: \cite[S. 9]{cav2013}
+
+\begin{enumerate}
+	\itemsep-0.3em 
+	\item Lese das Problem
+	\item Ermittle die Optionen zur Beweissuche
+	\item \emph{Preprocessing}
+	\item Konversion in Konjunktive Normalform
+	\item Anwendung eines Saturationsalgorithmus
+	\item Ausgabe des Resultats mit Beweis oder Gegenbeweis
+\end{enumerate}
+Dabei nimmt Schritt 5 bei schwierigen Problemen bei weitem die meiste Zeit in Anspruch.
+
 \subsection{Preprocessing}
 \label{subsec:preprocessing}
 
@@ -523,7 +536,7 @@ Nachdem \vampire die Eingabe gelesen hat, finden vor der eigentlichen, oft zeiti
 Beweissuche einige vorbereitende Schritte statt.
 
 \begin{enumerate}
-	\itemsep0em 
+	\itemsep-0.3em 
 	\item Wähle eine relevante Teilmenge von Formeln (optional).
 	\item Füge die Axiome hinzu (optional).
 	\item Bereinige die Formeln.
@@ -550,7 +563,7 @@ Beweissuche einige vorbereitende Schritte statt.
 \label{subsec:refutation}
 
 \vampire beweist Theoreme durch Widerspruch.
-Dazu wird die Negation der Hypothese $F$, zusammen mit den Axiomen,
+Dazu wird die Negation der Behauptung $F$, zusammen mit den Axiomen,
 der Formelmenge hinzugefügt.
 Nun leitet \vampire durch Inferenz neue Formeln aus den Axiomen und $F$ her, 
 mit dem Ziel, die leere Klausel $\bot$ (\texttt{\$false} in TPTP-Schreibweise) zu folgern.
@@ -563,24 +576,49 @@ Damit ist $F$ widerlegt. \cite[S. 7]{cav2013}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Inferenzsystem}
 \label{subsec:inference}
-TODO: Resolution and superposition inference system
+
+Ein Inferenzsystem bildet die Grundlage jeglicher Formelherleitung in \vampire.
+
+\begin{definition}{Inferenzregel}{def:inference}
+	Eine Inferenzregel ist eine $n$-stellige Relation auf Formeln, mit $n \leq 0$.
+	Es ist üblich diese wie folgt zu schreiben:
+	\[F_1  \mathellipsis F_n \over F\]
+	$F_1, \mathellipsis , F_n$ bilden dabei die Prämissen, $F$ ist die Konklusion der Regel.
+	Axiome sind ein Sonderfall mit $n=0$. Ein Inferenzsystem $\mathds{I}$ ist eine Menge solcher
+	Regeln.  \cite[S. 11]{cav2013}
+\end{definition}
+
+\vampire implementiert 79 Inferenzregeln. \cite[S. 6]{cav2013}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Saturation}
 \label{subsec:saturation}
 
+\vampire als Saturation-basierter Theorembeweiser leitet für eine gegebene Formelmenge $S$
+jede unter dem benutzten Inferenzsystem $\mathds{I}$ herleitbare Formel her. Dies stellt die
+\emph{Vollständigkeitseigenschaft} des Saturationsalgorithmus dar, d.h. falls $S$ unerfüllbar ist,
+dann ist $\bot$ unter $\mathds{I}$ herleitbar. Diese Eigenschaft wird durch eine \emph{faire}
+Auswahl an Inferenzen in jedem Saturationsschritt sichergestellt. \cite[S. 12-13]{cav2013}
 
 \begin{definition}{Saturierte Formelmenge}{def:saturatedset}
 	Eine Formelmenge $S$ heißt saturiert unter einem Inferenzsystem $\mathds{I}$, wenn für jede $\mathds{I}$-Inferenz mit Prämissen in $S$ die Konklusion auch in $S$ ist.
 \end{definition}
 
-TODO: Saturation erklären
+Nach erfolgter Saturation ist die Menge $S$ daher abgeschlossen unter Inferenz, es können
+keine neuen Formeln erzeugt werden.
+Wird dieser Punkt erreicht, ohne dass $\bot$ hergeleitet wurde, so ist der Beweis gescheitert.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Redundancy Elimination}
 \label{subsec:redund}
 
-TODO: Redundancy Elimination erklären
+Ein Saturationsalgorithmus allein führt jedoch nicht zu einem effizienten Beweiser.
+Der Suchraum ist zu groß, als dass eine ziellose Inferenzbildung in annehmbaren Zeit- und
+Speichergrenzen einen Beweis finden würde.
+
+\vampire eliminiert daher während der Saturation regelmäßig redundante Formeln,
+um die Anzahl der aktiven Formel und den daraus resultierenden Suchraum zu verringern.
+Eine der einfachsten Kriterien für Redundanz sind Tautologien. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Beweisausgabe}
