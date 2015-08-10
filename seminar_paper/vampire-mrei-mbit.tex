@@ -190,7 +190,7 @@ Ein kurzes \hyperref[sec:conclusion]{Schlusswort} schließt die Arbeit ab.
 \section{TPTP Eingabe}
 \label{sec:input}
 
-TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit \vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Theorembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek. Die Sprache unterstützt unteranderem folgende Formeltypen:
+TPTP ist die Sprache, in der Probleme und Axiome geschrieben sein müssen, damit \vampire sie bearbeiten kann. TPTP besitzt Ähnlichkeit zu Prolog und wird von vielen heutigen Theorembeweisern für Logik 1. Stufe unterstützt. \cite[S. 4]{cav2013}. Die Sprache dient als Grundlage für die gleichnamige \textit{Thousands of Problems for Theorem Provers (TPTP)} Bibliothek.~\cite{tptphp} Die Sprache unterstützt unter anderem folgende Formeltypen:
 \begin{itemize}
 	\item First order formula (FOF)
 	\item Typed first order formula (TFF)
@@ -223,10 +223,11 @@ Die wichtigsten, die von \vampire unterstützten werden, sind FOF, TFF und CNF.
 	\hline
 \end{tabular} 
 \end{wraptable}
+Eine Datei im TPTP-Format besteht aus Formeln, include-Statements und Kommentaren.
 Eine Formel in TPTP beginnt stets mit der Information über ihren Typ. Hierbei können zum Beispiel \texttt{fof(...), tff(...), cnf(...)} und einige mehr verwendet werden.
 Innerhalb der Klammern werden drei Bereiche unterschieden, die jeweils mit einem Komma voneinander getrennt sind. 
-Zuerst kommt der Name der Formel, beginnend mit einem kleinen Buchstaben [a-z], welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt noch eindeutig sein muss.
-dann die Rolle, die diese Formel einnimmt, hierbei kann es sich zum Beispiel um ein Axiom (\texttt{axiom}), eine Hypothese (\texttt{hypothesis}) oder auch eine Behauptung (\texttt{conjecture}) handeln.
+Der erste Parameter is der Name der Formel, beginnend mit einem kleinen Buchstaben [a-z], welcher lediglich zur besseren Übersicht im späteren Beweis verwendet wird und ansonsten weder benutzt wird noch eindeutig sein muss.
+Zweiter Parameter ist die Rolle, die diese Formel einnimmt, hierbei kann es sich um ein Axiom (\texttt{axiom}), eine Hypothese (\texttt{hypothesis}) oder eine Behauptung (\texttt{conjecture}) handeln.
 Eine Rolle ist eine wichtige Voraussetzung für den Beweiser, denn hierdurch erfährt er, welche Grundvoraussetzungen und Annahmen getroffen wurden, die er als richtig behandeln kann um die gestellte Behauptung zu beweisen.
 In einer Problemdatei sollte nur eine einzige Behauptung stehen, denn sobald \vampire einen Beweis zu einer der gegebenen Behauptungen gefunden hat, gibt er diesen aus und bricht die Arbeit an den anderen ab.
 Letztendlich steht im dritten Teil die Formel in der Anfangs gewählten Syntax, die der Beweiser behandeln kann. \cite[S. 4-5]{cav2013}
@@ -526,27 +527,29 @@ Dabei nimmt Schritt 5 bei schwierigen Problemen bei weitem die meiste Zeit in An
 \label{subsec:preprocessing}
 
 Nachdem \vampire die Eingabe gelesen hat, finden vor der eigentlichen, oft zeitintensiven
-Beweissuche einige vorbereitende Schritte statt.
+Beweissuche einige vorbereitende Schritte statt. Manche dieser Schritte sind Umformungen
+auf den eingegebenen Formeln und können in der \hyperref[sec:output]{Beweisausgabe} eingesehen werden.
+Diese unvollständige Auflistung enthält einige der ausgeführten Preprocessing-Schritte:
 
 \begin{enumerate}
 	\itemsep-0.3em 
-	\item Wähle eine relevante Teilmenge von Formeln (optional).
-	\item Füge die Axiome hinzu (optional).
-	\item Bereinige die Formeln.
+	\item Wähle eine \textit{relevante} Teilmenge von Formeln (optional).
+	\item Füge Axiome für verwendete Typen (z.B. Integer) hinzu (optional).
+	\item Bereinige die Formeln (Bereinigte Normalform).
 	\item Sollte eine Formel $\top$ oder $\bot$ beinhalten, \\vereinfache sie.
 	\item Entferne if-then-else und let-in Verbindungen.
 	\item Ebne die Formeln.
 	\item Entferne reine Prädikate.
 	\item Entferne nicht genutzte Prädikatdefinitionen \\(optional).
-	\item Konvertiere die Formeln in equivalence negation normal form (ennf).
+	\item Konvertiere die Formeln in \textit{equivalence negation normal form} (ennf).
 	\item Ersetze Subformeln durch ihre Namen.
-	\item Konvertiere die Formeln in negation normal form (nnf) (optional).
+	\item Konvertiere die Formeln in \textit{negation normal form} (nnf) (optional).
 	\item Skolemisiere die Formeln.
-	\item Ersetze equality axioms.
+	\item Ersetze Gleichheitsaxiome.
 	\item Lege eine Ordnung der Literale fest.
-	\item Transformiere die Formeln in \\conjunctive normal form (cnf).
+	\item Transformiere die Formeln in \textit{conjunctive normal form} (cnf).
 	\item Entferne die Funktionsdefinitionen (optional).
-	\item Wende inequality splitting an (optional).
+	\item Wende \textit{inequality splitting} an (optional).
 	\item Entferne Tautologien.
 	\item Entferne reine Literale (optional).
 	\item Entferne Klauseldefinitionen (optional).
@@ -594,7 +597,7 @@ dann ist $\bot$ unter $\mathds{I}$ herleitbar. Diese Eigenschaft wird durch eine
 Auswahl an Inferenzen in jedem Saturationsschritt sichergestellt. \cite[S. 12-13]{cav2013}
 
 \begin{definition}{Saturierte Formelmenge}{def:saturatedset}
-	Eine Formelmenge $S$ heißt saturiert unter einem Inferenzsystem $\mathds{I}$, wenn für jede $\mathds{I}$-Inferenz mit Prämissen in $S$ die Konklusion auch in $S$ ist.
+	Eine Formelmenge $S$ heißt saturiert unter einem Inferenzsystem $\mathds{I}$, wenn für jede $\mathds{I}$-Inferenz mit Prämissen in $S$ die Konklusion ebenfalls in $S$ ist.
 \end{definition}
 
 Nach erfolgter Saturation ist die Menge $S$ daher abgeschlossen unter Inferenz, es können
@@ -680,8 +683,10 @@ höher sein als die Anzahl der Formeln, die schließlich zum Beweis führen.
 \subsection{Visualisierung}
 \label{subsec:outputvis}
 
-Die zeilenweise Beweisausgabe kann schwer nachzuvollziehen sein. Eine erste Abhilfe schafft
-die Darstellung des DAG in der Ebene. Wir benutzen dazu Graphviz zum automatischen Layouten
+Die Beweisausgabe kann schwer nachzuvollziehen sein. Dies liegt zum einen 
+an der dürftigen Dokumentation der Inferenzregeln \cite{life} als auch an der zeilenweisen Darstellung.
+Eine erste Abhilfe schafft die Darstellung des DAG in der Ebene. 
+Wir benutzen Graphviz\footnote{\url {http://www.graphviz.org/}} zum automatischen Layouten
 des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesbares Format.
 
 In \hyperref[fig:pytripleproof]{Abbildung 1} ist eine solche Darstellung für den Beweis aus \ref{sec:output} 
@@ -698,7 +703,7 @@ zu sehen.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
-
+\newpage
 % The bibliography entries are stored in "vampire.bib"
 \bibliographystyle{unsrt}
 \bibliography{vampire}
