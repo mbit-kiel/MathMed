@@ -145,8 +145,7 @@
 	Es wird eine Einführung in die generelle Benutzung der Software und die verwendete Problembeschreibungssprache, TPTP, gegeben, 
 	die Funktionsweise und einige ausgewählte Algorithmen erklärt und
 	die Ausgabe von \vampire sowohl analysiert als auch graphisch dargestellt.
-	Es werden Parallelen zu anderen Theorembeweisern aufgezeigt, \vampire mit diesen verglichen 
-	und zum Schluss wird mit Hinblick auf mögliche Anwendungsbereiche ein Fazit und ein Ausblick gegeben.
+	Am Schluss steht ein Fazit über \vampire.
 \end{abstract}
 
 
@@ -158,12 +157,12 @@ Hierfür wird das Problem von Hand in eine formale Struktur gebracht, die der Be
 Diese Formalisierung stellt auch für triviale Probleme eine gefährliche Fehlerquelle dar. 
 Nichtsdestotrotz ist für komplexe Probleme das Formalisieren einfacher als das Beweisen per Hand und nach korrekter Formalisierung liefert der ATP mit etwas Glück, nach vertretbarer Zeit,
 einen formal korrekten Beweis. Scheitert der Beweis an Zeit- oder Speicherlimits, kann eine
-Umformulierung oder Aufteilung in kleinere Probleme helfen, dies bringt eine interaktive
-Komponente in das automatische Theorembeweisen.
+Umformulierung oder Aufteilung in kleinere Probleme helfen, was eine eine interaktive
+Komponente in das automatische Theorembeweisen bringt.
 Anwendung finden ATP in vielerlei Gebieten, unter anderem Hardwaredesign und -verifikation, Softwareverifikation, wissensbasierte Systeme und klassische mathematische Problemstellungen.
 Der Vorteil von ATP liegt in diesen Gebieten in der Fähigkeit, Probleme zu bearbeiten, 
 die für eine manuelle Beweisführung (teils um Größenordnungen) zu umfangreich sind.
-\vampire ist ein ATP für Logik erster Stufe (Prädikatenlogik) mit Gleichheit. Die erste Implementierung stammt von 1993, im Verlauf wurde die Software mehrfach um- und neugeschrieben.
+\vampire ist ein ATP für Logik erster Stufe (Prädikatenlogik) mit Gleichheit. Die erste Implementierung stammt von 1993, doch im Verlauf wurde die Software mehrfach um- und neugeschrieben.
 Die Software umfasst heute etwa 152,000 SLOC in C++ und wurde hauptsächlich von Andrei Voronkov und Kry{\v{s}}tof Hoder an der University of Manchester entwickelt.
 Neuere Entwicklungen und Ideen stammen vemehrt von Laura Kov{\'a}cs und Ioan Dragan, der Arbeiten am SAT-Beweiser und der Bound Propagation übernommen hat.
 Derzeit wird an der vierten Version von \vampire gearbeitet.
@@ -171,11 +170,10 @@ Derzeit wird an der vierten Version von \vampire gearbeitet.
 Insgesamt zwölf Mal hat er bei der CASC die Kategorie für Logik erster Stufe gewonnen und elf Mal für CNF/MIX. ~\cite{vampirehp} \\ Daher gilt \vampire allgemein hin als sehr schnell.
 Dank seiner Multiplattform- und Multicore-Unterstützung soll er auf allen gängigen Betriebssystemen, wie Linux, Windows und Mac eingesetzt werden können und mehrere Beweisversuche gleichzeitig bearbeiten können.
 Wir vermögen zu bestätigen, dass die uns vorliegende Version 3.0 auf Windows 7, 64-bit funktioniert, lediglich mehrere Kerne wurden nicht benutzt und somit nicht mehrere Beweisversuche parallel unternommen.
-\vampire löst Probleme über die ihm über die Kommandozeile mitgegebene Strategie, die über den Mode-Befehl eingestellt werden kann und besitzt eine auf einzigartige limited resource strategy, die für kurze Zeitlimits sehr effizient sein soll. Mit \vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist \vampire zur Programmverifikation für C-Programme mit Schleifen geeignet. 
+\vampire löst Probleme über eine voreingestellte Strategie und besitzt eine einzigartige \textit{limited resource strategy}, die für kurze Zeitlimits sehr effizient sein soll. Mit \vampire ist es, neben seiner Funktion als ATP, auch möglich ein Expertensystem zu betreiben, das auf Grund von gegebenen Aussagen Antworten aus einer Wissenssammlung geben kann, ebenso ist \vampire zur Programmverifikation für C-Programme mit Schleifen geeignet. 
 Leider steht \vampire entgegen der Aussage in ~\cite{cav2013} nicht unter einer liberalen Lizenz, sondern unter einer nicht-freien, proprietären Lizenz, die in ~\cite{vampirehp} einzusehen ist.
 Als Primärquelle für diese Arbeit dient der Artikel \textit{First-Order Theorem Proving and \vampire}~\cite{cav2013}.
-Weitere Informationen stammen aus \textit{Interpolation and Symbol Elimination in \vampire}~\cite{hoder2010} 
-und \textit{Finding Loop Invariants for Programs over Arrays Using a Theorem Prover}~\cite{kovacs2009finding}.
+Weitere Informationen stammen aus dem \textit{CADE 2011 Tutorial: Session 2}.
 Die Arbeit ist praxisorientiert und kann als Einstiegstutorial verwendet werden.
 In dieser \hyperref[sec:introduction]{Einleitung} wurden Grundlagen über automatische Theorembeweiser vermittelt, die einen schnellen Einstieg in das Thema ermöglichen.\\
 Als Vorbereitung für die Benutzung von \vampire wird auf die Syntax und Semantik der von \vampire verwendeten \hyperref[sec:input]{Problembeschreibungssprache TPTP} eingegangen. Es werden Hilfestellungen zur Formulierung von Axiomen und Problemen gegeben, sowie Erweiterungen der Sprache durch \vampire dargelegt.
@@ -431,15 +429,6 @@ In \ref{sec:output} wird auf die Interpretation der Ausgabe eingegangen.
 		Schaltet das Einführen von Prädikaten für BDD-Variablen aus.
 		\item \verb|splitting=off| \\
 		Schaltet das Einführen von Prädikaten für Entscheidungspunkte aus.
-		
-		{ %%%%%da keine ahnung was diese swithes tun, bis auf weiteres gestrichen%%%%
-		\iffalse	
-		\item \verb|equality_proxy=off|
-		\item \verb|general_splitting=off|
-		\item \verb|inequality_splitting=0|
-		\fi % ende der streichung 
-		}
-		
 		\item \verb|naming=0| \\
 		Schaltet Einführen von Prädikaten zur Vermeidung von exponentiellem Ausdehnen während der Klausifizierung aus.
 		Standardwert ist 8, je höher die Nummer, desto weniger eingeführte Namen.\\
@@ -578,7 +567,7 @@ Ein Inferenzsystem bildet die Grundlage jeglicher Formelherleitung in \vampire.
 \begin{definition}{Inferenzregel}{def:inference}
 	Eine Inferenzregel ist eine $n$-stellige Relation auf Formeln, mit $n \leq 0$.
 	Es ist üblich diese wie folgt zu schreiben:
-	\[F_1  \mathellipsis F_n \over F\]
+	\[ \frac {F_1  \mathellipsis F_n} F\]
 	$F_1, \mathellipsis , F_n$ bilden dabei die Prämissen, $F$ ist die Konklusion der Regel.
 	Axiome sind ein Sonderfall mit $n=0$. Ein Inferenzsystem $\mathds{I}$ ist eine Menge solcher
 	Regeln.  \cite[S. 11]{cav2013}
@@ -684,7 +673,7 @@ höher sein als die Anzahl der Formeln, die schließlich zum Beweis führen.
 \label{subsec:outputvis}
 
 Die Beweisausgabe kann schwer nachzuvollziehen sein. Dies liegt zum einen 
-an der dürftigen Dokumentation der Inferenzregeln \cite{life} als auch an der zeilenweisen Darstellung.
+an der dürftigen Dokumentation der Inferenzregeln \cite{blanchettemy} als auch an der zeilenweisen Darstellung.
 Eine erste Abhilfe schafft die Darstellung des DAG in der Ebene. 
 Wir benutzen Graphviz\footnote{\url {http://www.graphviz.org/}} zum automatischen Layouten
 des Graphen. Ein Hilfs-Skript konvertiert die Beweisausgabe in ein Graphviz-lesbares Format.
@@ -699,10 +688,10 @@ zu sehen.
 
 \section{Schlusswort}
 \label{sec:conclusion}
-\vampire ist einer der schnellsten automatischen Theorembeweiser die es gibt. Im Vordergrund steht Logik erster Stufe, doch auch andere Aufgaben, wie Beantworten von Fragen anhand einer Wissenssammlung oder das Analysieren von C-Programmen, kann er bewältigen. Polimorphismen  So Komplex, die hier nur angerissenen Themen seiner Algorithmen und mathematischen Methoden sind, bleibt er ein einfach zu bedienendes Werkzeug für schwere Beweise. 
-\vampire wird auch in anderen Beweissystemen benutzt von denen \textsc{Sledgehammer}'s Beweisassistent \textsc{Isabelle/HOL} einer ist.
-Einzig seine \textit{Liberale Lizenz}, die Entwicklung hinter verschlossenen Türen, die geringe Verfügbarkeit (der Download existiert auf der Entwicklerseite seit 2013 nicht mehr) und vor allem seine mangelnde Dokumentation, besonders der Kommandozeilenparameter, erschweren Außenstehenden die Arbeit mit ihm.
-So ist ach in \textsc{Sledgehammer} keine \vampire-Distribution enthalten, sondern es wird eine rein Online verfügbare Version aus dem \textsc{SystemsOnTPTP} \cite{systemOnTPTP} verwendet. \cite[S. 1-3]{blanchettemy} \\In diesem Onlinetool für Beweise über TPTP-Formeln sind sehr viele Beweiser auswählbar und unter ihnen ist auch die derzeit neueste uns bekannte Version von \vampire (4.0), deren Build vom 16.07.2015 ist und die dort standardmäßig im casc-Modus aufgerufen wird:  \\ \textit{Hi Geoff, go and have some cold beer while I am trying to solve this very hard problem!}.
+\vampire ist einer der schnellsten automatischen Theorembeweiser die es gibt. Im Vordergrund steht Logik erster Stufe, doch auch andere Aufgaben, wie Beantworten von Fragen anhand einer Wissenssammlung oder das Analysieren von C-Programmen, kann er bewältigen. So Komplex die hier nur angerissenen Themen seiner Algorithmen und mathematischen Methoden sind, bleibt er ein einfach zu bedienendes Werkzeug für schwere Beweise. 
+\vampire wird auch in anderen Beweissystemen benutzt, wie zum Beispiel \textsc{Sledgehammer}, welches wiederum \vampire in  \textsc{Isabelle/HOL} einbringt.
+Einzig seine restriktive Lizenz, die Entwicklung hinter verschlossenen Türen, die schwierige Beschaffbarkeit (der Download existiert auf der Entwicklerseite seit 2013 nicht mehr) und vor allem seine mangelnde Dokumentation, besonders der Kommandozeilenparameter, erschweren Außenstehenden die Arbeit mit dem Programm.
+So ist auch in \textsc{Sledgehammer} keine \vampire-Distribution enthalten, sondern es wird eine rein online verfügbare Version aus dem \textsc{SystemOnTPTP} \cite{systemOnTPTP} verwendet. \cite[S. 1-3]{blanchettemy} \\In diesem Onlinetool für Beweise über TPTP-Formeln sind sehr viele Beweiser auswählbar und unter ihnen ist auch die derzeit neueste uns bekannte Version von \vampire (4.0), deren Build vom 16.07.2015 ist und die dort standardmäßig im casc-Modus aufgerufen wird.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
